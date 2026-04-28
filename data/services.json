@@ -1,0 +1,138 @@
+{
+  "categories": [
+    {
+      "id": "valuation",
+      "label_az": "Biznes qiymətləndirmə",
+      "label_en": "Business Valuation",
+      "description_az": "Professional biznes qiymətləndirmə hesabatı. Satış üçün və ya alış-verişdə istifadə üçün.",
+      "description_en": "Professional business valuation report. For pre-sale preparation or acquisition decisions.",
+      "starting_price_azn": 500,
+      "typical_duration": "5–10 gün / days",
+      "icon": "trending-up"
+    },
+    {
+      "id": "legal",
+      "label_az": "Hüquqi xidmətlər",
+      "label_en": "Legal Services",
+      "description_az": "Alqı-satqı müqaviləsi, hüquqi yoxlama, lisenziya təhvili, escrow.",
+      "description_en": "Sale & purchase agreement, legal due diligence, license transfer, escrow.",
+      "starting_price_azn": 800,
+      "typical_duration": "2–4 həftə / weeks",
+      "icon": "scale"
+    },
+    {
+      "id": "tax",
+      "label_az": "Vergi məsləhəti",
+      "label_en": "Tax Advisory",
+      "description_az": "Əməliyyatın vergi strukturu, vergi optimallaşdırması, sənədləşmə.",
+      "description_en": "Transaction tax structuring, tax optimization, documentation.",
+      "starting_price_azn": 400,
+      "typical_duration": "1–2 həftə / weeks",
+      "icon": "calculator"
+    },
+    {
+      "id": "consulting",
+      "label_az": "Biznes konsultasiyası",
+      "label_en": "Business Consulting",
+      "description_az": "Satışa hazırlıq, gəlirliliyin artırılması, keçid dövrü dəstəyi.",
+      "description_en": "Sale readiness, profitability improvement, transition support.",
+      "starting_price_azn": 300,
+      "typical_duration": "1–3 ay / months",
+      "icon": "briefcase"
+    },
+    {
+      "id": "due_diligence",
+      "label_az": "Due Diligence",
+      "label_en": "Due Diligence",
+      "description_az": "Maliyyə və əməliyyat yoxlaması. Alıcılar üçün.",
+      "description_en": "Financial and operational review. For buyers.",
+      "starting_price_azn": 700,
+      "typical_duration": "2–3 həftə / weeks",
+      "icon": "search"
+    },
+    {
+      "id": "financing",
+      "label_az": "Maliyyələşdirmə",
+      "label_en": "Financing",
+      "description_az": "Bank kreditləri və investor cəlbi üçün köməklik.",
+      "description_en": "Assistance with bank loans and investor connections.",
+      "starting_price_azn": 250,
+      "typical_duration": "2–6 həftə / weeks",
+      "icon": "banknote"
+    }
+  ],
+  "providers": [
+    {
+      "id": "p001",
+      "name": "BakuValue Consulting",
+      "service": "valuation",
+      "rating": 4.8,
+      "reviews": 47,
+      "deals_closed": 120,
+      "languages": ["AZ", "EN", "RU"],
+      "price_from_azn": 500,
+      "bio_az": "15 illik təcrübəsi olan qiymətləndiricilər komandası. ASA sertifikatlı.",
+      "bio_en": "Team of appraisers with 15 years of experience. ASA certified."
+    },
+    {
+      "id": "p002",
+      "name": "Caspian Legal Partners",
+      "service": "legal",
+      "rating": 4.9,
+      "reviews": 82,
+      "deals_closed": 210,
+      "languages": ["AZ", "EN", "RU"],
+      "price_from_azn": 800,
+      "bio_az": "M&A və biznes əməliyyatları üzrə ixtisaslaşmış hüquq şirkəti.",
+      "bio_en": "Law firm specialising in M&A and business transactions."
+    },
+    {
+      "id": "p003",
+      "name": "TaxPro Azerbaijan",
+      "service": "tax",
+      "rating": 4.7,
+      "reviews": 56,
+      "deals_closed": 95,
+      "languages": ["AZ", "EN"],
+      "price_from_azn": 400,
+      "bio_az": "Biznes satışında vergi strukturlaşdırma üzrə mütəxəssislər.",
+      "bio_en": "Experts in tax structuring for business sales."
+    },
+    {
+      "id": "p004",
+      "name": "Grow Consulting Group",
+      "service": "consulting",
+      "rating": 4.6,
+      "reviews": 38,
+      "deals_closed": 70,
+      "languages": ["AZ", "EN", "RU"],
+      "price_from_azn": 300,
+      "bio_az": "Satışdan öncə biznesin hazırlanması və gəlirliliyin artırılması.",
+      "bio_en": "Pre-sale business preparation and profitability uplift."
+    },
+    {
+      "id": "p005",
+      "name": "DD Audit Baku",
+      "service": "due_diligence",
+      "rating": 4.8,
+      "reviews": 41,
+      "deals_closed": 88,
+      "languages": ["AZ", "EN"],
+      "price_from_azn": 700,
+      "bio_az": "Alıcılar üçün müstəqil maliyyə və əməliyyat yoxlaması.",
+      "bio_en": "Independent financial and operational review for buyers."
+    },
+    {
+      "id": "p006",
+      "name": "Silk Road Capital",
+      "service": "financing",
+      "rating": 4.5,
+      "reviews": 29,
+      "deals_closed": 45,
+      "languages": ["AZ", "EN", "RU"],
+      "price_from_azn": 250,
+      "bio_az": "Bank kreditləri və özəl investorlarla əlaqə.",
+      "bio_en": "Bank loans and private investor connections."
+    }
+  ]
+}

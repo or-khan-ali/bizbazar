@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Xidmətlər — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 data-i18n="services_page_title"></h1>
+    <p data-i18n="services_page_sub"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="services-grid" id="services-grid"></div>
+
+    <div class="providers">
+      <div class="section-head" style="margin-top: 48px;">
+        <div>
+          <h2 data-i18n="services_providers"></h2>
+        </div>
+      </div>
+      <div id="providers-list"></div>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--bg-soft);">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2 data-i18n="cta_band_title"></h2>
+        <p data-i18n="cta_band_sub"></p>
+      </div>
+      <a href="sell.html" class="btn btn-accent btn-lg" data-i18n="cta_band_btn"></a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("services");
+  const [services, brokers] = await Promise.all([loadServices(), loadBrokers()]);
+
+  const grid = document.getElementById("services-grid");
+  grid.innerHTML = services.categories.map(s => `
+    <div class="service-card">
+      <div class="service-icon">${SERVICE_ICONS[s.id] || "🛠️"}</div>
+      <h3>${getLang()==="az"?s.label_az:s.label_en}</h3>
+      <p>${getLang()==="az"?s.description_az:s.description_en}</p>
+      <div class="service-meta">
+        <span><span data-i18n="service_from"></span> <strong>${fmtAZN(s.starting_price_azn)}</strong></span>
+        <span>${s.typical_duration}</span>
+      </div>
+      <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%" data-i18n="service_book"></button>
+    </div>
+  `).join("");
+
+  const providers = document.getElementById("providers-list");
+  const serviceById = Object.fromEntries(services.categories.map(s => [s.id, s]));
+
+  // Build a lookup: for a provider's service specialty, find a matching broker
+  // A broker matches a provider if broker.specialties includes the provider.service
+  function findMatchingBroker(providerService) {
+    return brokers.find(b => b.specialties && b.specialties.includes(providerService)) || null;
+  }
+
+  providers.innerHTML = services.providers.map(p => {
+    const svc = serviceById[p.service];
+    const svcLabel = svc ? (getLang()==="az" ? svc.label_az : svc.label_en) : p.service;
+    const matchedBroker = findMatchingBroker(p.service);
+    const verifiedBadge = matchedBroker
+      ? `<span class="provider-verified-badge" data-i18n="broker_verified">✔ Verified</span>` : "";
+    const brokerLink = matchedBroker
+      ? `<a href="broker.html?id=${matchedBroker.id}" class="btn btn-outline btn-sm provider-broker-link" data-i18n="broker_profile_link"></a>` : "";
+    return `
+    <div class="provider-row">
+      <div style="flex:1;">
+        <div class="provider-name">${p.name} ${verifiedBadge}</div>
+        <div class="provider-bio">${svcLabel} · ${getLang()==="az"?p.bio_az:p.bio_en}</div>
+      </div>
+      <div class="provider-rating"><span class="star">★</span> ${p.rating} <span style="color:var(--text-muted);font-weight:400;">(${p.reviews})</span></div>
+      <div style="font-size:13px;color:var(--text-muted);">${p.deals_closed} deals</div>
+      ${brokerLink}
+      <button class="btn btn-outline btn-sm" data-i18n="service_book"></button>
+    </div>`;
+  }).join("");
+
+  applyI18n();
+  document.querySelectorAll(".service-card .btn, .provider-row .btn").forEach(b => {
+    // Skip broker profile links — they are real navigation links
+    if (b.tagName === "A") return;
+    b.addEventListener("click", () => alert(getLang()==="az"
+      ? "Bu demo versiyadır. Tam versiyada müraciət forması burada açılacaq."
+      : "This is a demo. In the full version, a request form will open here."));
+  });
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

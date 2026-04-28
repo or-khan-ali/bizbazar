@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biznes sat — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<section class="sell-hero">
+  <div class="container">
+    <h1 data-i18n="sell_title"></h1>
+    <p data-i18n="sell_sub"></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 data-i18n="sell_step1_t"></h3>
+        <p data-i18n="sell_step1_d"></p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 data-i18n="sell_step2_t"></h3>
+        <p data-i18n="sell_step2_d"></p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 data-i18n="sell_step3_t"></h3>
+        <p data-i18n="sell_step3_d"></p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3 data-i18n="sell_step4_t"></h3>
+        <p data-i18n="sell_step4_d"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- A) Pricing plans section -->
+<section style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="section-head"><div><h2 data-i18n="pricing_title"></h2></div></div>
+    <div class="plans-grid" id="plans-grid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="container form-wrap">
+    <div class="form-card">
+      <h2 style="margin:0 0 18px" data-i18n="form_title"></h2>
+      <div class="form-note" data-i18n="form_note"></div>
+      <!-- B) Form updated: web3forms action, hidden fields, JS fetch on submit -->
+      <form id="sell-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+        <input type="hidden" name="subject" value="New BizBazar.az listing submission">
+        <div class="form-row">
+          <div class="form-field full">
+            <label data-i18n="form_name"></label>
+            <input type="text" name="business_name" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="form_cat"></label>
+            <select id="form-cat" name="category" required></select>
+          </div>
+          <div class="form-field">
+            <label data-i18n="form_city"></label>
+            <input type="text" name="city" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="form_district"></label>
+            <input type="text" name="district">
+          </div>
+          <div class="form-field">
+            <label data-i18n="form_area"></label>
+            <input type="number" name="area_m2" min="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="form_price"></label>
+            <input type="number" name="price_azn" min="0" required>
+          </div>
+          <div class="form-field">
+            <label data-i18n="form_revenue"></label>
+            <input type="number" name="monthly_revenue_azn" min="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="form_staff"></label>
+            <input type="number" name="staff_count" min="0">
+          </div>
+          <div class="form-field">
+            <label data-i18n="form_years"></label>
+            <input type="number" name="operating_years" min="0">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label data-i18n="form_desc"></label>
+            <textarea name="description" required></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label data-i18n="form_email"></label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-field">
+            <label data-i18n="form_phone"></label>
+            <input type="tel" name="phone" required>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" type="submit" style="width:100%" data-i18n="form_submit"></button>
+      </form>
+      <div id="form-success" style="display:none; margin-top: 14px; padding: 14px; background: #ecfdf5; color: #065f46; border-radius: 8px; font-size: 14px;" data-i18n="form_sent"></div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("sell");
+  const [categories, plans] = await Promise.all([loadCategories(), loadPlans()]);
+
+  const catSel = document.getElementById("form-cat");
+  categories.forEach(c => {
+    const o = document.createElement("option");
+    o.value = c.id; o.textContent = catLabel(c);
+    catSel.appendChild(o);
+  });
+
+  // A) Render pricing plans
+  const plansGrid = document.getElementById("plans-grid");
+  plansGrid.innerHTML = plans.map(plan => {
+    const name     = getLang() === "az" ? plan.name_az     : plan.name_en;
+    const duration = getLang() === "az" ? plan.duration_az : plan.duration_en;
+    const features = getLang() === "az" ? plan.features_az : plan.features_en;
+    const priceStr = plan.price_azn === 0
+      ? t("plan_free_price")
+      : fmtAZN(plan.price_azn);
+    const highlightClass = plan.highlight ? " highlight" : "";
+    const badge = plan.highlight
+      ? `<div class="plan-badge" data-i18n="badge_featured"></div>` : "";
+    return `
+      <div class="plan-card${highlightClass}">
+        ${badge}
+        <div class="plan-name">${name}</div>
+        <div class="plan-price">${priceStr}</div>
+        <div class="plan-duration">${duration}</div>
+        <ul class="plan-features">
+          ${features.map(f => `<li>${f}</li>`).join("")}
+        </ul>
+        <button class="btn ${plan.highlight ? "btn-primary" : "btn-outline"} btn-lg plan-cta" style="width:100%;margin-top:auto;" data-i18n="plan_cta"></button>
+      </div>
+    `;
+  }).join("");
+
+  applyI18n();
+
+  // B) Form submit via fetch
+  const form = document.getElementById("sell-form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('[type="submit"]');
+    submitBtn.disabled = true;
+    try {
+      const data = new FormData(form);
+      const resp = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: data
+      });
+      const json = await resp.json();
+      if (json.success) {
+        form.style.display = "none";
+        const successEl = document.getElementById("form-success");
+        successEl.style.display = "block";
+        window.scrollTo({ top: successEl.offsetTop - 100, behavior: "smooth" });
+      } else {
+        submitBtn.disabled = false;
+        alert(getLang() === "az"
+          ? "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
+          : "An error occurred. Please try again.");
+      }
+    } catch(err) {
+      submitBtn.disabled = false;
+      alert(getLang() === "az"
+        ? "Şəbəkə xətası. Zəhmət olmasa yenidən cəhd edin."
+        : "Network error. Please try again.");
+    }
+  });
+
+  // Scroll to form when a plan CTA is clicked
+  document.querySelectorAll(".plan-cta").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const formCard = document.querySelector(".form-card");
+      if (formCard) formCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Saxlanmış elanlar — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 data-i18n="nav_favorites"></h1>
+    <p data-i18n="featured_sub"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="nav_favorites"></h2>
+        <p class="section-sub" id="fav-count"></p>
+      </div>
+    </div>
+    <div class="listing-grid" id="fav-grid"></div>
+    <div id="fav-empty" style="display:none;text-align:center;padding:80px 0;">
+      <div style="font-size:48px">&#9825;</div>
+      <h3 data-i18n="nav_favorites"></h3>
+      <p style="color:#64748b">Hələ heç bir elan saxlanmayıb. Elanların üzərindəki ♥ düyməsini basın.</p>
+      <a href="listings.html" class="btn btn-primary" style="margin-top:16px" data-i18n="nav_browse"></a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("favorites");
+  const favIds = getFavorites();
+  if (!favIds.length) {
+    document.getElementById("fav-empty").style.display = "block";
+    applyI18n();
+    return;
+  }
+  const [listings, categories] = await Promise.all([loadListings(), loadCategories()]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+  const favs = listings.filter(l => favIds.includes(l.id));
+  const countEl = document.getElementById("fav-count");
+  countEl.textContent = favs.length + " " + t("results_count");
+  if (favs.length === 0) {
+    document.getElementById("fav-empty").style.display = "block";
+  } else {
+    document.getElementById("fav-grid").innerHTML = favs.map(l => listingCardHTML(l, catById)).join("");
+  }
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

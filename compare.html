@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Elanları müqayisə et — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .compare-table-wrap { overflow-x: auto; }
+    .compare-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    .compare-table th, .compare-table td { border: 1px solid #e2e8f0; padding: 14px 18px; text-align: left; vertical-align: top; }
+    .compare-table thead th { background: #1e3a5f; color: #fff; font-weight: 600; font-size: 14px; position: sticky; top: 0; }
+    .compare-table thead th:first-child { background: #f8fafc; color: #374151; }
+    .compare-table tbody tr:nth-child(even) td { background: #f8fafc; }
+    .compare-table td:first-child { font-weight: 600; font-size: 14px; color: #374151; background: #fff; white-space: nowrap; }
+    .compare-table tbody tr:hover td { background: #eff6ff; }
+    .compare-table .listing-icon { font-size: 32px; display: block; margin-bottom: 6px; }
+    .compare-table .col-title { font-weight: 700; font-size: 15px; display: block; margin-bottom: 4px; }
+    .compare-table .col-price { font-weight: 800; font-size: 17px; color: #1e3a5f; }
+    .compare-table .col-cat { font-size: 12px; color: #64748b; margin-bottom: 4px; }
+    .remove-btn { font-size: 12px; background: #fee2e2; color: #b91c1c; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; margin-top: 8px; }
+    .remove-btn:hover { background: #fecaca; }
+    .compare-empty { text-align: center; padding: 100px 0; color: #64748b; }
+    .compare-empty .icon { font-size: 56px; margin-bottom: 20px; }
+    .featured-tag { display: inline-block; background: #f59e0b; color: #fff; font-size: 10px; font-weight: 700; border-radius: 4px; padding: 2px 6px; letter-spacing: .5px; vertical-align: middle; margin-left: 6px; }
+    .profit-margin { font-size: 13px; color: #64748b; }
+    .add-more-bar { margin-bottom: 24px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Elanları müqayisə et</h1>
+    <p>Yan-yana əsas göstəriciləri qiymətləndir</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div id="compare-root"></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("listings");
+  const params = new URLSearchParams(location.search);
+  const idsParam = params.get("ids") || "";
+  let ids = idsParam ? idsParam.split(",").map(s => s.trim()).filter(Boolean) : [];
+
+  const [listings, categories] = await Promise.all([loadListings(), loadCategories()]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+  const listingById = Object.fromEntries(listings.map(l => [l.id, l]));
+
+  function render() {
+    const root = document.getElementById("compare-root");
+    const selected = ids.map(id => listingById[id]).filter(Boolean);
+
+    if (selected.length < 2) {
+      root.innerHTML = `
+        <div class="compare-empty">
+          <div class="icon">⚖️</div>
+          <h2>Müqayisə üçün ən azı 2 elan seçin</h2>
+          <p>Elan səhifəsindən "Müqayisəyə əlavə et" düyməsini istifadə edin<br>və ya aşağıdan elanları seçin.</p>
+          <a href="listings.html" class="btn btn-primary" style="margin-top:20px">Elanlara bax →</a>
+        </div>`;
+      applyI18n();
+      return;
+    }
+
+    const rows = [
+      { label: "Qiymət", key: l => `<span class="col-price">${fmtAZN(l.price_azn)}</span><br><small style="color:#64748b">${fmtUSD(l.price_azn)}</small>` },
+      { label: "Aylıq gəlir", key: l => fmtAZN(l.monthly_revenue_azn) },
+      { label: "Aylıq mənfəət", key: l => fmtAZN(l.monthly_profit_azn) },
+      { label: "Mənfəət marjası %", key: l => {
+        if (!l.monthly_revenue_azn || !l.monthly_profit_azn) return "—";
+        return ((l.monthly_profit_azn / l.monthly_revenue_azn) * 100).toFixed(1) + "%";
+      }},
+      { label: "Geri ödəmə (ay)", key: l => {
+        if (!l.monthly_profit_azn || l.monthly_profit_azn <= 0) return "—";
+        return Math.round(l.price_azn / l.monthly_profit_azn) + " ay";
+      }},
+      { label: "Sahə (m²)", key: l => fmtNum(l.area_m2) + " m²" },
+      { label: "İşçi sayı", key: l => l.staff_count },
+      { label: "Fəaliyyət ili", key: l => l.operating_years + " il" },
+      { label: "Avadanlıq", key: l => l.equipment_included ? "✅ Bəli" : "❌ Xeyr" },
+      { label: "Lisenziya", key: l => l.license_included ? "✅ Bəli" : "❌ Xeyr" },
+      { label: "Şəhər / Rayon", key: l => l.district + ", " + l.city },
+    ];
+
+    const headerCols = selected.map(l => {
+      const cat = catById[l.category];
+      const icon = CATEGORY_ICONS[l.category] || "🏢";
+      return `<th>
+        <span class="listing-icon">${icon}</span>
+        <span class="col-cat">${catLabel(cat)}</span>
+        <a class="col-title" href="listing.html?id=${l.id}" style="color:#fff;text-decoration:underline;">${locField(l, "title")}</a>
+        ${l.featured ? `<span class="featured-tag">SEÇİLMİŞ</span>` : ""}
+        <br>
+        <button class="remove-btn" data-id="${l.id}">✕ Sil</button>
+      </th>`;
+    }).join("");
+
+    const bodyRows = rows.map(row => {
+      const cells = selected.map(l => `<td>${row.key(l)}</td>`).join("");
+      return `<tr><td>${row.label}</td>${cells}</tr>`;
+    }).join("");
+
+    root.innerHTML = `
+      <div class="add-more-bar">
+        <a href="listings.html" class="btn btn-ghost" style="font-size:14px">+ Elan əlavə et</a>
+        <span style="color:#64748b;font-size:14px">${selected.length} elan müqayisə edilir</span>
+      </div>
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th style="min-width:160px">Göstərici</th>
+              ${headerCols}
+            </tr>
+          </thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
+      </div>`;
+
+    root.querySelectorAll(".remove-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        ids = ids.filter(id => id !== btn.dataset.id);
+        const newUrl = new URL(location.href);
+        if (ids.length) newUrl.searchParams.set("ids", ids.join(","));
+        else newUrl.searchParams.delete("ids");
+        history.replaceState({}, "", newUrl);
+        render();
+      });
+    });
+
+    applyI18n();
+  }
+
+  render();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[
+  { "id": "cafe_restaurant", "label_az": "Kafe və Restoran", "label_en": "Cafe & Restaurant", "icon": "utensils" },
+  { "id": "beauty_salon", "label_az": "Gözəllik salonu", "label_en": "Beauty Salon", "icon": "sparkles" },
+  { "id": "auto_service", "label_az": "Avtoservis", "label_en": "Auto Service", "icon": "car" },
+  { "id": "retail_shop", "label_az": "Mağaza / Market", "label_en": "Retail / Market", "icon": "shopping-bag" },
+  { "id": "fitness_sport", "label_az": "İdman və Fitness", "label_en": "Fitness & Sport", "icon": "dumbbell" },
+  { "id": "production", "label_az": "İstehsalat / Sex", "label_en": "Production / Workshop", "icon": "factory" },
+  { "id": "education", "label_az": "Təhsil / Bağça", "label_en": "Education / Kindergarten", "icon": "graduation-cap" },
+  { "id": "medical", "label_az": "Tibbi / Stomatoloji", "label_en": "Medical / Dental", "icon": "stethoscope" },
+  { "id": "hotel_hostel", "label_az": "Otel / Hostel", "label_en": "Hotel / Hostel", "icon": "bed" },
+  { "id": "entertainment", "label_az": "Əyləncə", "label_en": "Entertainment", "icon": "music" },
+  { "id": "services", "label_az": "Xidmətlər", "label_en": "Services", "icon": "wrench" },
+  { "id": "pharmacy", "label_az": "Aptek", "label_en": "Pharmacy", "icon": "pill" }
+]

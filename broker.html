@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Broker profili — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .broker-layout { display: grid; grid-template-columns: 340px 1fr; gap: 36px; align-items: start; }
+    @media(max-width:900px) { .broker-layout { grid-template-columns: 1fr; } }
+    .broker-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 16px rgba(0,0,0,.08); position: sticky; top: 80px; text-align: center; }
+    .broker-avatar { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #e2e8f0; margin-bottom: 14px; }
+    .broker-name { font-size: 22px; font-weight: 800; margin: 0 0 6px; color: #0f172a; }
+    .broker-type { font-size: 13px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }
+    .broker-badges { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 20px; padding: 5px 12px; font-size: 12px; font-weight: 600; }
+    .badge-verified { background: #d1fae5; color: #065f46; }
+    .badge-license { background: #dbeafe; color: #1e40af; }
+    .stars { color: #f59e0b; font-size: 18px; letter-spacing: 2px; }
+    .broker-rating-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; }
+    .broker-rating-num { font-weight: 800; font-size: 18px; color: #0f172a; }
+    .broker-rating-reviews { font-size: 13px; color: #64748b; }
+    .broker-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0; }
+    .bstat { background: #f8fafc; border-radius: 10px; padding: 12px; }
+    .bstat .lbl { font-size: 11px; color: #64748b; margin-bottom: 3px; }
+    .bstat .val { font-size: 18px; font-weight: 800; color: #0f172a; }
+    .broker-langs { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 18px; }
+    .lang-tag { background: #e2e8f0; color: #374151; border-radius: 6px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
+    .contact-btns { display: flex; flex-direction: column; gap: 10px; }
+    .btn-whatsapp { background: #25d366; color: #fff; border: none; border-radius: 10px; padding: 12px; font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-whatsapp:hover { background: #1ebe5c; }
+    .btn-phone { background: #f1f5f9; color: #0f172a; border: none; border-radius: 10px; padding: 12px; font-weight: 700; font-size: 15px; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-phone:hover { background: #e2e8f0; }
+    .broker-bio { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 2px 16px rgba(0,0,0,.08); margin-bottom: 28px; }
+    .broker-bio h3 { margin: 0 0 12px; font-size: 18px; color: #0f172a; }
+    .broker-bio p { margin: 0; color: #374151; line-height: 1.7; font-size: 15px; }
+    .specialties-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .specialty-tag { display: flex; align-items: center; gap: 6px; background: #eff6ff; color: #1d4ed8; border-radius: 20px; padding: 6px 14px; font-size: 13px; font-weight: 500; }
+    .broker-listings-section h2 { font-size: 20px; margin: 0 0 20px; }
+    .broker-not-found { text-align: center; padding: 100px 0; }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 id="page-title">Broker profili</h1>
+    <p id="page-sub"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div id="broker-root"></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("listings");
+  const brokerId = new URLSearchParams(location.search).get("id");
+  const [brokers, listings, categories] = await Promise.all([
+    loadJSON("data/brokers.json"),
+    loadListings(),
+    loadCategories()
+  ]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+  const root = document.getElementById("broker-root");
+
+  if (!brokerId) {
+    // Show list of all brokers
+    document.getElementById("page-title").textContent = "Brokerlər";
+    document.getElementById("page-sub").textContent = "Yoxlanmış biznes brokerləri";
+    root.innerHTML = `<div class="listing-grid">${brokers.map(b => `
+      <a href="broker.html?id=${b.id}" class="listing-card" style="text-decoration:none;">
+        <div class="listing-image" style="justify-content:center;align-items:center;display:flex;">
+          <img src="${b.avatar}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">
+        </div>
+        <div class="listing-body">
+          <div class="listing-cat">${b.type === "agency" ? "Agentlik" : "Broker"}</div>
+          <h3 class="listing-title">${b.name}</h3>
+          <div class="listing-loc">⭐ ${b.rating} · ${b.deals_closed} sövdələşmə · ${b.city}</div>
+          <div class="listing-price" style="font-size:14px;font-weight:600;color:#2563eb;">Profili gör →</div>
+        </div>
+      </a>`).join("")}</div>`;
+    applyI18n();
+    return;
+  }
+
+  const broker = brokers.find(b => b.id === brokerId);
+  if (!broker) {
+    root.innerHTML = `<div class="broker-not-found"><h2>Broker tapılmadı</h2><a href="broker.html" class="btn btn-primary" style="margin-top:16px">Bütün brokerlərə bax</a></div>`;
+    applyI18n();
+    return;
+  }
+
+  document.getElementById("page-title").textContent = broker.name;
+  document.getElementById("page-sub").textContent = broker.city;
+  document.title = broker.name + " — BizBazar.az";
+
+  const brokerListings = listings.filter(l => l.broker_id === broker.id);
+  const bio = locField(broker, "bio");
+  const stars = "★".repeat(Math.floor(broker.rating)) + (broker.rating % 1 >= 0.5 ? "½" : "");
+  const memberSince = new Date(broker.member_since + "-01").toLocaleDateString(getLang() === "az" ? "az-AZ" : "en-GB", { month: "long", year: "numeric" });
+  const specialtiesHTML = broker.specialties.map(s => {
+    const cat = catById[s];
+    const icon = CATEGORY_ICONS[s] || "🏢";
+    return `<span class="specialty-tag">${icon} ${catLabel(cat)}</span>`;
+  }).join("");
+
+  const waPhone = broker.phone.replace(/[^+\d]/g, "");
+
+  root.innerHTML = `
+    <div class="broker-layout">
+      <div>
+        <div class="broker-card">
+          <img src="${broker.avatar}" alt="${broker.name}" class="broker-avatar">
+          <div class="broker-name">${broker.name}</div>
+          <div class="broker-type">${broker.type === "agency" ? "Agentlik" : "Broker"}</div>
+          <div class="broker-badges">
+            ${broker.verified ? `<span class="badge badge-verified">✓ Yoxlanmış</span>` : ""}
+            ${broker.license_no ? `<span class="badge badge-license">🪪 ${broker.license_no}</span>` : ""}
+          </div>
+          <div class="broker-rating-row">
+            <span class="stars">${"★".repeat(Math.floor(broker.rating))}</span>
+            <span class="broker-rating-num">${broker.rating}</span>
+            <span class="broker-rating-reviews">(${broker.reviews} rəy)</span>
+          </div>
+          <div class="broker-stats">
+            <div class="bstat"><div class="lbl">Sövdələşmə</div><div class="val">${broker.deals_closed}</div></div>
+            <div class="bstat"><div class="lbl">Üzv olub</div><div class="val" style="font-size:13px">${memberSince}</div></div>
+            <div class="bstat"><div class="lbl">Cavab vaxtı</div><div class="val">${broker.response_time_hours} saat</div></div>
+            <div class="bstat"><div class="lbl">Dillər</div><div class="val" style="font-size:13px">${broker.languages.join(", ")}</div></div>
+          </div>
+          <div class="contact-btns">
+            <a href="https://wa.me/${waPhone}" target="_blank" class="btn-whatsapp">💬 WhatsApp</a>
+            <a href="tel:${broker.phone}" class="btn-phone">📞 ${broker.phone}</a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="broker-bio">
+          <h3>Broker haqqında</h3>
+          <p>${bio}</p>
+          <div class="specialties-row">${specialtiesHTML}</div>
+        </div>
+        <div class="broker-listings-section">
+          <h2>${broker.type === "agency" ? "Agentliyin elanları" : "Brokerin elanları"} (${brokerListings.length})</h2>
+          ${brokerListings.length
+            ? `<div class="listing-grid">${brokerListings.map(l => listingCardHTML(l, catById)).join("")}</div>`
+            : `<div style="background:#f8fafc;border-radius:12px;padding:32px;text-align:center;color:#64748b;">
+                <p>Bu brokerin aktiv elanı yoxdur.</p>
+                <a href="listings.html" class="btn btn-ghost">Bütün elanlara bax</a>
+               </div>`
+          }
+        </div>
+      </div>
+    </div>`;
+
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

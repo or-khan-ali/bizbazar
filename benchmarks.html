@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bazar Göstəriciləri — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .bm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 48px; }
+    .bm-card { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,.07); border: 1px solid #e2e8f0; }
+    .bm-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .bm-icon { font-size: 28px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: #f0f4ff; border-radius: 12px; flex-shrink: 0; }
+    .bm-name { font-weight: 700; font-size: 15px; color: #0f172a; }
+    .bm-trend { margin-left: auto; font-size: 20px; }
+    .bm-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .bm-metric { background: #f8fafc; border-radius: 8px; padding: 10px 12px; }
+    .bm-metric .mlbl { font-size: 11px; color: #64748b; margin-bottom: 3px; }
+    .bm-metric .mval { font-size: 15px; font-weight: 700; color: #0f172a; }
+    .demand-bar-wrap { margin-top: 14px; }
+    .demand-label { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; margin-bottom: 4px; }
+    .demand-bar { height: 8px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+    .demand-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #2563eb, #10b981); transition: width .6s ease; }
+    .chart-section { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 16px rgba(0,0,0,.08); }
+    .chart-section h2 { margin: 0 0 24px; font-size: 20px; }
+    .chart-container { position: relative; height: 420px; }
+    .trend-up { color: #16a34a; }
+    .trend-down { color: #dc2626; }
+    .trend-stable { color: #d97706; }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Bazar Göstəriciləri / Market Benchmarks</h1>
+    <p>Kateqoriya üzrə ortalama qiymət, gəlir, mənfəət və tələb indeksi</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="bm-grid" id="bm-grid"></div>
+    <div class="chart-section">
+      <h2>Kateqoriya üzrə ortalama satış qiyməti (AZN)</h2>
+      <div class="chart-container">
+        <canvas id="bm-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("benchmarks");
+  const [benchmarksData, categories] = await Promise.all([
+    loadJSON("data/benchmarks.json"),
+    loadCategories()
+  ]);
+  const benchmarks = benchmarksData.by_category;
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  function trendArrow(trend) {
+    if (trend === "up") return `<span class="bm-trend trend-up" title="Artan tələb">↑</span>`;
+    if (trend === "down") return `<span class="bm-trend trend-down" title="Azalan tələb">↓</span>`;
+    return `<span class="bm-trend trend-stable" title="Sabit tələb">→</span>`;
+  }
+
+  const grid = document.getElementById("bm-grid");
+  grid.innerHTML = benchmarks.map(b => {
+    const cat = catById[b.id];
+    const icon = CATEGORY_ICONS[b.id] || "🏢";
+    const name = catLabel(cat) || b.id;
+    return `
+    <div class="bm-card">
+      <div class="bm-card-head">
+        <div class="bm-icon">${icon}</div>
+        <div class="bm-name">${name}</div>
+        ${trendArrow(b.trend)}
+      </div>
+      <div class="bm-metrics">
+        <div class="bm-metric">
+          <div class="mlbl">Ort. qiymət</div>
+          <div class="mval">${fmtAZN(b.avg_price_azn)}</div>
+        </div>
+        <div class="bm-metric">
+          <div class="mlbl">Ort. gəlir/ay</div>
+          <div class="mval">${fmtAZN(b.avg_revenue_azn)}</div>
+        </div>
+        <div class="bm-metric">
+          <div class="mlbl">Ort. mənfəət/ay</div>
+          <div class="mval">${fmtAZN(b.avg_profit_azn)}</div>
+        </div>
+        <div class="bm-metric">
+          <div class="mlbl">Geri ödəmə</div>
+          <div class="mval">${b.avg_payback_months} ay</div>
+        </div>
+      </div>
+      <div class="demand-bar-wrap">
+        <div class="demand-label">
+          <span>Tələb indeksi</span>
+          <span>${b.demand_index}/100</span>
+        </div>
+        <div class="demand-bar">
+          <div class="demand-bar-fill" style="width:${b.demand_index}%"></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  // Chart.js horizontal bar chart
+  const labels = benchmarks.map(b => {
+    const cat = catById[b.id];
+    return catLabel(cat) || b.id;
+  });
+  const prices = benchmarks.map(b => b.avg_price_azn);
+  const colors = benchmarks.map(b => {
+    if (b.trend === "up") return "rgba(37, 99, 235, 0.82)";
+    if (b.trend === "down") return "rgba(220, 38, 38, 0.7)";
+    return "rgba(100, 116, 139, 0.7)";
+  });
+
+  new Chart(document.getElementById("bm-chart"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: "Ort. qiymət (AZN)",
+        data: prices,
+        backgroundColor: colors,
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => " " + fmtAZN(ctx.parsed.x)
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: "#f1f5f9" },
+          ticks: {
+            callback: v => fmtAZN(v)
+          }
+        },
+        y: {
+          grid: { display: false }
+        }
+      }
+    }
+  });
+
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

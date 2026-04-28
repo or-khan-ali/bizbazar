@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biznes — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="container">
+  <div class="detail-layout" id="detail-root">
+    <div class="detail"></div>
+    <aside class="detail-aside"></aside>
+  </div>
+</div>
+
+<!-- E) Similar listings -->
+<section style="background:var(--bg-soft)" id="similar-section" style="display:none">
+  <div class="container">
+    <h2 data-i18n="similar_listings"></h2>
+    <div class="similar-grid listing-grid" id="similar-grid"></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("listings");
+  const id = new URLSearchParams(location.search).get("id");
+  const [listings, categories, brokers] = await Promise.all([
+    loadListings(), loadCategories(), loadBrokers()
+  ]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+  const l = listings.find(x => x.id === id);
+  const root = document.getElementById("detail-root");
+
+  if (!l) {
+    root.innerHTML = `<div style="grid-column:1/-1;padding:60px 0;text-align:center;">
+      <h2 style="margin:0 0 8px;">Listing not found</h2>
+      <a href="listings.html" class="btn btn-primary" style="margin-top:14px;">← Browse listings</a>
+    </div>`;
+    applyI18n();
+    return;
+  }
+
+  // F) Track recently viewed
+  addRecentlyViewed(l.id);
+
+  const cat = catById[l.category];
+  const icon = CATEGORY_ICONS[l.category] || "🏢";
+  const sellerKey = l.seller_type === "owner" ? "detail_owner" : (l.seller_type === "broker" ? "detail_broker" : "detail_agency");
+
+  // A) Photo gallery
+  const photos = getListingPhotos(l);
+  const galleryHTML = `
+    <div class="listing-gallery" id="listing-gallery">
+      <img class="gallery-main" src="${photos[0]}" alt="${locField(l,'title')}" loading="lazy">
+      <div class="gallery-thumbs">
+        <img src="${photos[1]}" alt="" loading="lazy">
+        <img src="${photos[2]}" alt="" loading="lazy">
+      </div>
+    </div>
+  `;
+
+  // B) Extra KPIs: payback period & profit margin
+  const paybackMonths = l.monthly_profit_azn ? Math.round(l.price_azn / l.monthly_profit_azn) : null;
+  const margin = (l.monthly_profit_azn && l.monthly_revenue_azn)
+    ? Math.round(l.monthly_profit_azn / l.monthly_revenue_azn * 100) : null;
+
+  const left = root.querySelector(".detail");
+  left.innerHTML = `
+    ${galleryHTML}
+    <div class="listing-cat" style="margin-bottom:6px;">${catLabel(cat)}</div>
+    <h1>${locField(l, "title")}</h1>
+    <div class="meta-row">
+      <span>📍 ${l.district}, ${l.city}</span>
+      <span>📅 <span data-i18n="detail_posted"></span>: ${fmtDate(l.posted_date)}</span>
+      <span>🔖 ID: ${l.id}</span>
+    </div>
+
+    <h2 data-i18n="detail_specs"></h2>
+    <div class="detail-kpis">
+      <div class="kpi">
+        <div class="kpi-label" data-i18n="detail_revenue"></div>
+        <div class="kpi-value">${fmtAZN(l.monthly_revenue_azn)}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label" data-i18n="detail_profit"></div>
+        <div class="kpi-value">${fmtAZN(l.monthly_profit_azn)}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label" data-i18n="detail_rent"></div>
+        <div class="kpi-value">${fmtAZN(l.monthly_rent_azn)}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-label" data-i18n="detail_staff"></div>
+        <div class="kpi-value">${l.staff_count}</div>
+      </div>
+      ${paybackMonths ? `<div class="kpi">
+        <div class="kpi-label" data-i18n="payback_label"></div>
+        <div class="kpi-value">${paybackMonths} <span style="font-size:13px;font-weight:400" data-i18n="payback_unit"></span></div>
+      </div>` : ""}
+      ${margin !== null ? `<div class="kpi">
+        <div class="kpi-label" data-i18n="margin_label"></div>
+        <div class="kpi-value">${margin}%</div>
+      </div>` : ""}
+    </div>
+
+    <h2 data-i18n="detail_overview"></h2>
+    <p class="detail-description">${locField(l, "description")}</p>
+
+    <h2 data-i18n="detail_specs"></h2>
+    <div class="detail-spec">
+      <dl>
+        <dt data-i18n="detail_area"></dt><dd>${fmtNum(l.area_m2)} m²</dd>
+        <dt data-i18n="detail_years"></dt><dd>${l.operating_years}</dd>
+        <dt data-i18n="detail_reason"></dt><dd>${locField(l, "reason")}</dd>
+        <dt data-i18n="detail_equipment"></dt><dd>${l.equipment_included ? t("detail_yes") : t("detail_no")}</dd>
+        <dt data-i18n="detail_license"></dt><dd>${l.license_included ? t("detail_yes") : t("detail_no")}</dd>
+        <dt>AZN / m²</dt><dd>${fmtAZN(Math.round(l.price_azn / (l.area_m2 || 1)))}</dd>
+      </dl>
+    </div>
+  `;
+
+  // D) Broker card — render after description if broker_id exists
+  if (l.broker_id) {
+    const broker = brokers.find(b => b.id === l.broker_id);
+    if (broker) {
+      const brokerBio = getLang() === "az" ? broker.bio_az : broker.bio_en;
+      const brokerPhone = broker.phone ? broker.phone.replace(/\D/g, "") : "";
+      const brokerCard = document.createElement("div");
+      brokerCard.className = "broker-card";
+      brokerCard.innerHTML = `
+        <div class="broker-card-inner">
+          <img class="broker-avatar" src="${broker.avatar}" alt="${broker.name}" loading="lazy">
+          <div class="broker-info">
+            <div class="broker-name">${broker.name} ${broker.verified ? `<span class="broker-verified-badge" data-i18n="broker_verified"></span>` : ""}</div>
+            <div class="broker-license">${broker.license_no}</div>
+            <div class="broker-stats">
+              <span>★ ${broker.rating} (${broker.reviews})</span>
+              <span>${broker.deals_closed} <span data-i18n="broker_deals"></span></span>
+            </div>
+            <p class="broker-bio">${brokerBio}</p>
+            ${brokerPhone ? `<a class="wa-btn" href="https://wa.me/${brokerPhone}" target="_blank" rel="noopener">📱 WhatsApp</a>` : ""}
+            <a href="broker.html?id=${broker.id}" class="btn btn-outline btn-sm" style="margin-top:8px;" data-i18n="broker_profile_link"></a>
+          </div>
+        </div>
+      `;
+      left.appendChild(brokerCard);
+    }
+  }
+
+  // C) Build contact actions HTML
+  let contactHTML = `<div class="contact-actions">`;
+  if (l.whatsapp && l.phone) {
+    contactHTML += `<a class="wa-btn" href="https://wa.me/${l.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">📱 WhatsApp</a>`;
+  }
+  if (l.telegram && l.phone) {
+    contactHTML += `<a class="tg-btn" href="https://t.me/${l.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">✈ Telegram</a>`;
+  }
+  contactHTML += `</div>`;
+
+  const right = root.querySelector(".detail-aside");
+  right.innerHTML = `
+    <div class="price-card">
+      <div class="seller-tag">👤 <span data-i18n="${sellerKey}"></span></div>
+      <div class="price-main">${fmtAZN(l.price_azn)}</div>
+      <div class="price-usd">${fmtUSD(l.price_azn)}</div>
+      <div class="divider"></div>
+      <button class="btn btn-primary btn-lg" data-i18n="detail_nda"></button>
+      <button class="btn btn-outline" data-i18n="detail_contact"></button>
+      ${contactHTML}
+    </div>
+    <div class="services-hint">
+      <h4 data-i18n="detail_services_title"></h4>
+      <p data-i18n="detail_services_sub"></p>
+      <a href="services.html" class="btn btn-outline btn-sm" data-i18n="detail_services_btn"></a>
+    </div>
+  `;
+
+  applyI18n();
+
+  document.querySelectorAll(".price-card .btn").forEach(b => {
+    b.addEventListener("click", () => alert(getLang()==="az"
+      ? "Bu demo versiyadır. Tam versiyada satıcı ilə əlaqə burada aktiv olacaq."
+      : "This is a demo. In full version, contacting seller will be enabled here."));
+  });
+
+  // E) Similar listings
+  const similar = listings.filter(s => s.category === l.category && s.id !== l.id).slice(0, 3);
+  if (similar.length > 0) {
+    const simSection = document.getElementById("similar-section");
+    simSection.style.display = "";
+    document.getElementById("similar-grid").innerHTML = similar.map(s => listingCardHTML(s, catById)).join("");
+  }
+
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

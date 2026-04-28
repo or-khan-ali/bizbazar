@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Biznes Qiymətləndirməsi — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .val-form { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 2px 16px rgba(0,0,0,.08); }
+    .val-form .form-group { margin-bottom: 20px; }
+    .val-form label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; color: #374151; }
+    .val-form input, .val-form select { width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+    .val-form input:focus, .val-form select:focus { outline: none; border-color: var(--primary); }
+    .val-form .checkbox-row { display: flex; align-items: center; gap: 10px; }
+    .val-form .checkbox-row input { width: auto; }
+    .val-result { max-width: 600px; margin: 28px auto 0; background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); border-radius: 16px; padding: 36px; color: #fff; display: none; }
+    .val-result h3 { margin: 0 0 8px; font-size: 18px; opacity: .85; }
+    .val-result .result-range { font-size: 32px; font-weight: 800; margin: 0 0 16px; }
+    .val-result .result-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+    .val-result .meta-item { background: rgba(255,255,255,.12); border-radius: 10px; padding: 14px; }
+    .val-result .meta-item .lbl { font-size: 12px; opacity: .75; margin-bottom: 4px; }
+    .val-result .meta-item .val { font-size: 20px; font-weight: 700; }
+    .val-result .cta-row { margin-top: 24px; text-align: center; }
+    .val-result .cta-row a { background: #fff; color: #1e3a5f; border-radius: 8px; padding: 12px 28px; font-weight: 700; text-decoration: none; display: inline-block; }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Biznes Qiymətləndirməsi</h1>
+    <p>Kateqoriya çarpanları əsasında bazar dəyərini hesabla</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="val-form">
+      <div class="form-group">
+        <label>Biznes kateqoriyası</label>
+        <select id="val-category">
+          <option value="">Kateqoriya seçin...</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Aylıq gəlir (AZN)</label>
+        <input type="number" id="val-revenue" min="0" step="100" placeholder="məs. 15000">
+      </div>
+      <div class="form-group">
+        <label>Aylıq mənfəət (AZN)</label>
+        <input type="number" id="val-profit" min="0" step="100" placeholder="məs. 4000">
+      </div>
+      <div class="form-group">
+        <label>Fəaliyyət müddəti (il)</label>
+        <input type="number" id="val-years" min="1" max="30" step="1" placeholder="1–30">
+      </div>
+      <div class="form-group">
+        <div class="checkbox-row">
+          <input type="checkbox" id="val-equipment">
+          <label for="val-equipment" style="margin:0;font-weight:500">Avadanlıq daxildir</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="val-submit" style="width:100%;font-size:16px;padding:14px;">Hesabla</button>
+      <div id="val-error" style="display:none;color:#ef4444;margin-top:10px;font-size:14px;"></div>
+    </div>
+
+    <div class="val-result" id="val-result">
+      <h3>Təxmini bazar dəyəri</h3>
+      <div class="result-range" id="res-range"></div>
+      <div class="result-meta">
+        <div class="meta-item">
+          <div class="lbl">Ortalama qiymət</div>
+          <div class="val" id="res-mid"></div>
+        </div>
+        <div class="meta-item">
+          <div class="lbl">Geri ödəmə müddəti</div>
+          <div class="val" id="res-payback"></div>
+        </div>
+        <div class="meta-item">
+          <div class="lbl">Kateqoriya çarpanı</div>
+          <div class="val" id="res-multiple"></div>
+        </div>
+        <div class="meta-item">
+          <div class="lbl">Mənfəət marjası</div>
+          <div class="val" id="res-margin"></div>
+        </div>
+      </div>
+      <div class="cta-row">
+        <a href="services.html">Peşəkar Qiymətləndirmə Al →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("valuation");
+  const [categories, benchmarksData] = await Promise.all([
+    loadCategories(),
+    loadJSON("data/benchmarks.json")
+  ]);
+  const benchmarks = benchmarksData.by_category;
+  const benchmarkByCategory = Object.fromEntries(benchmarks.map(b => [b.id, b]));
+
+  const catSelect = document.getElementById("val-category");
+  categories.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = catLabel(c);
+    catSelect.appendChild(opt);
+  });
+
+  document.getElementById("val-submit").addEventListener("click", () => {
+    const catId = catSelect.value;
+    const revenue = parseFloat(document.getElementById("val-revenue").value) || 0;
+    const profit = parseFloat(document.getElementById("val-profit").value) || 0;
+    const years = parseInt(document.getElementById("val-years").value) || 0;
+    const equipment = document.getElementById("val-equipment").checked;
+    const errEl = document.getElementById("val-error");
+
+    if (!catId) { errEl.textContent = "Zəhmət olmasa kateqoriya seçin."; errEl.style.display = "block"; return; }
+    if (profit <= 0) { errEl.textContent = "Aylıq mənfəəti daxil edin."; errEl.style.display = "block"; return; }
+    errEl.style.display = "none";
+
+    const bench = benchmarkByCategory[catId];
+    const multiple = bench ? bench.avg_multiple : 12;
+    let estimated = profit * multiple;
+    if (equipment) estimated *= 1.05;
+    if (years >= 5) estimated *= 1.08;
+
+    const low = Math.round(estimated * 0.85);
+    const high = Math.round(estimated * 1.18);
+    const mid = Math.round(estimated);
+    const paybackMonths = profit > 0 ? Math.round(estimated / profit) : 0;
+    const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : "—";
+
+    document.getElementById("res-range").textContent = fmtAZN(low) + " – " + fmtAZN(high);
+    document.getElementById("res-mid").textContent = fmtAZN(mid);
+    document.getElementById("res-payback").textContent = paybackMonths + " ay";
+    document.getElementById("res-multiple").textContent = "×" + multiple.toFixed(1);
+    document.getElementById("res-margin").textContent = margin + "%";
+
+    const resultEl = document.getElementById("val-result");
+    resultEl.style.display = "block";
+    resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

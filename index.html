@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BizBazar.az — Biznes alış-satışı</title>
+  <meta name="description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış bizneslər, qiymətləndirmə, hüquqi və vergi xidmətləri.">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="hero_title"></h1>
+    <p class="lead" data-i18n="hero_sub"></p>
+
+    <form class="hero-search" action="listings.html" method="get">
+      <select name="category" id="hero-category">
+        <option value="" data-i18n="search_cat"></option>
+      </select>
+      <select name="city" id="hero-city">
+        <option value="" data-i18n="search_city"></option>
+      </select>
+      <input type="number" name="max_price" data-i18n-placeholder="search_price" min="0" step="1000">
+      <button type="submit" class="btn btn-primary btn-lg" data-i18n="hero_find"></button>
+    </form>
+
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num" id="stat-listings">—</div>
+        <div class="hero-stat-label" data-i18n="stat_listings"></div>
+      </div>
+      <div>
+        <div class="hero-stat-num" id="stat-cities">—</div>
+        <div class="hero-stat-label" data-i18n="stat_cities"></div>
+      </div>
+      <div>
+        <div class="hero-stat-num">12</div>
+        <div class="hero-stat-label" data-i18n="stat_pros"></div>
+      </div>
+      <div>
+        <div class="hero-stat-num">40+</div>
+        <div class="hero-stat-label" data-i18n="stat_closed"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="cat_title"></h2>
+        <p class="section-sub" data-i18n="cat_sub"></p>
+      </div>
+    </div>
+    <div class="cat-grid" id="cat-grid"></div>
+    <div class="pill-links" id="extra-links" style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;"></div>
+  </div>
+</section>
+
+<section style="background: var(--bg-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="featured_title"></h2>
+        <p class="section-sub" data-i18n="featured_sub"></p>
+      </div>
+      <a href="listings.html" class="btn btn-outline" data-i18n="view_all"></a>
+    </div>
+    <div class="listing-grid" id="featured-grid"></div>
+  </div>
+</section>
+
+<!-- A) Recently viewed strip -->
+<section id="recent-section" style="display:none">
+  <div class="container">
+    <div class="section-head"><div><h2 data-i18n="recent_title"></h2></div></div>
+    <div class="recent-strip" id="recent-strip"></div>
+  </div>
+</section>
+
+<!-- B) Testimonials section -->
+<section style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="section-head"><div><h2 data-i18n="testimonials_title"></h2></div></div>
+    <div class="deals-band" id="deals-band"></div>
+    <div class="testimonial-grid" id="testimonial-grid"></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="how_title"></h2>
+        <p class="section-sub" data-i18n="how_sub"></p>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3 data-i18n="step1_t"></h3>
+        <p data-i18n="step1_d"></p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3 data-i18n="step2_t"></h3>
+        <p data-i18n="step2_d"></p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3 data-i18n="step3_t"></h3>
+        <p data-i18n="step3_d"></p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3 data-i18n="step4_t"></h3>
+        <p data-i18n="step4_d"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--bg-soft);">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="services_title"></h2>
+        <p class="section-sub" data-i18n="services_sub"></p>
+      </div>
+      <a href="services.html" class="btn btn-outline" data-i18n="view_all"></a>
+    </div>
+    <div class="services-grid" id="services-preview"></div>
+  </div>
+</section>
+
+<!-- C) Valuation CTA band -->
+<section>
+  <div class="container">
+    <div class="cta-band" style="background:var(--bg-soft);border:2px solid var(--primary)">
+      <div>
+        <h2 data-i18n="calc_title"></h2>
+        <p data-i18n="hero_sub"></p>
+      </div>
+      <a href="valuation.html" class="btn btn-primary btn-lg" data-i18n="valuation_title"></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2 data-i18n="cta_band_title"></h2>
+        <p data-i18n="cta_band_sub"></p>
+      </div>
+      <a href="sell.html" class="btn btn-accent btn-lg" data-i18n="cta_band_btn"></a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("home");
+
+  const [listings, categories, services, testimonials] = await Promise.all([
+    loadListings(), loadCategories(), loadServices(), loadTestimonials()
+  ]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+  const catCount = {};
+  listings.forEach(l => { catCount[l.category] = (catCount[l.category]||0)+1; });
+
+  // hero search dropdowns
+  const heroCat = document.getElementById("hero-category");
+  categories.forEach(c => {
+    const o = document.createElement("option");
+    o.value = c.id; o.dataset.labelAz = c.label_az; o.dataset.labelEn = c.label_en;
+    o.textContent = catLabel(c);
+    heroCat.appendChild(o);
+  });
+  const heroCity = document.getElementById("hero-city");
+  [...new Set(listings.map(l => l.city))].sort().forEach(city => {
+    const o = document.createElement("option");
+    o.value = city; o.textContent = city;
+    heroCity.appendChild(o);
+  });
+
+  // stats
+  document.getElementById("stat-listings").textContent = listings.length;
+  document.getElementById("stat-cities").textContent = new Set(listings.map(l => l.city)).size;
+
+  // category cards
+  const catGrid = document.getElementById("cat-grid");
+  catGrid.innerHTML = categories.map(c => `
+    <a class="cat-card" href="listings.html?category=${c.id}">
+      <div class="cat-icon">${CATEGORY_ICONS[c.id] || "🏢"}</div>
+      <div class="cat-label">${catLabel(c)}</div>
+      <div class="cat-count">${catCount[c.id]||0}</div>
+    </a>
+  `).join("");
+
+  // extra pill links: benchmarks and map
+  const extraLinks = document.getElementById("extra-links");
+  extraLinks.innerHTML = `
+    <a href="benchmarks.html" class="btn btn-outline btn-sm" data-i18n="benchmarks_link"></a>
+    <a href="map.html" class="btn btn-outline btn-sm" data-i18n="map_link"></a>
+  `;
+
+  // featured listings (up to 6)
+  const featured = listings.filter(l => l.featured).slice(0, 6);
+  const grid = document.getElementById("featured-grid");
+  grid.innerHTML = featured.map(l => listingCardHTML(l, catById)).join("");
+
+  // A) Recently viewed strip
+  const recentIds = getRecentlyViewed();
+  if (recentIds.length > 0) {
+    const recentListings = recentIds
+      .map(id => listings.find(l => l.id === id))
+      .filter(Boolean)
+      .slice(0, 8);
+    if (recentListings.length > 0) {
+      document.getElementById("recent-section").style.display = "";
+      document.getElementById("recent-strip").innerHTML = recentListings.map(l => `
+        <a class="recent-card" href="listing.html?id=${l.id}">
+          <img src="${getListingThumb(l)}" alt="${locField(l,'title')}" loading="lazy">
+          <div class="recent-card-body">
+            <div class="recent-card-title">${locField(l,"title")}</div>
+            <div class="recent-card-price">${fmtAZN(l.price_azn)}</div>
+          </div>
+        </a>
+      `).join("");
+    }
+  }
+
+  // B) Testimonials + deals band
+  const stats = testimonials.stats;
+  document.getElementById("deals-band").innerHTML = `
+    <div class="deals-stat">
+      <div class="deals-stat-num">${stats.deals_closed}</div>
+      <div class="deals-stat-label" data-i18n="deals_closed_label"></div>
+    </div>
+    <div class="deals-stat">
+      <div class="deals-stat-num">${fmtAZN(stats.total_volume_azn)}</div>
+      <div class="deals-stat-label" data-i18n="total_volume_label"></div>
+    </div>
+    <div class="deals-stat">
+      <div class="deals-stat-num">${stats.avg_close_days} <span data-i18n="avg_close_days_unit"></span></div>
+      <div class="deals-stat-label" data-i18n="avg_close_days_label"></div>
+    </div>
+    <div class="deals-stat">
+      <div class="deals-stat-num">${stats.buyer_satisfaction}<span data-i18n="buyer_satisfaction_unit"></span></div>
+      <div class="deals-stat-label" data-i18n="buyer_satisfaction_label"></div>
+    </div>
+  `;
+
+  document.getElementById("testimonial-grid").innerHTML = testimonials.items.map(item => {
+    const stars = "★".repeat(item.rating) + "☆".repeat(5 - item.rating);
+    const quote = getLang() === "az" ? item.quote_az : item.quote_en;
+    const role  = getLang() === "az" ? item.role_az : item.role_en;
+    return `
+      <div class="testimonial-card">
+        <div class="testimonial-stars">${stars}</div>
+        <p class="testimonial-quote">"${quote}"</p>
+        <div class="testimonial-author">
+          <img class="testimonial-avatar" src="${item.avatar}" alt="${item.name}" loading="lazy">
+          <div>
+            <div class="testimonial-name">${item.name}</div>
+            <div class="testimonial-role">${role}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  // services preview
+  const sp = document.getElementById("services-preview");
+  sp.innerHTML = services.categories.slice(0, 6).map(s => `
+    <div class="service-card">
+      <div class="service-icon">${SERVICE_ICONS[s.id] || "🛠️"}</div>
+      <h3>${getLang()==="az"?s.label_az:s.label_en}</h3>
+      <p>${getLang()==="az"?s.description_az:s.description_en}</p>
+      <div class="service-meta">
+        <span><span data-i18n="service_from"></span> <strong>${fmtAZN(s.starting_price_azn)}</strong></span>
+        <span>${s.typical_duration}</span>
+      </div>
+    </div>
+  `).join("");
+
+  applyI18n();
+
+  // re-render data on language change
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

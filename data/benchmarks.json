@@ -1,0 +1,124 @@
+{
+  "by_category": [
+    {
+      "id": "cafe_restaurant",
+      "avg_price_azn": 52000,
+      "avg_revenue_azn": 14000,
+      "avg_profit_azn": 4000,
+      "avg_payback_months": 13,
+      "avg_multiple": 12.4,
+      "demand_index": 89,
+      "trend": "up"
+    },
+    {
+      "id": "beauty_salon",
+      "avg_price_azn": 19500,
+      "avg_revenue_azn": 6200,
+      "avg_profit_azn": 1900,
+      "avg_payback_months": 11,
+      "avg_multiple": 10.3,
+      "demand_index": 76,
+      "trend": "up"
+    },
+    {
+      "id": "auto_service",
+      "avg_price_azn": 38000,
+      "avg_revenue_azn": 9900,
+      "avg_profit_azn": 3300,
+      "avg_payback_months": 12,
+      "avg_multiple": 11.5,
+      "demand_index": 72,
+      "trend": "stable"
+    },
+    {
+      "id": "retail_shop",
+      "avg_price_azn": 25000,
+      "avg_revenue_azn": 9300,
+      "avg_profit_azn": 2200,
+      "avg_payback_months": 12,
+      "avg_multiple": 11.4,
+      "demand_index": 68,
+      "trend": "stable"
+    },
+    {
+      "id": "fitness_sport",
+      "avg_price_azn": 95000,
+      "avg_revenue_azn": 19000,
+      "avg_profit_azn": 6800,
+      "avg_payback_months": 14,
+      "avg_multiple": 14.0,
+      "demand_index": 81,
+      "trend": "up"
+    },
+    {
+      "id": "production",
+      "avg_price_azn": 28000,
+      "avg_revenue_azn": 10000,
+      "avg_profit_azn": 2800,
+      "avg_payback_months": 11,
+      "avg_multiple": 10.0,
+      "demand_index": 64,
+      "trend": "stable"
+    },
+    {
+      "id": "education",
+      "avg_price_azn": 65000,
+      "avg_revenue_azn": 16000,
+      "avg_profit_azn": 4200,
+      "avg_payback_months": 16,
+      "avg_multiple": 15.5,
+      "demand_index": 78,
+      "trend": "up"
+    },
+    {
+      "id": "medical",
+      "avg_price_azn": 90000,
+      "avg_revenue_azn": 19000,
+      "avg_profit_azn": 6800,
+      "avg_payback_months": 13,
+      "avg_multiple": 13.2,
+      "demand_index": 84,
+      "trend": "up"
+    },
+    {
+      "id": "hotel_hostel",
+      "avg_price_azn": 175000,
+      "avg_revenue_azn": 27000,
+      "avg_profit_azn": 8800,
+      "avg_payback_months": 20,
+      "avg_multiple": 19.9,
+      "demand_index": 70,
+      "trend": "up"
+    },
+    {
+      "id": "entertainment",
+      "avg_price_azn": 55000,
+      "avg_revenue_azn": 15000,
+      "avg_profit_azn": 4500,
+      "avg_payback_months": 12,
+      "avg_multiple": 12.2,
+      "demand_index": 58,
+      "trend": "stable"
+    },
+    {
+      "id": "services",
+      "avg_price_azn": 13000,
+      "avg_revenue_azn": 4500,
+      "avg_profit_azn": 1450,
+      "avg_payback_months": 9,
+      "avg_multiple": 8.9,
+      "demand_index": 60,
+      "trend": "stable"
+    },
+    {
+      "id": "pharmacy",
+      "avg_price_azn": 92000,
+      "avg_revenue_azn": 23000,
+      "avg_profit_azn": 5400,
+      "avg_payback_months": 17,
+      "avg_multiple": 17.0,
+      "demand_index": 87,
+      "trend": "up"
+    }
+  ]
+}

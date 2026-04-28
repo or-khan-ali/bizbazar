@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bizneslər — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 data-i18n="nav_browse"></h1>
+    <p data-i18n="featured_sub"></p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="listings-layout">
+    <aside class="filters">
+      <h3 style="margin:0 0 12px; font-size:16px;" data-i18n="filters"></h3>
+
+      <div class="filter-group">
+        <h4 data-i18n="f_cat"></h4>
+        <div id="filter-categories"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4 data-i18n="f_city"></h4>
+        <div id="filter-cities"></div>
+      </div>
+
+      <div class="filter-group">
+        <h4 data-i18n="f_price"></h4>
+        <div class="range-inputs">
+          <input type="number" id="price-min" data-i18n-placeholder="f_min" min="0" step="1000">
+          <input type="number" id="price-max" data-i18n-placeholder="f_max" min="0" step="1000">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4 data-i18n="f_revenue"></h4>
+        <div class="range-inputs">
+          <input type="number" id="revenue-min" data-i18n-placeholder="f_min" min="0" step="500">
+          <input type="number" id="revenue-max" data-i18n-placeholder="f_max" min="0" step="500">
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4 data-i18n="f_years"></h4>
+        <select id="years-filter">
+          <option value="0" data-i18n="f_any_years"></option>
+          <option value="2" data-i18n="f_2plus"></option>
+          <option value="5" data-i18n="f_5plus"></option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn btn-primary" id="btn-apply" style="flex:1" data-i18n="f_apply"></button>
+        <button class="btn btn-ghost" id="btn-reset" data-i18n="f_reset"></button>
+      </div>
+    </aside>
+
+    <div class="listings-grid-wrap">
+      <div class="results-toolbar">
+        <div class="results-count"><span id="count">0</span> <span data-i18n="results_count"></span></div>
+        <!-- B) sort with best_value option added -->
+        <select class="sort-select" id="sort">
+          <option value="newest" data-i18n="sort_newest"></option>
+          <option value="price_low" data-i18n="sort_price_low"></option>
+          <option value="price_high" data-i18n="sort_price_high"></option>
+          <option value="revenue_high" data-i18n="sort_revenue"></option>
+          <option value="best_value" data-i18n="sort_best_value"></option>
+        </select>
+      </div>
+      <div class="listing-grid" id="listings-grid"></div>
+      <div class="no-results" id="no-results" style="display:none;" data-i18n="no_results"></div>
+    </div>
+  </div>
+</div>
+
+<!-- C) Compare bar -->
+<div class="compare-bar" id="compare-bar" style="display:none;">
+  <div class="compare-bar-items" id="compare-items"></div>
+  <a id="compare-go-btn" href="compare.html" class="btn btn-accent" data-i18n="compare_bar_btn"></a>
+</div>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("listings");
+  const [listings, categories] = await Promise.all([loadListings(), loadCategories()]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  // Read URL params
+  const params = new URLSearchParams(location.search);
+  const state = {
+    categories: new Set(params.get("category") ? [params.get("category")] : []),
+    cities: new Set(params.get("city") ? [params.get("city")] : []),
+    price_min: params.get("min_price") || "",
+    price_max: params.get("max_price") || "",
+    revenue_min: "",
+    revenue_max: "",
+    years: "0",
+    sort: "newest"
+  };
+
+  // Compare state
+  const compareIds = new Set();
+
+  // Render category filter checkboxes
+  const catWrap = document.getElementById("filter-categories");
+  catWrap.innerHTML = categories.map(c => `
+    <label>
+      <input type="checkbox" value="${c.id}" ${state.categories.has(c.id) ? "checked" : ""}>
+      <span>${catLabel(c)}</span>
+    </label>
+  `).join("");
+
+  // Render city filter checkboxes
+  const cityWrap = document.getElementById("filter-cities");
+  const cities = [...new Set(listings.map(l => l.city))].sort();
+  cityWrap.innerHTML = cities.map(city => `
+    <label>
+      <input type="checkbox" value="${city}" ${state.cities.has(city) ? "checked" : ""}>
+      <span>${city}</span>
+    </label>
+  `).join("");
+
+  // Prefill price range
+  document.getElementById("price-min").value = state.price_min;
+  document.getElementById("price-max").value = state.price_max;
+
+  function readFilters() {
+    state.categories = new Set(
+      [...catWrap.querySelectorAll("input:checked")].map(i => i.value)
+    );
+    state.cities = new Set(
+      [...cityWrap.querySelectorAll("input:checked")].map(i => i.value)
+    );
+    state.price_min = document.getElementById("price-min").value;
+    state.price_max = document.getElementById("price-max").value;
+    state.revenue_min = document.getElementById("revenue-min").value;
+    state.revenue_max = document.getElementById("revenue-max").value;
+    state.years = document.getElementById("years-filter").value;
+    state.sort = document.getElementById("sort").value;
+  }
+
+  function filterSort() {
+    let out = listings.filter(l => {
+      if (state.categories.size && !state.categories.has(l.category)) return false;
+      if (state.cities.size && !state.cities.has(l.city)) return false;
+      if (state.price_min && l.price_azn < +state.price_min) return false;
+      if (state.price_max && l.price_azn > +state.price_max) return false;
+      if (state.revenue_min && (l.monthly_revenue_azn||0) < +state.revenue_min) return false;
+      if (state.revenue_max && (l.monthly_revenue_azn||0) > +state.revenue_max) return false;
+      if (+state.years && l.operating_years < +state.years) return false;
+      return true;
+    });
+    let sorted = [...out];
+    switch (state.sort) {
+      case "price_low":    sorted.sort((a,b) => a.price_azn - b.price_azn); break;
+      case "price_high":   sorted.sort((a,b) => b.price_azn - a.price_azn); break;
+      case "revenue_high": sorted.sort((a,b) => (b.monthly_revenue_azn||0) - (a.monthly_revenue_azn||0)); break;
+      // D) Smart sort: profit yield = monthly_profit / price
+      case "best_value":
+        sorted.sort((a,b) => (b.monthly_profit_azn / b.price_azn) - (a.monthly_profit_azn / a.price_azn));
+        break;
+      default: sorted.sort((a,b) => (b.posted_date||"").localeCompare(a.posted_date||""));
+    }
+    return sorted;
+  }
+
+  // C) Update the compare bar
+  function updateCompareBar() {
+    const bar = document.getElementById("compare-bar");
+    const items = document.getElementById("compare-items");
+    const btn = document.getElementById("compare-go-btn");
+    if (compareIds.size === 0) {
+      bar.style.display = "none";
+      return;
+    }
+    bar.style.display = "flex";
+    const ids = [...compareIds];
+    items.innerHTML = ids.map(cid => {
+      const cl = listings.find(x => x.id === cid);
+      return cl ? `<span class="compare-item-tag">${locField(cl,"title")} <button data-cid="${cid}" class="compare-remove-btn" aria-label="Remove">×</button></span>` : "";
+    }).join("");
+    btn.href = "compare.html?ids=" + ids.join(",");
+    applyI18n();
+    items.querySelectorAll(".compare-remove-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        compareIds.delete(e.currentTarget.dataset.cid);
+        // uncheck the corresponding checkbox in grid
+        const cb = document.querySelector(`.listing-grid .compare-checkbox[data-id="${e.currentTarget.dataset.cid}"]`);
+        if (cb) cb.checked = false;
+        updateCompareBar();
+      });
+    });
+  }
+
+  function render() {
+    readFilters();
+    const filtered = filterSort();
+    document.getElementById("count").textContent = filtered.length;
+    const grid = document.getElementById("listings-grid");
+    const noRes = document.getElementById("no-results");
+    if (filtered.length === 0) {
+      grid.innerHTML = "";
+      noRes.style.display = "block";
+    } else {
+      noRes.style.display = "none";
+      // B) Show skeletons first, then replace
+      grid.innerHTML = Array(Math.min(filtered.length, 6)).fill(skeletonCardHTML()).join("");
+      // Replace with real cards immediately (data already loaded)
+      grid.innerHTML = filtered.map(l => listingCardHTML(l, catById)).join("");
+      // C) Wire compare checkboxes
+      grid.querySelectorAll(".compare-checkbox").forEach(cb => {
+        if (compareIds.has(cb.dataset.id)) cb.checked = true;
+        cb.addEventListener("change", () => {
+          if (cb.checked) {
+            if (compareIds.size >= 3) {
+              cb.checked = false;
+              return;
+            }
+            compareIds.add(cb.dataset.id);
+          } else {
+            compareIds.delete(cb.dataset.id);
+          }
+          updateCompareBar();
+        });
+      });
+    }
+    applyI18n();
+    updateCompareBar();
+  }
+
+  document.getElementById("btn-apply").addEventListener("click", render);
+  document.getElementById("btn-reset").addEventListener("click", () => {
+    catWrap.querySelectorAll("input").forEach(i => i.checked = false);
+    cityWrap.querySelectorAll("input").forEach(i => i.checked = false);
+    document.getElementById("price-min").value = "";
+    document.getElementById("price-max").value = "";
+    document.getElementById("revenue-min").value = "";
+    document.getElementById("revenue-max").value = "";
+    document.getElementById("years-filter").value = "0";
+    document.getElementById("sort").value = "newest";
+    render();
+  });
+  document.getElementById("sort").addEventListener("change", render);
+  [catWrap, cityWrap].forEach(el => el.addEventListener("change", render));
+
+  render();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

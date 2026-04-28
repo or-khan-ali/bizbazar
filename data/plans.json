@@ -1,0 +1,104 @@
+[
+  {
+    "id": "free",
+    "name_az": "Pulsuz",
+    "name_en": "Free",
+    "name_ru": "Бесплатный",
+    "price_azn": 0,
+    "duration_az": "müddətsiz",
+    "duration_en": "no time limit",
+    "duration_ru": "без срока",
+    "features_az": [
+      "Standart elan yerləşdirilməsi",
+      "Adi axtarış nəticələrində görünür",
+      "Mətn və 5 şəkil",
+      "Əsas filtrlərdə görünür",
+      "Email əlaqə formu"
+    ],
+    "features_en": [
+      "Standard listing placement",
+      "Visible in regular search",
+      "Text and 5 photos",
+      "Visible in basic filters",
+      "Email contact form"
+    ],
+    "features_ru": [
+      "Стандартное размещение",
+      "Видно в обычном поиске",
+      "Текст и 5 фото",
+      "Видно в базовых фильтрах",
+      "Контактная форма по email"
+    ],
+    "highlight": false
+  },
+  {
+    "id": "featured",
+    "name_az": "Seçilmiş",
+    "name_en": "Featured",
+    "name_ru": "Выделенное",
+    "price_azn": 49,
+    "duration_az": "30 gün",
+    "duration_en": "30 days",
+    "duration_ru": "30 дней",
+    "features_az": [
+      "Pulsuz planın bütün üstünlükləri",
+      "Ana səhifədə \"Seçilmiş\" bölməsində görsənmə",
+      "Axtarışda yuxarı sıralanır",
+      "20 yüksək keyfiyyətli şəkil",
+      "WhatsApp və Telegram düymələri",
+      "Statistika hesabatı (baxış sayı, sorğular)"
+    ],
+    "features_en": [
+      "Everything in Free",
+      "Featured slot on the homepage",
+      "Top of search results",
+      "20 high-quality photos",
+      "WhatsApp & Telegram contact buttons",
+      "Performance analytics (views, inquiries)"
+    ],
+    "features_ru": [
+      "Всё из Бесплатного",
+      "Размещение в \"Выделенных\" на главной",
+      "Топ результатов поиска",
+      "20 качественных фото",
+      "Кнопки WhatsApp и Telegram",
+      "Аналитика (просмотры, запросы)"
+    ],
+    "highlight": true
+  },
+  {
+    "id": "premium",
+    "name_az": "Premium",
+    "name_en": "Premium",
+    "name_ru": "Премиум",
+    "price_azn": 199,
+    "duration_az": "60 gün + peşəkar dəstək",
+    "duration_en": "60 days + pro support",
+    "duration_ru": "60 дней + проф. поддержка",
+    "features_az": [
+      "Seçilmiş planın bütün üstünlükləri",
+      "Peşəkar broker dəstəyi",
+      "Pulsuz biznes qiymətləndirmə hesabatı",
+      "Email kampaniyası 5,000+ alıcıya",
+      "NDA və hüquqi sənəd hazırlanması",
+      "Daimi WhatsApp menecer dəstəyi"
+    ],
+    "features_en": [
+      "Everything in Featured",
+      "Dedicated broker support",
+      "Free business valuation report",
+      "Email blast to 5,000+ buyers",
+      "NDA & legal docs prepared for you",
+      "Dedicated WhatsApp account manager"
+    ],
+    "features_ru": [
+      "Всё из Выделенного",
+      "Персональный брокер",
+      "Бесплатный отчёт по оценке бизнеса",
+      "Email-рассылка 5,000+ покупателям",
+      "Подготовка NDA и юр. документов",
+      "Персональный менеджер в WhatsApp"
+    ],
+    "highlight": false
+  }
+]

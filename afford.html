@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Büdcəmə uyğun bizneslər — BizBazar.az</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .afford-form { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 16px rgba(0,0,0,.08); margin-bottom: 36px; }
+    .afford-form .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: flex-end; }
+    @media(max-width:700px) { .afford-form .form-row { grid-template-columns: 1fr; } }
+    .afford-form .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .afford-form label { font-weight: 600; font-size: 14px; color: #374151; }
+    .afford-form input, .afford-form select { padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 15px; }
+    .afford-form input:focus, .afford-form select:focus { outline: none; border-color: var(--primary); }
+    .afford-summary { background: linear-gradient(90deg, #1e3a5f, #2563eb); color: #fff; border-radius: 12px; padding: 20px 28px; margin-bottom: 28px; display: flex; gap: 40px; align-items: center; flex-wrap: wrap; }
+    .afford-summary .s-item .s-lbl { font-size: 12px; opacity: .75; }
+    .afford-summary .s-item .s-val { font-size: 22px; font-weight: 800; }
+    .afford-empty { text-align: center; padding: 80px 0; color: #64748b; }
+    .afford-empty .icon { font-size: 48px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1>Büdcəmə uyğun bizneslər</h1>
+    <p>Büdcənizi daxil edin — uyğun elanları tapaq</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="afford-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Büdcə (AZN)</label>
+          <input type="number" id="aff-budget" min="0" step="1000" placeholder="məs. 50000">
+        </div>
+        <div class="form-group">
+          <label>Kateqoriya (istəyə görə)</label>
+          <select id="aff-category">
+            <option value="">Hamısı</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Şəhər (istəyə görə)</label>
+          <select id="aff-city">
+            <option value="">Hamısı</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" id="aff-submit" style="padding:10px 28px;white-space:nowrap;">Axtar</button>
+        </div>
+      </div>
+      <div id="aff-error" style="display:none;color:#ef4444;margin-top:10px;font-size:14px;"></div>
+    </div>
+
+    <div id="aff-summary" style="display:none;" class="afford-summary">
+      <div class="s-item">
+        <div class="s-lbl">Tapılan elan</div>
+        <div class="s-val" id="aff-count">0</div>
+      </div>
+      <div class="s-item">
+        <div class="s-lbl">Ortalama aylıq gəlir</div>
+        <div class="s-val" id="aff-avg-revenue">—</div>
+      </div>
+      <div class="s-item">
+        <div class="s-lbl">Ortalama aylıq mənfəət</div>
+        <div class="s-val" id="aff-avg-profit">—</div>
+      </div>
+    </div>
+
+    <div class="listing-grid" id="aff-grid"></div>
+
+    <div id="aff-empty" style="display:none;" class="afford-empty">
+      <div class="icon">🔍</div>
+      <h3>Heç bir elan tapılmadı</h3>
+      <p>Seçdiyiniz büdcə və filtrlərlə uyğun elan yoxdur.<br>Büdcəni artırmağa və ya filtrləri dəyişməyə cəhd edin.</p>
+      <a href="listings.html" class="btn btn-primary" style="margin-top:16px">Bütün elanlara bax</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("listings");
+  const [listings, categories] = await Promise.all([loadListings(), loadCategories()]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  // Populate selects
+  const catSel = document.getElementById("aff-category");
+  categories.forEach(c => {
+    const opt = document.createElement("option");
+    opt.value = c.id;
+    opt.textContent = catLabel(c);
+    catSel.appendChild(opt);
+  });
+
+  const citySel = document.getElementById("aff-city");
+  [...new Set(listings.map(l => l.city))].sort().forEach(city => {
+    const opt = document.createElement("option");
+    opt.value = city;
+    opt.textContent = city;
+    citySel.appendChild(opt);
+  });
+
+  // Read URL params for quick pre-fill
+  const params = new URLSearchParams(location.search);
+  if (params.get("budget")) document.getElementById("aff-budget").value = params.get("budget");
+  if (params.get("category")) catSel.value = params.get("category");
+  if (params.get("city")) citySel.value = params.get("city");
+
+  function doSearch() {
+    const budget = parseFloat(document.getElementById("aff-budget").value);
+    const catFilter = catSel.value;
+    const cityFilter = citySel.value;
+    const errEl = document.getElementById("aff-error");
+
+    if (!budget || budget <= 0) {
+      errEl.textContent = "Zəhmət olmasa büdcəni daxil edin.";
+      errEl.style.display = "block";
+      return;
+    }
+    errEl.style.display = "none";
+
+    let results = listings.filter(l => {
+      if (l.price_azn > budget) return false;
+      if (catFilter && l.category !== catFilter) return false;
+      if (cityFilter && l.city !== cityFilter) return false;
+      return true;
+    });
+    results.sort((a, b) => b.price_azn - a.price_azn);
+
+    const grid = document.getElementById("aff-grid");
+    const emptyEl = document.getElementById("aff-empty");
+    const summaryEl = document.getElementById("aff-summary");
+
+    if (results.length === 0) {
+      grid.innerHTML = "";
+      emptyEl.style.display = "block";
+      summaryEl.style.display = "none";
+    } else {
+      emptyEl.style.display = "none";
+      summaryEl.style.display = "flex";
+
+      const avgRev = Math.round(results.reduce((s, l) => s + (l.monthly_revenue_azn || 0), 0) / results.length);
+      const avgProfit = Math.round(results.reduce((s, l) => s + (l.monthly_profit_azn || 0), 0) / results.length);
+      document.getElementById("aff-count").textContent = results.length + " elan";
+      document.getElementById("aff-avg-revenue").textContent = fmtAZN(avgRev);
+      document.getElementById("aff-avg-profit").textContent = fmtAZN(avgProfit);
+
+      grid.innerHTML = results.map(l => listingCardHTML(l, catById)).join("");
+    }
+    applyI18n();
+  }
+
+  document.getElementById("aff-submit").addEventListener("click", doSearch);
+  document.getElementById("aff-budget").addEventListener("keydown", e => { if (e.key === "Enter") doSearch(); });
+
+  // Auto-search if budget was in URL
+  if (params.get("budget")) doSearch();
+
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>
