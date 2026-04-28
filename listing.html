@@ -145,7 +145,7 @@
               <span>${broker.deals_closed} <span data-i18n="broker_deals"></span></span>
             </div>
             <p class="broker-bio">${brokerBio}</p>
-            ${brokerPhone ? `<a class="wa-btn" href="https://wa.me/${brokerPhone}" target="_blank" rel="noopener">📱 WhatsApp</a>` : ""}
+            <a class="wa-btn" href="https://wa.me/994502009088" target="_blank" rel="noopener">📱 WhatsApp</a>
             <a href="broker.html?id=${broker.id}" class="btn btn-outline btn-sm" style="margin-top:8px;" data-i18n="broker_profile_link"></a>
           </div>
         </div>
@@ -156,11 +156,11 @@
 
   // C) Build contact actions HTML
   let contactHTML = `<div class="contact-actions">`;
-  if (l.whatsapp && l.phone) {
-    contactHTML += `<a class="wa-btn" href="https://wa.me/${l.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">📱 WhatsApp</a>`;
+  if (l.whatsapp) {
+    contactHTML += `<a class="wa-btn" href="https://wa.me/994502009088" target="_blank" rel="noopener">📱 WhatsApp</a>`;
   }
-  if (l.telegram && l.phone) {
-    contactHTML += `<a class="tg-btn" href="https://t.me/${l.phone.replace(/\D/g,'')}" target="_blank" rel="noopener">✈ Telegram</a>`;
+  if (l.telegram) {
+    contactHTML += `<a class="tg-btn" href="https://t.me/+994502009088" target="_blank" rel="noopener">✈ Telegram</a>`;
   }
   contactHTML += `</div>`;
 

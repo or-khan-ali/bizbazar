@@ -773,7 +773,7 @@ function listingCardHTML(l, categoriesById) {
   const thumb = getListingThumb(l);
   const saved = isFavorite(l.id);
   const waBtn = l.whatsapp && l.phone
-    ? `<a class="wa-btn wa-btn-sm" href="https://wa.me/${l.phone.replace(/\D/g,'')}" target="_blank" onclick="event.stopPropagation()">WhatsApp</a>`
+    ? `<a class="wa-btn wa-btn-sm" href="https://wa.me/994502009088" target="_blank" onclick="event.stopPropagation()">WhatsApp</a>`
     : "";
   return `
   <a class="listing-card" href="listing.html?id=${l.id}">
