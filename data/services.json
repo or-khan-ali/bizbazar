@@ -8,7 +8,9 @@
       "description_en": "Professional business valuation report. For pre-sale preparation or acquisition decisions.",
       "starting_price_azn": 500,
       "typical_duration": "5–10 gün / days",
-      "icon": "trending-up"
+      "icon": "trending-up",
+      "label_ru": "Бизнес-оценка",
+      "description_ru": "Профессиональный отчёт по оценке бизнеса. Для подготовки к продаже или принятия решений о покупке."
     },
     {
       "id": "legal",
@@ -18,7 +20,9 @@
       "description_en": "Sale & purchase agreement, legal due diligence, license transfer, escrow.",
       "starting_price_azn": 800,
       "typical_duration": "2–4 həftə / weeks",
-      "icon": "scale"
+      "icon": "scale",
+      "label_ru": "Юридические услуги",
+      "description_ru": "Договор купли-продажи, юридический due diligence, передача лицензий, эскроу."
     },
     {
       "id": "tax",
@@ -28,7 +32,9 @@
       "description_en": "Transaction tax structuring, tax optimization, documentation.",
       "starting_price_azn": 400,
       "typical_duration": "1–2 həftə / weeks",
-      "icon": "calculator"
+      "icon": "calculator",
+      "label_ru": "Налоговые консультации",
+      "description_ru": "Налоговая структура сделки, налоговая оптимизация, документация."
     },
     {
       "id": "consulting",
@@ -38,7 +44,9 @@
       "description_en": "Sale readiness, profitability improvement, transition support.",
       "starting_price_azn": 300,
       "typical_duration": "1–3 ay / months",
-      "icon": "briefcase"
+      "icon": "briefcase",
+      "label_ru": "Бизнес-консалтинг",
+      "description_ru": "Подготовка к продаже, повышение прибыльности, поддержка переходного периода."
     },
     {
       "id": "due_diligence",
@@ -48,7 +56,9 @@
       "description_en": "Financial and operational review. For buyers.",
       "starting_price_azn": 700,
       "typical_duration": "2–3 həftə / weeks",
-      "icon": "search"
+      "icon": "search",
+      "label_ru": "Due Diligence",
+      "description_ru": "Финансовая и операционная проверка. Для покупателей."
     },
     {
       "id": "financing",
@@ -58,7 +68,9 @@
       "description_en": "Assistance with bank loans and investor connections.",
       "starting_price_azn": 250,
       "typical_duration": "2–6 həftə / weeks",
-      "icon": "banknote"
+      "icon": "banknote",
+      "label_ru": "Финансирование",
+      "description_ru": "Помощь с банковскими кредитами и подбор инвесторов."
     }
   ],
   "providers": [
@@ -69,10 +81,15 @@
       "rating": 4.8,
       "reviews": 47,
       "deals_closed": 120,
-      "languages": ["AZ", "EN", "RU"],
+      "languages": [
+        "AZ",
+        "EN",
+        "RU"
+      ],
       "price_from_azn": 500,
       "bio_az": "15 illik təcrübəsi olan qiymətləndiricilər komandası. ASA sertifikatlı.",
-      "bio_en": "Team of appraisers with 15 years of experience. ASA certified."
+      "bio_en": "Team of appraisers with 15 years of experience. ASA certified.",
+      "bio_ru": "Команда оценщиков с 15-летним опытом. Сертификация ASA."
     },
     {
       "id": "p002",
@@ -81,10 +98,15 @@
       "rating": 4.9,
       "reviews": 82,
       "deals_closed": 210,
-      "languages": ["AZ", "EN", "RU"],
+      "languages": [
+        "AZ",
+        "EN",
+        "RU"
+      ],
       "price_from_azn": 800,
       "bio_az": "M&A və biznes əməliyyatları üzrə ixtisaslaşmış hüquq şirkəti.",
-      "bio_en": "Law firm specialising in M&A and business transactions."
+      "bio_en": "Law firm specialising in M&A and business transactions.",
+      "bio_ru": "Юридическая фирма, специализирующаяся на M&A и сделках с бизнесом."
     },
     {
       "id": "p003",
@@ -93,10 +115,14 @@
       "rating": 4.7,
       "reviews": 56,
       "deals_closed": 95,
-      "languages": ["AZ", "EN"],
+      "languages": [
+        "AZ",
+        "EN"
+      ],
       "price_from_azn": 400,
       "bio_az": "Biznes satışında vergi strukturlaşdırma üzrə mütəxəssislər.",
-      "bio_en": "Experts in tax structuring for business sales."
+      "bio_en": "Experts in tax structuring for business sales.",
+      "bio_ru": "Эксперты по налоговому структурированию для продажи бизнеса."
     },
     {
       "id": "p004",
@@ -105,10 +131,15 @@
       "rating": 4.6,
       "reviews": 38,
       "deals_closed": 70,
-      "languages": ["AZ", "EN", "RU"],
+      "languages": [
+        "AZ",
+        "EN",
+        "RU"
+      ],
       "price_from_azn": 300,
       "bio_az": "Satışdan öncə biznesin hazırlanması və gəlirliliyin artırılması.",
-      "bio_en": "Pre-sale business preparation and profitability uplift."
+      "bio_en": "Pre-sale business preparation and profitability uplift.",
+      "bio_ru": "Подготовка бизнеса к продаже и повышение прибыльности."
     },
     {
       "id": "p005",
@@ -117,10 +148,14 @@
       "rating": 4.8,
       "reviews": 41,
       "deals_closed": 88,
-      "languages": ["AZ", "EN"],
+      "languages": [
+        "AZ",
+        "EN"
+      ],
       "price_from_azn": 700,
       "bio_az": "Alıcılar üçün müstəqil maliyyə və əməliyyat yoxlaması.",
-      "bio_en": "Independent financial and operational review for buyers."
+      "bio_en": "Independent financial and operational review for buyers.",
+      "bio_ru": "Независимый финансовый и операционный аудит для покупателей."
     },
     {
       "id": "p006",
@@ -129,10 +164,15 @@
       "rating": 4.5,
       "reviews": 29,
       "deals_closed": 45,
-      "languages": ["AZ", "EN", "RU"],
+      "languages": [
+        "AZ",
+        "EN",
+        "RU"
+      ],
       "price_from_azn": 250,
       "bio_az": "Bank kreditləri və özəl investorlarla əlaqə.",
-      "bio_en": "Bank loans and private investor connections."
+      "bio_en": "Bank loans and private investor connections.",
+      "bio_ru": "Банковские кредиты и связи с частными инвесторами."
     }
   ]
 }

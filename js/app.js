@@ -138,6 +138,21 @@ const STRINGS = {
     nav_favorites: "Saxlanmış",
     nav_map: "Xəritə",
     nav_valuation: "Qiymətləndirmə",
+    nav_franchises: "Franşizalar",
+    franchises_title: "Satışda olan franşizalar",
+    franchises_sub: "Hazır biznes modelləri — düşük risk, sürətli başlanğıc",
+    franchise_investment: "Başlanğıc investisiya",
+    franchise_royalty: "Royalti",
+    franchise_payback: "Geri ödəmə",
+    franchise_branches: "Filial",
+    franchise_area: "Tələb olunan sahə",
+    franchise_contract: "Müqavilə müddəti",
+    franchise_training: "Təlim",
+    franchise_support: "Dəstək",
+    franchise_exclusive: "Eksklüziv ərazi",
+    franchise_year: "Qurulma ili",
+    franchise_apply: "Müraciət et",
+    franchise_planned: "Planlaşdırılır",
     afford_title: "Büdcəmə uyğun nə var?",
     save_listing: "Saxla",
     whatsapp_contact: "WhatsApp",
@@ -303,6 +318,21 @@ const STRINGS = {
     nav_favorites: "Saved",
     nav_map: "Map",
     nav_valuation: "Valuation",
+    nav_franchises: "Franchises",
+    franchises_title: "Franchises for sale",
+    franchises_sub: "Ready-to-go business models — lower risk, faster launch",
+    franchise_investment: "Initial investment",
+    franchise_royalty: "Royalty",
+    franchise_payback: "Payback",
+    franchise_branches: "Branches",
+    franchise_area: "Area required",
+    franchise_contract: "Contract term",
+    franchise_training: "Training",
+    franchise_support: "Support",
+    franchise_exclusive: "Exclusive territory",
+    franchise_year: "Year founded",
+    franchise_apply: "Apply",
+    franchise_planned: "Planned",
     afford_title: "What can I afford?",
     save_listing: "Save",
     whatsapp_contact: "WhatsApp",
@@ -502,6 +532,21 @@ const STRINGS = {
     nav_favorites: "Избранное",
     nav_map: "Карта",
     nav_valuation: "Оценка",
+    nav_franchises: "Франшизы",
+    franchises_title: "Франшизы на продажу",
+    franchises_sub: "Готовые бизнес-модели — низкий риск, быстрый старт",
+    franchise_investment: "Стартовые инвестиции",
+    franchise_royalty: "Роялти",
+    franchise_payback: "Окупаемость",
+    franchise_branches: "Филиалы",
+    franchise_area: "Требуемая площадь",
+    franchise_contract: "Срок договора",
+    franchise_training: "Обучение",
+    franchise_support: "Поддержка",
+    franchise_exclusive: "Эксклюзивная территория",
+    franchise_year: "Год основания",
+    franchise_apply: "Подать заявку",
+    franchise_planned: "Планируется",
     afford_title: "Что я могу купить?",
     save_listing: "Сохранить",
     whatsapp_contact: "WhatsApp",
@@ -602,6 +647,41 @@ async function loadServices() {
 async function loadTestimonials() {
   return loadJSON("data/testimonials.json");
 }
+async function loadFranchises() {
+  return loadJSON("data/franchises.json");
+}
+
+/* ============ City / District i18n ============ */
+const CITY_TRANSLATIONS = {
+  "Bakı": { en: "Baku", ru: "Баку" },
+  "Quba": { en: "Guba", ru: "Куба" },
+  "Sumqayıt": { en: "Sumgayit", ru: "Сумгаит" },
+  "Gəncə": { en: "Ganja", ru: "Гянджа" }
+};
+const DISTRICT_TRANSLATIONS = {
+  "Yasamal": { en: "Yasamal", ru: "Ясамал" },
+  "Nərimanov": { en: "Narimanov", ru: "Нариманов" },
+  "Xətai": { en: "Khatai", ru: "Хатаи" },
+  "Binəqədi": { en: "Binagadi", ru: "Бинагади" },
+  "Sabunçu": { en: "Sabunchu", ru: "Сабунчи" },
+  "Nəsimi": { en: "Nasimi", ru: "Насими" },
+  "Abşeron": { en: "Absheron", ru: "Апшерон" },
+  "Nizami": { en: "Nizami", ru: "Низами" },
+  "Suraxanı": { en: "Surakhani", ru: "Сураханы" },
+  "Səbail": { en: "Sabail", ru: "Сабаил" },
+  "Xəzər": { en: "Khazar", ru: "Хазар" },
+  "Mərkəz": { en: "Center", ru: "Центр" }
+};
+function locCity(name) {
+  const lang = getLang();
+  if (lang === "az") return name;
+  return (CITY_TRANSLATIONS[name] && CITY_TRANSLATIONS[name][lang]) || name;
+}
+function locDistrict(name) {
+  const lang = getLang();
+  if (lang === "az") return name;
+  return (DISTRICT_TRANSLATIONS[name] && DISTRICT_TRANSLATIONS[name][lang]) || name;
+}
 async function loadPlans() {
   return loadJSON("data/plans.json");
 }
@@ -631,6 +711,7 @@ function renderHeader(activePage) {
       <nav class="nav">
         <a href="index.html" class="${activePage === 'home' ? 'active' : ''}" data-i18n="nav_home"></a>
         <a href="listings.html" class="${activePage === 'listings' ? 'active' : ''}" data-i18n="nav_browse"></a>
+        <a href="franchises.html" class="${activePage === 'franchises' ? 'active' : ''}" data-i18n="nav_franchises"></a>
         <a href="services.html" class="${activePage === 'services' ? 'active' : ''}" data-i18n="nav_services"></a>
         <a href="sell.html" class="${activePage === 'sell' ? 'active' : ''}" data-i18n="nav_sell"></a>
         <a href="map.html" class="${activePage === 'map' ? 'active' : ''}" data-i18n="nav_map"></a>
@@ -669,15 +750,15 @@ function renderFooter() {
         </div>
         <div class="footer-col">
           <h4 data-i18n="footer_legal"></h4>
-          <a href="#" data-i18n="footer_terms"></a>
-          <a href="#" data-i18n="footer_privacy"></a>
-          <a href="#" data-i18n="footer_nda"></a>
+          <a href="faq.html" data-i18n="footer_terms"></a>
+          <a href="faq.html" data-i18n="footer_privacy"></a>
+          <a href="faq.html" data-i18n="footer_nda"></a>
         </div>
         <div class="footer-col">
           <h4 data-i18n="footer_support"></h4>
-          <a href="#" data-i18n="footer_contact"></a>
-          <a href="#" data-i18n="footer_faq"></a>
-          <a href="#" data-i18n="footer_help"></a>
+          <a href="contact.html" data-i18n="footer_contact"></a>
+          <a href="faq.html" data-i18n="footer_faq"></a>
+          <a href="about.html" data-i18n="nav_about"></a>
         </div>
       </div>
       <div class="footer-bottom">
@@ -699,6 +780,40 @@ function mountLayout(activePage) {
   });
   document.documentElement.lang = getLang();
   applyI18n();
+  mountCookiesBanner();
+}
+
+/* ============ Cookies consent banner ============ */
+const COOKIES_TEXT = {
+  az: { msg: "Bu sayt sizə daha yaxşı təcrübə təqdim etmək üçün cookies-dən istifadə edir.", accept: "Qəbul edirəm", decline: "Rədd et", learn: "Məxfilik siyasəti" },
+  en: { msg: "This site uses cookies to provide you with a better experience.", accept: "Accept", decline: "Decline", learn: "Privacy policy" },
+  ru: { msg: "Этот сайт использует cookies для лучшего опыта.", accept: "Принять", decline: "Отклонить", learn: "Политика конфиденциальности" }
+};
+function mountCookiesBanner() {
+  if (localStorage.getItem("bb_cookies_consent")) return;
+  if (document.getElementById("cookies-banner")) return;
+  const lang = getLang();
+  const tx = COOKIES_TEXT[lang] || COOKIES_TEXT.az;
+  const banner = document.createElement("div");
+  banner.id = "cookies-banner";
+  banner.className = "cookies-banner";
+  banner.innerHTML = `
+    <div class="cookies-banner-inner">
+      <span class="cookies-msg">🍪 ${tx.msg} <a href="faq.html">${tx.learn}</a></span>
+      <div class="cookies-actions">
+        <button class="btn btn-outline btn-sm" id="cookies-decline">${tx.decline}</button>
+        <button class="btn btn-primary btn-sm" id="cookies-accept">${tx.accept}</button>
+      </div>
+    </div>`;
+  document.body.appendChild(banner);
+  document.getElementById("cookies-accept").onclick = () => {
+    localStorage.setItem("bb_cookies_consent", "accepted");
+    banner.remove();
+  };
+  document.getElementById("cookies-decline").onclick = () => {
+    localStorage.setItem("bb_cookies_consent", "declined");
+    banner.remove();
+  };
 }
 
 /* ============ Favorites (localStorage) ============ */
@@ -788,7 +903,7 @@ function listingCardHTML(l, categoriesById) {
       ${verifiedBadge}
       <div class="listing-cat">${catLabel(cat)}</div>
       <h3 class="listing-title">${locField(l, "title")}</h3>
-      <div class="listing-loc">📍 ${l.district}, ${l.city}</div>
+      <div class="listing-loc">📍 ${locDistrict(l.district)}, ${locCity(l.city)}</div>
       <div class="listing-meta">
         <span>📐 ${fmtNum(l.area_m2)} m²</span>
         <span>👥 ${l.staff_count}</span>

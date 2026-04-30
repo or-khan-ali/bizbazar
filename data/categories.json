@@ -1,14 +1,14 @@
 [
-  { "id": "cafe_restaurant", "label_az": "Kafe və Restoran", "label_en": "Cafe & Restaurant", "icon": "utensils" },
-  { "id": "beauty_salon", "label_az": "Gözəllik salonu", "label_en": "Beauty Salon", "icon": "sparkles" },
-  { "id": "auto_service", "label_az": "Avtoservis", "label_en": "Auto Service", "icon": "car" },
-  { "id": "retail_shop", "label_az": "Mağaza / Market", "label_en": "Retail / Market", "icon": "shopping-bag" },
-  { "id": "fitness_sport", "label_az": "İdman və Fitness", "label_en": "Fitness & Sport", "icon": "dumbbell" },
-  { "id": "production", "label_az": "İstehsalat / Sex", "label_en": "Production / Workshop", "icon": "factory" },
-  { "id": "education", "label_az": "Təhsil / Bağça", "label_en": "Education / Kindergarten", "icon": "graduation-cap" },
-  { "id": "medical", "label_az": "Tibbi / Stomatoloji", "label_en": "Medical / Dental", "icon": "stethoscope" },
-  { "id": "hotel_hostel", "label_az": "Otel / Hostel", "label_en": "Hotel / Hostel", "icon": "bed" },
-  { "id": "entertainment", "label_az": "Əyləncə", "label_en": "Entertainment", "icon": "music" },
-  { "id": "services", "label_az": "Xidmətlər", "label_en": "Services", "icon": "wrench" },
-  { "id": "pharmacy", "label_az": "Aptek", "label_en": "Pharmacy", "icon": "pill" }
+  { "id": "cafe_restaurant", "label_az": "Kafe və Restoran", "label_en": "Cafe & Restaurant", "label_ru": "Кафе и ресторан", "icon": "utensils" },
+  { "id": "beauty_salon", "label_az": "Gözəllik salonu", "label_en": "Beauty Salon", "label_ru": "Салон красоты", "icon": "sparkles" },
+  { "id": "auto_service", "label_az": "Avtoservis", "label_en": "Auto Service", "label_ru": "Автосервис", "icon": "car" },
+  { "id": "retail_shop", "label_az": "Mağaza / Market", "label_en": "Retail / Market", "label_ru": "Магазин / Маркет", "icon": "shopping-bag" },
+  { "id": "fitness_sport", "label_az": "İdman və Fitness", "label_en": "Fitness & Sport", "label_ru": "Спорт и фитнес", "icon": "dumbbell" },
+  { "id": "production", "label_az": "İstehsalat / Sex", "label_en": "Production / Workshop", "label_ru": "Производство / Цех", "icon": "factory" },
+  { "id": "education", "label_az": "Təhsil / Bağça", "label_en": "Education / Kindergarten", "label_ru": "Образование / Детский сад", "icon": "graduation-cap" },
+  { "id": "medical", "label_az": "Tibbi / Stomatoloji", "label_en": "Medical / Dental", "label_ru": "Медицина / Стоматология", "icon": "stethoscope" },
+  { "id": "hotel_hostel", "label_az": "Otel / Hostel", "label_en": "Hotel / Hostel", "label_ru": "Отель / Хостел", "icon": "bed" },
+  { "id": "entertainment", "label_az": "Əyləncə", "label_en": "Entertainment", "label_ru": "Развлечения", "icon": "music" },
+  { "id": "services", "label_az": "Xidmətlər", "label_en": "Services", "label_ru": "Услуги", "icon": "wrench" },
+  { "id": "pharmacy", "label_az": "Aptek", "label_en": "Pharmacy", "label_ru": "Аптека", "icon": "pill" }
 ]

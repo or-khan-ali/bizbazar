@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Səhifə tapılmadı — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="notfound-wrap">
+  <div class="notfound-inner">
+    <div class="notfound-num">404</div>
+    <h1 class="notfound-title" id="nf-title">Səhifə tapılmadı</h1>
+    <p class="notfound-sub" id="nf-sub">Axtardığınız səhifə mövcud deyil və ya köçürülüb.</p>
+    <div class="notfound-actions">
+      <a href="index.html" class="btn btn-primary" id="nf-home">Ana səhifə</a>
+      <a href="listings.html" class="btn btn-outline" id="nf-browse">Bütün elanlar</a>
+      <a href="contact.html" class="btn btn-outline" id="nf-contact">Əlaqə</a>
+    </div>
+  </div>
+</div>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(function(){
+  mountLayout("404");
+  const COPY = {
+    az: { title: "Səhifə tapılmadı", sub: "Axtardığınız səhifə mövcud deyil və ya köçürülüb.", home: "Ana səhifə", browse: "Bütün elanlar", contact: "Əlaqə" },
+    en: { title: "Page not found", sub: "The page you're looking for doesn't exist or has been moved.", home: "Home", browse: "Browse", contact: "Contact" },
+    ru: { title: "Страница не найдена", sub: "Запрашиваемая страница не существует или была перемещена.", home: "Главная", browse: "Каталог", contact: "Контакты" }
+  };
+  function render() {
+    const c = COPY[getLang()] || COPY.az;
+    document.getElementById("nf-title").textContent = c.title;
+    document.getElementById("nf-sub").textContent = c.sub;
+    document.getElementById("nf-home").textContent = c.home;
+    document.getElementById("nf-browse").textContent = c.browse;
+    document.getElementById("nf-contact").textContent = c.contact;
+  }
+  render();
+  window.addEventListener("langchange", render);
+})();
+</script>
+</body>
+</html>

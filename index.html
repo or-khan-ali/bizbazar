@@ -4,7 +4,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BizBazar.az — Biznes alış-satışı</title>
-  <meta name="description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış bizneslər, qiymətləndirmə, hüquqi və vergi xidmətləri.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <!-- SEO -->
+  <meta name="description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış elanlar, qiymətləndirmə, hüquqi və vergi xidmətləri. 28+ aktiv elan, 12 kateqoriya.">
+  <meta name="keywords" content="biznes satışı, biznes almaq, biznes bazarı, Azərbaycan, Bakı, restoran satılır, kafe satılır">
+  <meta name="author" content="BizBazar.az">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph (for social sharing) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="BizBazar.az — Biznes alış-satışı">
+  <meta property="og:description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış elanlar, qiymətləndirmə, hüquqi və vergi xidmətləri. 28+ aktiv elan, 12 kateqoriya.">
+  <meta property="og:url" content="https://bizbazar.az/">
+  <meta property="og:image" content="https://bizbazar.az/favicon.svg">
+  <meta property="og:site_name" content="BizBazar.az">
+  <meta property="og:locale" content="az_AZ">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="BizBazar.az — Biznes alış-satışı">
+  <meta name="twitter:description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış elanlar, qiymətləndirmə, hüquqi və vergi xidmətləri. 28+ aktiv elan, 12 kateqoriya.">
+  <meta name="twitter:image" content="https://bizbazar.az/favicon.svg">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://bizbazar.az/">
+
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -70,6 +97,20 @@
       <a href="listings.html" class="btn btn-outline" data-i18n="view_all"></a>
     </div>
     <div class="listing-grid" id="featured-grid"></div>
+  </div>
+</section>
+
+<!-- Franchises preview -->
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="franchises_title"></h2>
+        <p class="section-sub" data-i18n="franchises_sub"></p>
+      </div>
+      <a href="franchises.html" class="btn btn-outline" data-i18n="view_all"></a>
+    </div>
+    <div class="listing-grid" id="franchise-preview" style="grid-template-columns:repeat(3,1fr);"></div>
   </div>
 </section>
 
@@ -215,6 +256,30 @@
   const featured = listings.filter(l => l.featured).slice(0, 6);
   const grid = document.getElementById("featured-grid");
   grid.innerHTML = featured.map(l => listingCardHTML(l, catById)).join("");
+
+  // Franchise preview (3 featured franchises)
+  try {
+    const franchises = await loadFranchises();
+    const fpGrid = document.getElementById("franchise-preview");
+    if (fpGrid) {
+      const fpFeatured = franchises.filter(f => f.featured).slice(0, 3);
+      fpGrid.innerHTML = fpFeatured.map(f => `
+        <a class="listing-card" href="franchises.html" style="text-decoration:none;">
+          <div class="listing-image" style="background:linear-gradient(135deg,#fdf6e3,#f5e6a8);font-size:64px;color:var(--primary);">${f.logo}</div>
+          <div class="listing-body">
+            <div class="verified-badge">✓ ${t("verified")}</div>
+            <div class="listing-cat">${catLabel(catById[f.category])}</div>
+            <h3 class="listing-title">${f.brand} — ${locField(f, "name").replace(f.brand + ' — ', '').replace(f.brand + ' - ', '')}</h3>
+            <div class="listing-loc">📍 ${f.country_origin} · ${f.branches_open} ${t("franchise_branches")}</div>
+            <div class="listing-meta">
+              <span>💰 ${t("franchise_payback")}: ${f.avg_payback_months} ${t("payback_unit")}</span>
+              <span>📐 ${f.area_required_m2 || 0} m²</span>
+            </div>
+            <div class="listing-price">${fmtAZN(f.investment_min_azn)}<span class="listing-price-sub">${t("franchise_investment")}</span></div>
+          </div>
+        </a>`).join("");
+    }
+  } catch(e) { console.warn("Franchise preview failed:", e); }
 
   // A) Recently viewed strip
   const recentIds = getRecentlyViewed();

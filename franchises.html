@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Franşizalar — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Azərbaycanda satılan franşizalar: kafe, restoran, gözəllik, fitness, təhsil, aptek, avtoyuma və daha çox. Hazır biznes modelləri ilə sürətli başlanğıc.">
+  <meta name="keywords" content="franşiza, franchise, hazır biznes, biznes modeli, Azərbaycan franşiza, Bakı franşiza">
+  <meta name="author" content="BizBazar.az">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Franşizalar — BizBazar.az">
+  <meta property="og:description" content="Azərbaycanda satılan franşizalar — hazır biznes modelləri.">
+  <meta property="og:url" content="https://bizbazar.az/franchises.html">
+  <meta property="og:image" content="https://bizbazar.az/favicon.svg">
+  <meta property="og:site_name" content="BizBazar.az">
+  <meta property="og:locale" content="az_AZ">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://bizbazar.az/franchises.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .franchise-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+    .franchise-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; transition: all .2s ease; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
+    .franchise-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+    .franchise-card.featured { border-color: var(--accent); border-width: 2px; }
+    .franchise-card.featured::before { content: "★ FEATURED"; position: absolute; top: 12px; right: -32px; background: var(--accent); color: var(--primary); font-size: 10px; font-weight: 800; padding: 4px 36px; transform: rotate(35deg); letter-spacing: 1px; }
+    .franchise-head { display: flex; align-items: center; gap: 14px; }
+    .franchise-logo { width: 56px; height: 56px; border-radius: 14px; background: linear-gradient(135deg, #fdf6e3, #f5e6a8); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .franchise-brand { font-weight: 800; font-size: 20px; color: var(--primary); margin: 0; }
+    .franchise-est { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .franchise-desc { color: var(--text-muted); font-size: 14px; line-height: 1.55; margin: 0; }
+    .franchise-investment-band { background: var(--bg-soft); border-radius: 10px; padding: 14px 16px; display: flex; align-items: baseline; justify-content: space-between; margin: 4px 0; }
+    .franchise-investment-band strong { font-size: 22px; font-weight: 800; color: var(--primary); }
+    .franchise-investment-band span { font-size: 12px; color: var(--text-muted); }
+    .franchise-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 16px; font-size: 13px; }
+    .franchise-stat { display: flex; flex-direction: column; }
+    .franchise-stat-label { color: var(--text-muted); font-size: 11px; }
+    .franchise-stat-value { font-weight: 600; color: var(--text); }
+    .franchise-cat-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-soft); border-radius: 999px; padding: 4px 12px; font-size: 12px; color: var(--text-muted); align-self: flex-start; }
+    .franchise-actions { display: flex; gap: 8px; margin-top: 6px; }
+    .franchise-actions .btn { flex: 1; }
+    .franchise-branches-bar { height: 6px; background: var(--border-light); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+    .franchise-branches-fill { height: 100%; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%); transition: width 0.4s; }
+    .franchise-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .franchise-filters select, .franchise-filters input { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 500; background: white; }
+    .hero-franchise { background: linear-gradient(180deg, #fdf6e3 0%, #ffffff 100%); padding: 56px 0 40px; }
+    .hero-franchise h1 { font-size: 40px; font-weight: 800; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .hero-franchise p { color: var(--text-muted); font-size: 17px; max-width: 640px; margin: 0; }
+    .franchise-stats-row { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+    .franchise-stat-big strong { font-size: 28px; font-weight: 800; color: var(--primary); display: block; }
+    .franchise-stat-big span { font-size: 13px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<section class="hero-franchise">
+  <div class="container">
+    <h1 data-i18n="franchises_title"></h1>
+    <p data-i18n="franchises_sub"></p>
+    <div class="franchise-stats-row">
+      <div class="franchise-stat-big"><strong id="fr-count">—</strong><span data-i18n="franchises_title"></span></div>
+      <div class="franchise-stat-big"><strong id="fr-min-inv">—</strong><span data-i18n="franchise_investment"></span></div>
+      <div class="franchise-stat-big"><strong id="fr-total-branches">—</strong><span data-i18n="franchise_branches"></span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="franchise-filters" id="franchise-filters">
+      <select id="filter-cat"><option value="" data-i18n="search_cat"></option></select>
+      <select id="filter-investment">
+        <option value="">Bütün investisiyalar</option>
+        <option value="0-30000">&lt; 30,000 AZN</option>
+        <option value="30000-80000">30,000 – 80,000 AZN</option>
+        <option value="80000-150000">80,000 – 150,000 AZN</option>
+        <option value="150000-9999999">150,000+ AZN</option>
+      </select>
+      <select id="filter-sort">
+        <option value="featured">Seçilmişlər</option>
+        <option value="investment-low">Investisiya: az → çox</option>
+        <option value="investment-high">Investisiya: çox → az</option>
+        <option value="payback">Sürətli geri ödəmə</option>
+        <option value="branches">Ən çox filial</option>
+      </select>
+    </div>
+
+    <div class="franchise-grid" id="franchise-grid"></div>
+
+    <div id="empty-state" style="display:none;text-align:center;padding:60px 0;">
+      <p style="color:var(--text-muted);" data-i18n="no_results"></p>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="cta-band">
+      <div>
+        <h2>Öz franşizanı yerləşdir</h2>
+        <p>Azərbaycanda biznes modelinizi genişləndirin. BizBazar yoxlanmış franşiza müraciətlərini sizə göndərir.</p>
+      </div>
+      <a href="contact.html" class="btn btn-accent btn-lg">Əlaqə saxla</a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("franchises");
+
+  const [franchises, categories] = await Promise.all([
+    loadFranchises(), loadCategories()
+  ]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  // Populate category filter
+  const filterCat = document.getElementById("filter-cat");
+  const usedCats = [...new Set(franchises.map(f => f.category))];
+  usedCats.forEach(cid => {
+    const cat = catById[cid];
+    if (!cat) return;
+    const o = document.createElement("option");
+    o.value = cid;
+    o.textContent = catLabel(cat);
+    filterCat.appendChild(o);
+  });
+
+  // Stats
+  document.getElementById("fr-count").textContent = franchises.length;
+  document.getElementById("fr-min-inv").textContent = "12K+ AZN";
+  document.getElementById("fr-total-branches").textContent = franchises.reduce((s, f) => s + (f.branches_open || 0), 0) + "+";
+
+  // Filter / sort state
+  const state = { cat: "", investment: "", sort: "featured" };
+
+  function render() {
+    let list = franchises.slice();
+    if (state.cat) list = list.filter(f => f.category === state.cat);
+    if (state.investment) {
+      const [min, max] = state.investment.split("-").map(Number);
+      list = list.filter(f => f.investment_min_azn >= min && f.investment_min_azn <= max);
+    }
+    switch (state.sort) {
+      case "investment-low": list.sort((a,b) => a.investment_min_azn - b.investment_min_azn); break;
+      case "investment-high": list.sort((a,b) => b.investment_min_azn - a.investment_min_azn); break;
+      case "payback": list.sort((a,b) => a.avg_payback_months - b.avg_payback_months); break;
+      case "branches": list.sort((a,b) => b.branches_open - a.branches_open); break;
+      case "featured":
+      default: list.sort((a,b) => (b.featured?1:0) - (a.featured?1:0)); break;
+    }
+
+    const grid = document.getElementById("franchise-grid");
+    if (!list.length) {
+      grid.innerHTML = "";
+      document.getElementById("empty-state").style.display = "block";
+      return;
+    }
+    document.getElementById("empty-state").style.display = "none";
+    grid.innerHTML = list.map(f => franchiseCardHTML(f, catById)).join("");
+  }
+
+  function franchiseCardHTML(f, catById) {
+    const cat = catById[f.category];
+    const name = locField(f, "name");
+    const desc = locField(f, "description");
+    const support = locField(f, "support");
+    const branchPercent = Math.round((f.branches_open / (f.branches_planned || f.branches_open)) * 100);
+    return `
+    <div class="franchise-card${f.featured ? ' featured' : ''}">
+      <div class="franchise-head">
+        <div class="franchise-logo">${f.logo}</div>
+        <div style="flex:1;min-width:0;">
+          <h3 class="franchise-brand">${f.brand}</h3>
+          <div class="franchise-est">📍 ${f.country_origin} · ${t("franchise_year")}: ${f.year_established}</div>
+        </div>
+        ${f.verified ? `<span class="verified-badge">✓ ${t("verified")}</span>` : ""}
+      </div>
+      <span class="franchise-cat-tag">${CATEGORY_ICONS[f.category] || "🏢"} ${catLabel(cat)}</span>
+      <p class="franchise-desc">${desc}</p>
+      <div class="franchise-investment-band">
+        <div>
+          <span>${t("franchise_investment")}</span><br>
+          <strong>${fmtAZN(f.investment_min_azn)}</strong> – <strong>${fmtAZN(f.investment_max_azn)}</strong>
+        </div>
+      </div>
+      <div class="franchise-stats">
+        <div class="franchise-stat">
+          <span class="franchise-stat-label">${t("franchise_royalty")}</span>
+          <span class="franchise-stat-value">${f.royalty_percent}% + ${f.marketing_fee_percent}%</span>
+        </div>
+        <div class="franchise-stat">
+          <span class="franchise-stat-label">${t("franchise_payback")}</span>
+          <span class="franchise-stat-value">~${f.avg_payback_months} ${t("payback_unit")}</span>
+        </div>
+        <div class="franchise-stat">
+          <span class="franchise-stat-label">${t("franchise_area")}</span>
+          <span class="franchise-stat-value">${f.area_required_m2 ? f.area_required_m2 + ' m²' : '—'}</span>
+        </div>
+        <div class="franchise-stat">
+          <span class="franchise-stat-label">${t("franchise_contract")}</span>
+          <span class="franchise-stat-value">${f.contract_years} ${t("listing_meta_years")}</span>
+        </div>
+        <div class="franchise-stat" style="grid-column:1/-1;">
+          <span class="franchise-stat-label">${t("franchise_branches")}: ${f.branches_open} / ${f.branches_planned} ${t("franchise_planned")}</span>
+          <div class="franchise-branches-bar"><div class="franchise-branches-fill" style="width:${branchPercent}%"></div></div>
+        </div>
+      </div>
+      <div class="franchise-actions">
+        <a href="https://wa.me/994502009088" target="_blank" class="btn btn-primary">${t("franchise_apply")}</a>
+        <a href="https://wa.me/994502009088" target="_blank" class="wa-btn" style="flex:0 0 auto;padding:10px 14px;">📱</a>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById("filter-cat").onchange = e => { state.cat = e.target.value; render(); };
+  document.getElementById("filter-investment").onchange = e => { state.investment = e.target.value; render(); };
+  document.getElementById("filter-sort").onchange = e => { state.sort = e.target.value; render(); };
+
+  render();
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tez-tez verilən suallar — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Alıcılar və satıcılar üçün ən çox verilən sualların cavabları. NDA, qiymətləndirmə, müqayisə, tariflər.">
+  <meta name="keywords" content="biznes FAQ, biznes sual cavab">
+  <meta name="author" content="BizBazar.az">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FAQ — Tez-tez verilən suallar — BizBazar.az">
+  <meta property="og:description" content="Alıcılar və satıcılar üçün ən çox verilən sualların cavabları. NDA, qiymətləndirmə, müqayisə, tariflər.">
+  <meta property="og:url" content="https://bizbazar.az/faq.html">
+  <meta property="og:image" content="https://bizbazar.az/favicon.svg">
+  <meta property="og:site_name" content="BizBazar.az">
+  <meta property="og:locale" content="az_AZ">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://bizbazar.az/faq.html">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 id="page-title"></h1>
+    <p id="page-sub"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="faq-tabs" id="faq-tabs"></div>
+    <div id="faq-sections"></div>
+
+    <div class="faq-link-card" style="margin-top:48px;">
+      <p id="more-help-text"></p>
+      <a href="contact.html" class="btn btn-primary" id="more-help-btn"></a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+const FAQ_DATA = {
+  az: {
+    pageTitle: "Tez-tez verilən suallar",
+    pageSub: "Sizi maraqlandıran cavablar — bir yerdə.",
+    moreHelp: "Cavab tapa bilmədiniz? Bizimlə əlaqə saxlayın.",
+    moreHelpBtn: "Bizə yazın →",
+    categories: [
+      { id: "buyers", label: "Alıcılar üçün", title: "Alıcılar üçün suallar", items: [
+        { q: "Elanlar necə yoxlanılır?", a: "Bütün elanlar 24 saat ərzində komandamız tərəfindən nəzərdən keçirilir. Satıcılardan biznes sənədləri və qeydiyyat təsdiqi tələb olunur." },
+        { q: "NDA imzaladıqda nə əldə edirəm?", a: "NDA-nı imzaladıqdan sonra biznes haqqında tam maliyyə məlumatları, əlaqə məlumatları və sayt ziyarəti tələb etmək imkanı əldə edirsiniz." },
+        { q: "Hansı xidmətlər var?", a: "Valuasiya, hüquqi, vergi, due diligence, konsaltinq və maliyyələşdirmə — hamısı yoxlanılmış provayderlərdən." },
+        { q: "Necə əlaqə qura bilərəm?", a: "WhatsApp və ya Telegram düymələri ilə birbaşa, yaxud elan səhifəsindəki əlaqə forması vasitəsilə." },
+        { q: "Müqayisə necə işləyir?", a: "Hər elan kartında kvadrat işarə (checkbox) var. 2-3 elanı seçin və alt bardakı 'Müqayisə et' düyməsinə basın." }
+      ]},
+      { id: "sellers", label: "Satıcılar üçün", title: "Satıcılar üçün suallar", items: [
+        { q: "Elan vermək pulsuzdurmu?", a: "Bəli, Free planı tamamilə pulsuzdur. Seçilmiş plan 49 AZN/ay, Premium plan 199 AZN/aydır." },
+        { q: "Necə qiymətləndirim?", a: "Pulsuz 'Qiymətləndirmə' alətimizdən istifadə edə bilərsiniz və ya peşəkar valuasiya hesabatı sifariş edə bilərsiniz." },
+        { q: "Məxfilik necə qorunur?", a: "Yalnız NDA imzalayan ciddi alıcılar elanın detallarını və sizin əlaqə məlumatlarınızı görə bilər." },
+        { q: "Elanım nə qədər müddətdə yayımlanır?", a: "Komandamız 24 saat ərzində elanı yoxlayır və təsdiq edir, sonra elan dərhal yayımlanır." },
+        { q: "Sövdələşmə necə bağlanır?", a: "Escrow xidməti və hüquqi sənədlərlə təhlükəsiz ötürmə təmin olunur. Hər addımda sizi peşəkar broker müşayiət edir." }
+      ]},
+      { id: "services", label: "Xidmətlər", title: "Xidmətlər haqqında suallar", items: [
+        { q: "Xidmət təminatçılarına etibar etməliyəmmi?", a: "Bəli — bütün provayderlər yoxlanılmış və lisenziyalıdır. Reytinqlərə və müştəri rəylərinə baxa bilərsiniz." },
+        { q: "Pulsuz konsultasiya verilirmi?", a: "Bəli, ilk 30 dəqiqə pulsuz konsultasiyadır. Bundan sonra xidmət pakеtindən asılı qiymətlər tətbiq olunur." },
+        { q: "Xidməti necə sifariş edirəm?", a: "Xidmətlər səhifəsindən 'Müraciət et' düyməsinə basın və ya broker ilə birbaşa əlaqə qurun." }
+      ]},
+      { id: "account", label: "Hesab", title: "Hesab və platforma", items: [
+        { q: "Hesab açmaq lazımdırmı?", a: "Hazırda hesab tələb olunmur. Saxladığınız elanlar və müqayisələr brauzerinizdə qalır." },
+        { q: "Login funksiyası gələcəkdə əlavə olunacaq?", a: "Bəli, gələcək versiyada hesablar, profil və elanlarınızı idarə etmə paneli əlavə olunacaq." }
+      ]}
+    ]
+  },
+  en: {
+    pageTitle: "Frequently asked questions",
+    pageSub: "Answers to the most common questions — all in one place.",
+    moreHelp: "Didn't find your answer? Get in touch with us.",
+    moreHelpBtn: "Contact us →",
+    categories: [
+      { id: "buyers", label: "Buyers", title: "Buyer questions", items: [
+        { q: "How are listings verified?", a: "All listings are reviewed within 24 hours by our team. Sellers must provide business documents and registration proof." },
+        { q: "What do I get when I sign an NDA?", a: "Once you sign an NDA, you get full financial details about the business, contact info, and can request site visits." },
+        { q: "What services are available?", a: "Valuation, legal, tax, due diligence, consulting, and financing — all from verified providers." },
+        { q: "How can I get in touch?", a: "Via the WhatsApp and Telegram buttons directly, or through the contact form on each listing page." },
+        { q: "How does the compare feature work?", a: "Each listing card has a checkbox. Select 2-3 listings and click the 'Compare' button in the bottom bar." }
+      ]},
+      { id: "sellers", label: "Sellers", title: "Seller questions", items: [
+        { q: "Is it free to list?", a: "Yes — the Free plan is completely free. The Featured plan is 49 AZN/month and Premium is 199 AZN/month." },
+        { q: "How do I price my business?", a: "Use our free 'Valuation' tool, or order a professional valuation report from one of our verified providers." },
+        { q: "How is confidentiality protected?", a: "Only serious buyers who have signed an NDA can see your listing details and your contact information." },
+        { q: "How long until my listing goes live?", a: "Our team reviews and approves listings within 24 hours, after which they are published immediately." },
+        { q: "How is the deal closed?", a: "Safe transfer is ensured through escrow and legal documents. A professional broker walks you through every step." }
+      ]},
+      { id: "services", label: "Services", title: "Services questions", items: [
+        { q: "Can I trust the service providers?", a: "Yes — all providers are verified and licensed. You can check ratings and customer reviews on every profile." },
+        { q: "Is a free consultation included?", a: "Yes, the first 30 minutes are free. After that, prices depend on the service package selected." },
+        { q: "How do I book a service?", a: "Click 'Get started' on the Services page or contact a broker directly." }
+      ]},
+      { id: "account", label: "Account", title: "Account & platform", items: [
+        { q: "Do I need an account?", a: "Currently no account is required. Your saved listings and comparisons are stored in your browser." },
+        { q: "Will login be added later?", a: "Yes — accounts, profiles, and a dashboard for managing your listings are planned for a future release." }
+      ]}
+    ]
+  },
+  ru: {
+    pageTitle: "Часто задаваемые вопросы",
+    pageSub: "Ответы на самые популярные вопросы — в одном месте.",
+    moreHelp: "Не нашли ответ? Свяжитесь с нами.",
+    moreHelpBtn: "Написать нам →",
+    categories: [
+      { id: "buyers", label: "Покупателям", title: "Вопросы покупателей", items: [
+        { q: "Как проверяются объявления?", a: "Все объявления проверяются нашей командой в течение 24 часов. Продавцы предоставляют документы и подтверждение регистрации бизнеса." },
+        { q: "Что я получаю, подписав NDA?", a: "После подписания NDA вы получаете полные финансовые данные о бизнесе, контактную информацию и возможность запросить визит на объект." },
+        { q: "Какие услуги доступны?", a: "Оценка, юридические, налоговые услуги, due diligence, консалтинг и финансирование — всё от проверенных провайдеров." },
+        { q: "Как связаться с продавцом?", a: "Через кнопки WhatsApp и Telegram напрямую или через форму контакта на странице объявления." },
+        { q: "Как работает сравнение?", a: "На каждой карточке объявления есть чекбокс. Выберите 2-3 объявления и нажмите 'Сравнить' в нижней панели." }
+      ]},
+      { id: "sellers", label: "Продавцам", title: "Вопросы продавцов", items: [
+        { q: "Бесплатно ли разместить объявление?", a: "Да, тариф Free полностью бесплатный. Тариф Featured — 49 AZN/мес, Premium — 199 AZN/мес." },
+        { q: "Как оценить мой бизнес?", a: "Воспользуйтесь нашим бесплатным инструментом 'Оценка' или закажите профессиональный отчёт у одного из проверенных провайдеров." },
+        { q: "Как защищается конфиденциальность?", a: "Только серьёзные покупатели, подписавшие NDA, могут видеть детали объявления и ваши контактные данные." },
+        { q: "Когда моё объявление будет опубликовано?", a: "Команда проверяет и одобряет объявление в течение 24 часов, после чего оно публикуется немедленно." },
+        { q: "Как закрывается сделка?", a: "Безопасная передача обеспечивается через эскроу и юридические документы. Профессиональный брокер сопровождает вас на каждом шаге." }
+      ]},
+      { id: "services", label: "Услуги", title: "Вопросы об услугах", items: [
+        { q: "Можно ли доверять поставщикам услуг?", a: "Да — все провайдеры проверены и лицензированы. Вы можете посмотреть рейтинги и отзывы клиентов в каждом профиле." },
+        { q: "Есть ли бесплатная консультация?", a: "Да, первые 30 минут бесплатно. Далее стоимость зависит от выбранного пакета услуг." },
+        { q: "Как заказать услугу?", a: "Нажмите 'Начать' на странице Услуги или свяжитесь с брокером напрямую." }
+      ]},
+      { id: "account", label: "Аккаунт", title: "Аккаунт и платформа", items: [
+        { q: "Нужен ли аккаунт?", a: "Сейчас аккаунт не требуется. Ваши сохранённые объявления и сравнения хранятся в браузере." },
+        { q: "Появится ли вход в аккаунт позже?", a: "Да — аккаунты, профили и панель управления объявлениями планируются в будущем релизе." }
+      ]}
+    ]
+  }
+};
+
+let activeFaqTab = null;
+
+function renderFaq() {
+  const data = FAQ_DATA[getLang()] || FAQ_DATA.az;
+  document.title = data.pageTitle + " — BizBazar.az";
+  document.getElementById("page-title").textContent = data.pageTitle;
+  document.getElementById("page-sub").textContent = data.pageSub;
+  document.getElementById("more-help-text").textContent = data.moreHelp;
+  document.getElementById("more-help-btn").textContent = data.moreHelpBtn;
+
+  if (!activeFaqTab || !data.categories.find(c => c.id === activeFaqTab)) {
+    activeFaqTab = data.categories[0].id;
+  }
+
+  const tabs = document.getElementById("faq-tabs");
+  tabs.innerHTML = data.categories.map(cat => `
+    <button type="button" class="faq-tab${cat.id === activeFaqTab ? ' active' : ''}" data-cat="${cat.id}">${cat.label}</button>
+  `).join("");
+
+  const sections = document.getElementById("faq-sections");
+  sections.innerHTML = data.categories.map(cat => `
+    <div class="faq-section${cat.id === activeFaqTab ? ' active' : ''}" data-cat="${cat.id}">
+      <h2>${cat.title}</h2>
+      ${cat.items.map(it => `
+        <details class="faq-item">
+          <summary>${it.q}</summary>
+          <div class="faq-answer">${it.a}</div>
+        </details>
+      `).join("")}
+    </div>
+  `).join("");
+
+  tabs.querySelectorAll(".faq-tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeFaqTab = btn.dataset.cat;
+      tabs.querySelectorAll(".faq-tab").forEach(b => b.classList.toggle("active", b.dataset.cat === activeFaqTab));
+      sections.querySelectorAll(".faq-section").forEach(s => s.classList.toggle("active", s.dataset.cat === activeFaqTab));
+    });
+  });
+}
+
+(function(){
+  mountLayout("faq");
+  renderFaq();
+  window.addEventListener("langchange", () => { renderFaq(); });
+})();
+</script>
+</body>
+</html>
