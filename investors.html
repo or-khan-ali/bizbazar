@@ -644,6 +644,11 @@
 
 <script src="js/app.js"></script>
 <script>
+if (typeof loadInvestors !== 'function') {
+  function loadInvestors() { return loadJSON('data/investors.json'); }
+}
+</script>
+<script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
