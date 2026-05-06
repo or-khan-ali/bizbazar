@@ -61,6 +61,8 @@
     .legend-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
     @media(max-width:800px) { #map { height: 400px; border-radius: 0; } .map-sidebar { max-height: 400px; border-left: none; border-top: 1px solid #e2e8f0; } }
   </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a73e8">
 </head>
 <body>
 <div id="header-mount"></div>
@@ -80,6 +82,11 @@
       <div class="map-count-badge" id="map-count-badge">Yüklənir...</div>
     </div>
     <div class="map-filters">
+      <select id="map-type-filter" style="margin-bottom:8px">
+        <option value="all">Bütün elanlar</option>
+        <option value="business">Biznes elanları</option>
+        <option value="investor">İnvestor elanları</option>
+      </select>
       <select id="map-cat-filter">
         <option value="">Bütün kateqoriyalar</option>
       </select>
@@ -87,19 +94,58 @@
     <div class="map-listing-list" id="map-listing-list"></div>
     <div class="map-legend">
       <span><span class="legend-dot" style="background:#e53e3e"></span>Seçilmiş</span>
-      <span><span class="legend-dot" style="background:#3b82f6"></span>Standart</span>
+      <span><span class="legend-dot" style="background:#3b82f6"></span>Biznes</span>
+      <span><span class="legend-dot" style="background:#7c3aed"></span>İnvestor</span>
     </div>
   </div>
 </div>
 
 <div id="footer-mount"></div>
 <script src="js/app.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+if (typeof loadInvestors !== 'function') {
+  function loadInvestors() { return loadJSON('data/investors.json'); }
+}
+</script>
 <script>
 (async function(){
   mountLayout("listings");
 
-  const [listings, categories] = await Promise.all([loadListings(), loadCategories()]);
+  // City -> approximate coordinates (for investors without lat/lng)
+  const CITY_COORDS = {
+    "Bakı":     [40.4093, 49.8671],
+    "Baki":     [40.4093, 49.8671],
+    "Baku":     [40.4093, 49.8671],
+    "Sumqayıt": [40.5895, 49.6680],
+    "Sumqayit": [40.5895, 49.6680],
+    "Gəncə":    [40.6828, 46.3606],
+    "Gence":    [40.6828, 46.3606],
+    "Ganja":    [40.6828, 46.3606],
+    "Mingəçevir":[40.7700, 47.0496],
+    "Şirvan":   [39.9292, 48.9206],
+    "Naxçıvan": [39.2089, 45.4122],
+    "Lənkəran": [38.7530, 48.8475],
+    "Şəki":     [41.1919, 47.1706],
+    "Quba":     [41.3614, 48.5128],
+    "Qəbələ":   [40.9855, 47.8456]
+  };
+  function jitter(coords, seed) {
+    // small deterministic offset so multiple investors in same city don't overlap
+    const r = (Math.sin(seed * 9999) + 1) / 2;
+    const a = (Math.cos(seed * 7777) + 1) / 2;
+    return [coords[0] + (r - 0.5) * 0.04, coords[1] + (a - 0.5) * 0.04];
+  }
+
+  const [listings, categories, investors] = await Promise.all([
+    loadListings(), loadCategories(), loadInvestors().catch(() => [])
+  ]);
   const catById = Object.fromEntries(categories.map(c => [c.id, c]));
 
   // Init map
@@ -109,12 +155,23 @@
     maxZoom: 19
   }).addTo(map);
 
-  const geoListings = listings.filter(l => l.lat && l.lng);
+  const geoListings = listings.filter(l => l.lat && l.lng).map(l => ({ ...l, _kind: "business" }));
+
+  // Build investor points with derived coords
+  const geoInvestors = (investors || []).map((inv, idx) => {
+    const base = CITY_COORDS[inv.location] || CITY_COORDS["Bakı"];
+    const [lat, lng] = jitter(base, idx + 1);
+    return { ...inv, lat, lng, _kind: "investor" };
+  });
+
+  const allPoints = [...geoListings, ...geoInvestors];
+
   const markers = [];
   const markerMap = {}; // id -> marker
 
-  // Populate category filter
+  // Populate category filter (only business categories)
   const catFilter = document.getElementById("map-cat-filter");
+  const typeFilter = document.getElementById("map-type-filter");
   const usedCats = [...new Set(geoListings.map(l => l.category))];
   usedCats.forEach(cid => {
     const cat = catById[cid];
@@ -124,58 +181,97 @@
     catFilter.appendChild(opt);
   });
 
+  function fmtBudget(min, max) {
+    return fmtAZN(min) + " – " + fmtAZN(max);
+  }
+
   function renderMarkers(subset) {
-    // Remove old markers
     markers.forEach(m => map.removeLayer(m));
     markers.length = 0;
 
-    subset.forEach(l => {
-      const color = l.featured ? "#e53e3e" : "#3b82f6";
-      const marker = L.circleMarker([l.lat, l.lng], {
-        radius: l.featured ? 11 : 8,
+    subset.forEach(p => {
+      let color, radius;
+      if (p._kind === "investor") {
+        color = "#7c3aed";
+        radius = p.featured ? 11 : 8;
+      } else {
+        color = p.featured ? "#e53e3e" : "#3b82f6";
+        radius = p.featured ? 11 : 8;
+      }
+      const marker = L.circleMarker([p.lat, p.lng], {
+        radius: radius,
         fillColor: color,
         color: "#fff",
         weight: 2,
         opacity: 1,
         fillOpacity: 0.9
       });
-      const title = locField(l, "title");
-      const cat = catById[l.category];
-      marker.bindPopup(`
-        <div style="min-width:180px">
-          <div class="popup-title">${title}</div>
-          <div style="font-size:12px;color:#64748b;margin-bottom:4px">${catLabel(cat)} · ${locDistrict(l.district)}, ${locCity(l.city)}</div>
-          <div class="popup-price">${fmtAZN(l.price_azn)}</div>
-          <a href="listing.html?id=${l.id}" class="popup-link">Elana bax →</a>
-        </div>`, { maxWidth: 220 });
+
+      let popupHtml;
+      if (p._kind === "investor") {
+        const lang = (typeof getLang === "function" ? getLang() : "az");
+        const alias = lang === "az" ? p.alias : (p.alias_en || p.alias);
+        const intentText = p.transaction_type === "buy"
+          ? (lang === "az" ? "Almaq istəyir" : lang === "ru" ? "Хочет купить" : "Looking to buy")
+          : (lang === "az" ? "Ortaqlıq axtarır" : lang === "ru" ? "Ищет партнёрство" : "Seeking partnership");
+        popupHtml = `
+          <div style="min-width:200px">
+            <div class="popup-title">💼 ${alias}</div>
+            <div style="font-size:12px;color:#64748b;margin-bottom:4px">${intentText} · 📍 ${p.location}</div>
+            <div class="popup-price">${fmtBudget(p.budget_min_azn, p.budget_max_azn)}</div>
+            <a href="investors.html" class="popup-link" style="background:#7c3aed">İnvestorlara bax →</a>
+          </div>`;
+      } else {
+        const title = locField(p, "title");
+        const cat = catById[p.category];
+        popupHtml = `
+          <div style="min-width:180px">
+            <div class="popup-title">${title}</div>
+            <div style="font-size:12px;color:#64748b;margin-bottom:4px">${catLabel(cat)} · ${locDistrict(p.district)}, ${locCity(p.city)}</div>
+            <div class="popup-price">${fmtAZN(p.price_azn)}</div>
+            <a href="listing.html?id=${p.id}" class="popup-link">Elana bax →</a>
+          </div>`;
+      }
+      marker.bindPopup(popupHtml, { maxWidth: 240 });
       marker.addTo(map);
       markers.push(marker);
-      markerMap[l.id] = marker;
+      markerMap[p._kind + ":" + p.id] = marker;
     });
   }
 
   function renderList(subset) {
     const list = document.getElementById("map-listing-list");
     document.getElementById("map-count-badge").textContent = subset.length + " elan xəritədə";
-    list.innerHTML = subset.map(l => {
-      const cat = catById[l.category];
-      const icon = CATEGORY_ICONS[l.category] || "🏢";
-      const title = locField(l, "title");
-      return `<a class="map-listing-item${l.featured ? " featured" : ""}" data-id="${l.id}" href="listing.html?id=${l.id}">
-        <div class="map-item-icon${l.featured ? " featured" : ""}">${icon}</div>
+    list.innerHTML = subset.map(p => {
+      if (p._kind === "investor") {
+        const lang = (typeof getLang === "function" ? getLang() : "az");
+        const alias = lang === "az" ? p.alias : (p.alias_en || p.alias);
+        return `<a class="map-listing-item${p.featured ? " featured" : ""}" data-key="investor:${p.id}" href="investors.html">
+          <div class="map-item-icon" style="background:#ede9fe;color:#7c3aed">💼</div>
+          <div class="map-item-body">
+            <div class="map-item-title">${alias}</div>
+            <div class="map-item-loc">📍 ${p.location} · İnvestor</div>
+            <div class="map-item-price">${fmtBudget(p.budget_min_azn, p.budget_max_azn)}</div>
+          </div>
+        </a>`;
+      }
+      const cat = catById[p.category];
+      const icon = CATEGORY_ICONS[p.category] || "🏢";
+      const title = locField(p, "title");
+      return `<a class="map-listing-item${p.featured ? " featured" : ""}" data-key="business:${p.id}" href="listing.html?id=${p.id}">
+        <div class="map-item-icon${p.featured ? " featured" : ""}">${icon}</div>
         <div class="map-item-body">
           <div class="map-item-title">${title}</div>
-          <div class="map-item-loc">📍 ${locDistrict(l.district)}, ${locCity(l.city)}</div>
-          <div class="map-item-price">${fmtAZN(l.price_azn)}</div>
+          <div class="map-item-loc">📍 ${locDistrict(p.district)}, ${locCity(p.city)}</div>
+          <div class="map-item-price">${fmtAZN(p.price_azn)}</div>
         </div>
       </a>`;
     }).join("");
 
-    // Click on list item -> open popup and pan map
     list.querySelectorAll(".map-listing-item").forEach(el => {
       el.addEventListener("click", e => {
         e.preventDefault();
-        const m = markerMap[el.dataset.id];
+        const m = markerMap[el.dataset.key];
         if (m) {
           map.setView(m.getLatLng(), 14, { animate: true });
           m.openPopup();
@@ -187,13 +283,23 @@
   }
 
   function applyFilter() {
+    const type = typeFilter.value;
     const cat = catFilter.value;
-    const subset = cat ? geoListings.filter(l => l.category === cat) : geoListings;
+    let subset = allPoints;
+    if (type === "business") subset = subset.filter(p => p._kind === "business");
+    else if (type === "investor") subset = subset.filter(p => p._kind === "investor");
+    if (cat) subset = subset.filter(p => p._kind === "business" && p.category === cat);
     renderMarkers(subset);
     renderList(subset);
     applyI18n();
   }
 
+  // Disable category filter when investor type is selected (categories don't apply)
+  typeFilter.addEventListener("change", () => {
+    catFilter.disabled = (typeFilter.value === "investor");
+    if (catFilter.disabled) catFilter.value = "";
+    applyFilter();
+  });
   catFilter.addEventListener("change", applyFilter);
   applyFilter();
 
