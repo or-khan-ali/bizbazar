@@ -1,4 +1,4 @@
-// BizBazar — shared utilities
+﻿// BizBazar — shared utilities
 // i18n, formatting, data loading, header setup
 // Approximate exchange rate AZN -> USD
 const AZN_TO_USD = 0.59;
@@ -338,7 +338,29 @@ const STRINGS = {
     whatsapp_contact: "WhatsApp",
     telegram_contact: "Telegram",
     profit_margin: "Profit margin",
-    payback_period: "Payback period",
+        payback_period: "Payback period",
+    nav_investors: "Investors",
+    investors_title: "Investors",
+    investors_sub: "Verified investors looking to invest in businesses in Azerbaijan.",
+    investor_budget: "Investment budget",
+    investor_budget_from: "AZN minimum budget",
+    investor_deals_done: "Deals completed",
+    investor_all_types: "All types",
+    investor_type_individual: "Individual investor",
+    investor_type_corporate: "Corporate",
+    investor_all_budgets: "All budgets",
+    investor_all_txn: "All transactions",
+    investor_txn_buy: "Looking to buy",
+    investor_txn_invest: "Looking to invest",
+    investor_sort_featured: "Featured",
+    investor_sort_budget_high: "Budget: high to low",
+    investor_sort_budget_low: "Budget: low to high",
+    investor_sort_deals: "Most deals",
+    investor_sectors_interest: "Sectors of interest",
+    investor_connect: "Connect",
+    investor_register_title: "Register as an investor",
+    investor_register_sub: "Receive verified business listings directly.",
+    investor_register_btn: "Register",
     recent_title: "Recently viewed",
     testimonials_title: "Customer reviews",
     deals_closed_label: "Deals closed",
@@ -372,7 +394,29 @@ const STRINGS = {
     whatsapp_contact: "WhatsApp",
     telegram_contact: "Telegram",
     profit_margin: "Profit margin",
-    payback_period: "Payback period"
+        payback_period: "Payback period",
+    nav_investors: "Investors",
+    investors_title: "Investors",
+    investors_sub: "Verified investors looking to invest in businesses in Azerbaijan.",
+    investor_budget: "Investment budget",
+    investor_budget_from: "AZN minimum budget",
+    investor_deals_done: "Deals completed",
+    investor_all_types: "All types",
+    investor_type_individual: "Individual investor",
+    investor_type_corporate: "Corporate",
+    investor_all_budgets: "All budgets",
+    investor_all_txn: "All transactions",
+    investor_txn_buy: "Looking to buy",
+    investor_txn_invest: "Looking to invest",
+    investor_sort_featured: "Featured",
+    investor_sort_budget_high: "Budget: high to low",
+    investor_sort_budget_low: "Budget: low to high",
+    investor_sort_deals: "Most deals",
+    investor_sectors_interest: "Sectors of interest",
+    investor_connect: "Connect",
+    investor_register_title: "Register as an investor",
+    investor_register_sub: "Receive verified business listings directly.",
+    investor_register_btn: "Register"
   },
   ru: {
     brand: "BizBazar",
@@ -651,6 +695,10 @@ async function loadFranchises() {
   return loadJSON("data/franchises.json");
 }
 
+async function loadInvestors() {
+  return loadJSON("data/investors.json");
+}
+
 /* ============ City / District i18n ============ */
 const CITY_TRANSLATIONS = {
   "Bakı": { en: "Baku", ru: "Баку" },
@@ -712,6 +760,7 @@ function renderHeader(activePage) {
         <a href="index.html" class="${activePage === 'home' ? 'active' : ''}" data-i18n="nav_home"></a>
         <a href="listings.html" class="${activePage === 'listings' ? 'active' : ''}" data-i18n="nav_browse"></a>
         <a href="franchises.html" class="${activePage === 'franchises' ? 'active' : ''}" data-i18n="nav_franchises"></a>
+        <a href="investors.html" class="${activePage === 'investors' ? 'active' : ''}" data-i18n="nav_investors"></a>
         <a href="services.html" class="${activePage === 'services' ? 'active' : ''}" data-i18n="nav_services"></a>
         <a href="sell.html" class="${activePage === 'sell' ? 'active' : ''}" data-i18n="nav_sell"></a>
         <a href="map.html" class="${activePage === 'map' ? 'active' : ''}" data-i18n="nav_map"></a>
@@ -914,3 +963,4 @@ function listingCardHTML(l, categoriesById) {
     </div>
   </a>`;
 }
+

@@ -1,0 +1,205 @@
+﻿<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Investorlar - BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Azerbaycanda biznesinize investisiya etmek isteyen yoxlanmis investorlar.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bizbazar.az/investors.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .hero-investors { background: linear-gradient(180deg,#eef2ff 0%,#fff 100%); padding: 56px 0 40px; }
+    .hero-investors h1 { font-size: 40px; font-weight: 800; margin: 0 0 12px; letter-spacing: -.02em; }
+    .hero-investors p { color: var(--text-muted); font-size: 17px; max-width: 640px; margin: 0; }
+    .investor-stats-row { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+    .investor-stat-big strong { font-size: 28px; font-weight: 800; color: var(--primary); display: block; }
+    .investor-stat-big span { font-size: 13px; color: var(--text-muted); }
+    .investor-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .investor-filters select { padding: 9px 14px; border: 1.5px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 500; background: white; cursor: pointer; }
+    .investor-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(340px,1fr)); gap: 22px; }
+    .investor-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; transition: all .2s ease; }
+    .investor-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: #6366f1; }
+    .investor-card.featured { border-color: #6366f1; border-width: 2px; }
+    .investor-card.featured::before { content: "FEATURED"; position: absolute; top: 12px; right: -32px; background: #6366f1; color: white; font-size: 10px; font-weight: 800; padding: 4px 40px; transform: rotate(35deg); letter-spacing: 1px; }
+    .investor-head { display: flex; align-items: center; gap: 14px; }
+    .investor-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg,#eef2ff,#c7d2fe); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; color: #6366f1; font-weight: 800; }
+    .investor-alias { font-weight: 700; font-size: 17px; color: var(--primary); margin: 0; }
+    .investor-meta { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .investor-type-tag { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 600; align-self: flex-start; }
+    .investor-type-tag.individual { background: #ede9fe; color: #7c3aed; }
+    .investor-type-tag.corporate { background: #dbeafe; color: #1d4ed8; }
+    .investor-budget-band { background: var(--bg-soft); border-radius: 10px; padding: 14px 16px; }
+    .investor-budget-band strong { font-size: 20px; font-weight: 800; color: var(--primary); }
+    .investor-budget-band span { font-size: 12px; color: var(--text-muted); }
+    .investor-sectors { display: flex; flex-wrap: wrap; gap: 6px; }
+    .sector-pill { background: var(--bg-soft); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--text-muted); }
+    .investor-desc { color: var(--text-muted); font-size: 14px; line-height: 1.55; margin: 0; }
+    .investor-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .investor-actions .btn { flex: 1; }
+    .txn-badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 3px 10px; font-size: 11px; font-weight: 600; }
+    .txn-badge.buy { background: #dcfce7; color: #15803d; }
+    .txn-badge.invest { background: #fef9c3; color: #a16207; }
+    .register-cta { background: linear-gradient(135deg,#6366f1 0%,#4f46e5 100%); border-radius: var(--radius-lg); padding: 40px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .register-cta h2 { margin: 0 0 8px; font-size: 26px; }
+    .register-cta p { margin: 0; opacity: .85; }
+    .register-cta .btn { background: white; color: #4f46e5; font-weight: 700; white-space: nowrap; }
+    @media (max-width: 600px) { .hero-investors h1 { font-size: 28px; } .investor-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<section class="hero-investors">
+  <div class="container">
+    <h1 data-i18n="investors_title"></h1>
+    <p data-i18n="investors_sub"></p>
+    <div class="investor-stats-row">
+      <div class="investor-stat-big"><strong id="inv-count">-</strong><span data-i18n="investors_title"></span></div>
+      <div class="investor-stat-big"><strong id="inv-min-budget">-</strong><span data-i18n="investor_budget_from"></span></div>
+      <div class="investor-stat-big"><strong id="inv-total-deals">-</strong><span data-i18n="investor_deals_done"></span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="investor-filters">
+      <select id="filter-type">
+        <option value="" data-i18n="investor_all_types"></option>
+        <option value="individual" data-i18n="investor_type_individual"></option>
+        <option value="corporate" data-i18n="investor_type_corporate"></option>
+      </select>
+      <select id="filter-sector"><option value="" data-i18n="search_cat"></option></select>
+      <select id="filter-budget">
+        <option value="" data-i18n="investor_all_budgets"></option>
+        <option value="0-50000">&lt; 50,000 AZN</option>
+        <option value="50000-200000">50,000 - 200,000 AZN</option>
+        <option value="200000-500000">200,000 - 500,000 AZN</option>
+        <option value="500000-9999999">500,000+ AZN</option>
+      </select>
+      <select id="filter-txn">
+        <option value="" data-i18n="investor_all_txn"></option>
+        <option value="buy" data-i18n="investor_txn_buy"></option>
+        <option value="invest" data-i18n="investor_txn_invest"></option>
+      </select>
+      <select id="filter-sort">
+        <option value="featured" data-i18n="investor_sort_featured"></option>
+        <option value="budget-high" data-i18n="investor_sort_budget_high"></option>
+        <option value="budget-low" data-i18n="investor_sort_budget_low"></option>
+        <option value="deals" data-i18n="investor_sort_deals"></option>
+      </select>
+    </div>
+    <div class="investor-grid" id="investor-grid"></div>
+    <div id="empty-state" style="display:none;text-align:center;padding:60px 0;">
+      <p style="color:var(--text-muted);" data-i18n="no_results"></p>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--bg-soft)">
+  <div class="container">
+    <div class="register-cta">
+      <div>
+        <h2 data-i18n="investor_register_title"></h2>
+        <p data-i18n="investor_register_sub"></p>
+      </div>
+      <a href="contact.html" class="btn btn-lg" data-i18n="investor_register_btn"></a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("investors");
+  const [investors, categories] = await Promise.all([loadInvestors(), loadCategories()]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  document.getElementById("inv-count").textContent = investors.length;
+  document.getElementById("inv-min-budget").textContent = fmtAZN(Math.min(...investors.map(i => i.budget_min_azn))) + "+";
+  document.getElementById("inv-total-deals").textContent = investors.reduce((s,i) => s+(i.deals_done||0), 0) + "+";
+
+  const filterSector = document.getElementById("filter-sector");
+  [...new Set(investors.flatMap(i => i.sectors))].forEach(sid => {
+    const cat = catById[sid]; if (!cat) return;
+    const o = document.createElement("option");
+    o.value = sid; o.textContent = catLabel(cat);
+    filterSector.appendChild(o);
+  });
+
+  const state = { type:"", sector:"", budget:"", txn:"", sort:"featured" };
+  const TXN_LABELS = {
+    az: { buy:"Almaq isteyir", invest:"Investisiya edir" },
+    en: { buy:"Looking to buy", invest:"Looking to invest" },
+    ru: { buy:"Khochet kupit", invest:"Investiruet" }
+  };
+
+  function investorTypeLabel(type) {
+    const l = { az:{individual:"Ferdi investor",corporate:"Korporativ"}, en:{individual:"Individual investor",corporate:"Corporate"}, ru:{individual:"Chastnyy investor",corporate:"Korporativnyy"} };
+    return (l[getLang()]||l.az)[type]||type;
+  }
+
+  function render() {
+    let list = investors.slice();
+    if (state.type) list = list.filter(i => i.type === state.type);
+    if (state.sector) list = list.filter(i => i.sectors.includes(state.sector));
+    if (state.budget) { const [mn,mx] = state.budget.split("-").map(Number); list = list.filter(i => i.budget_max_azn>=mn && i.budget_min_azn<=mx); }
+    if (state.txn) list = list.filter(i => i.transaction_type === state.txn);
+    switch(state.sort) {
+      case "budget-high": list.sort((a,b) => b.budget_max_azn-a.budget_max_azn); break;
+      case "budget-low": list.sort((a,b) => a.budget_min_azn-b.budget_min_azn); break;
+      case "deals": list.sort((a,b) => b.deals_done-a.deals_done); break;
+      default: list.sort((a,b) => (b.featured?1:0)-(a.featured?1:0));
+    }
+    const grid = document.getElementById("investor-grid");
+    if (!list.length) { grid.innerHTML=""; document.getElementById("empty-state").style.display="block"; return; }
+    document.getElementById("empty-state").style.display="none";
+    const lang = getLang();
+    const txnL = TXN_LABELS[lang]||TXN_LABELS.az;
+    grid.innerHTML = list.map(inv => {
+      const alias = lang==="az" ? inv.alias : inv.alias_en;
+      const desc = lang==="en" ? inv.description_en : inv.description_az;
+      const stars = "в…".repeat(Math.round(inv.rating))+"в†".repeat(5-Math.round(inv.rating));
+      const sectorPills = inv.sectors.map(sid => { const c=catById[sid]; return c ? `<span class="sector-pill">${CATEGORY_ICONS[sid]||"?"} ${catLabel(c)}</span>` : ""; }).join("");
+      return `<div class="investor-card${inv.featured?" featured":""}">
+        <div class="investor-head">
+          <div class="investor-avatar">${inv.type==="corporate"?"?":"?"}</div>
+          <div style="flex:1;min-width:0;">
+            <h3 class="investor-alias">${alias}</h3>
+            <div class="investor-meta">? ${inv.location} В· <span class="txn-badge ${inv.transaction_type}">${txnL[inv.transaction_type]}</span></div>
+          </div>
+          ${inv.verified?`<span class="verified-badge">? ${t("verified")}</span>`:""}
+        </div>
+        <span class="investor-type-tag ${inv.type}">${investorTypeLabel(inv.type)}</span>
+        <div class="investor-budget-band">
+          <span data-i18n="investor_budget"></span><br>
+          <strong>${fmtAZN(inv.budget_min_azn)}</strong> - <strong>${fmtAZN(inv.budget_max_azn)}</strong>
+        </div>
+        <div><div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;" data-i18n="investor_sectors_interest"></div><div class="investor-sectors">${sectorPills}</div></div>
+        <p class="investor-desc">${desc}</p>
+        <div style="font-size:12px;color:var(--accent);">${stars} (${inv.deals_done} ${t("broker_deals")})</div>
+        <div class="investor-actions">
+          <a href="https://wa.me/994502009088" target="_blank" class="btn btn-primary" data-i18n="investor_connect"></a>
+          <a href="https://wa.me/994502009088" target="_blank" class="wa-btn" style="flex:0 0 auto;padding:10px 14px;">?</a>
+        </div>
+      </div>`;
+    }).join("");
+    applyI18n();
+  }
+
+  document.getElementById("filter-type").onchange = e => { state.type=e.target.value; render(); };
+  document.getElementById("filter-sector").onchange = e => { state.sector=e.target.value; render(); };
+  document.getElementById("filter-budget").onchange = e => { state.budget=e.target.value; render(); };
+  document.getElementById("filter-txn").onchange = e => { state.txn=e.target.value; render(); };
+  document.getElementById("filter-sort").onchange = e => { state.sort=e.target.value; render(); };
+
+  render();
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>
