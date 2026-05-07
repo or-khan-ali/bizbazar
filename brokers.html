@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Brokerlər — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Azərbaycanda fəaliyyət göstərən yoxlanmış peşəkar biznes brokerləri. Reytinqlər, sövdələşmə tarixçəsi, ixtisaslaşmalar və birbaşa əlaqə.">
+  <meta name="keywords" content="biznes broker, peşəkar broker, biznes agentlik, M&A broker, Bakı broker, Azərbaycan biznes broker">
+  <meta name="author" content="BizBazar.az">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Brokerlər — BizBazar.az">
+  <meta property="og:description" content="Azərbaycanda fəaliyyət göstərən yoxlanmış peşəkar biznes brokerləri.">
+  <meta property="og:url" content="https://bizbazar.az/brokers.html">
+  <meta property="og:image" content="https://bizbazar.az/favicon.svg">
+  <meta property="og:site_name" content="BizBazar.az">
+  <meta property="og:locale" content="az_AZ">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://bizbazar.az/brokers.html">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ==== HERO ==== */
+    .br-hero {
+      background:
+        radial-gradient(circle at 20% 0%, rgba(99,102,241,.14) 0%, transparent 50%),
+        radial-gradient(circle at 80% 100%, rgba(16,185,129,.10) 0%, transparent 50%),
+        linear-gradient(180deg, #f5f3ff 0%, #ffffff 100%);
+      padding: 72px 0 48px;
+    }
+    .br-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,.10); color: #4f46e5;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; margin-bottom: 16px;
+    }
+    .br-hero h1 {
+      font-size: 44px; font-weight: 800; margin: 0 0 14px;
+      letter-spacing: -.025em; line-height: 1.1; max-width: 720px;
+    }
+    .br-hero h1 span { color: #6366f1; }
+    .br-hero-lead {
+      color: var(--text-muted); font-size: 18px;
+      max-width: 680px; line-height: 1.55; margin: 0 0 32px;
+    }
+    .br-trust-strip {
+      display: flex; gap: 28px; flex-wrap: wrap;
+      padding-top: 28px; border-top: 1px solid rgba(99,102,241,.15);
+      margin-top: 32px;
+    }
+    .br-trust-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; color: var(--text); font-weight: 500;
+    }
+    .br-trust-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .br-stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 20px; margin-top: 36px;
+    }
+    .br-stat {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .br-stat:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(99,102,241,.10); }
+    .br-stat-num {
+      font-size: 28px; font-weight: 800; color: #4f46e5;
+      letter-spacing: -.02em; line-height: 1;
+    }
+    .br-stat-label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+    /* ==== SEARCH + FILTERS ==== */
+    .br-search-bar {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.03);
+    }
+    .br-search-input {
+      flex: 2 1 280px;
+      padding: 11px 16px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 14px; background: #fafafa;
+      transition: all .15s ease;
+    }
+    .br-search-input:focus {
+      outline: none; border-color: #6366f1; background: white;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+    }
+
+    .br-filter-bar {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 14px;
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.03);
+    }
+    .br-filter-bar select {
+      padding: 10px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 14px; font-weight: 500;
+      background: #fafafa; cursor: pointer;
+      flex: 1 1 160px; transition: all .15s ease;
+    }
+    .br-filter-bar select:hover { border-color: #6366f1; background: white; }
+    .br-filter-bar select:focus {
+      outline: none; border-color: #6366f1; background: white;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+    }
+
+    .br-results-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px; gap: 12px; flex-wrap: wrap;
+    }
+    .br-count-text { font-size: 14px; color: var(--text-muted); }
+    .br-count-text strong { color: var(--text); font-weight: 700; }
+
+    /* ==== BROKER CARDS ==== */
+    .br-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 24px;
+    }
+
+    .br-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 18px; padding: 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      position: relative; overflow: hidden;
+      transition: all .25s cubic-bezier(.4, 0, .2, 1);
+    }
+    .br-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(99,102,241,.14);
+      border-color: #c7d2fe;
+    }
+    .br-card.featured {
+      border: 2px solid #6366f1;
+      background: linear-gradient(180deg, #fafaff 0%, #ffffff 60%);
+    }
+    .br-card.featured::after {
+      content: "★ Premium Broker";
+      position: absolute; top: 16px; right: 16px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white; font-size: 11px; font-weight: 700;
+      padding: 5px 12px; border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+
+    /* card head */
+    .br-card-head {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .br-avatar {
+      width: 64px; height: 64px; border-radius: 50%;
+      object-fit: cover; flex-shrink: 0;
+      border: 3px solid #ede9fe;
+      box-shadow: 0 4px 12px rgba(99,102,241,.20);
+    }
+    .br-card.featured .br-avatar { border-color: #c7d2fe; }
+    .br-name-block { flex: 1; min-width: 0; }
+    .br-name {
+      font-weight: 700; font-size: 17px; color: var(--text);
+      margin: 0 0 4px; letter-spacing: -.01em;
+    }
+    .br-name-meta {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--text-muted); flex-wrap: wrap;
+    }
+    .br-verified-icon {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: #10b981; font-weight: 600; font-size: 12px;
+    }
+
+    /* type badge */
+    .br-tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .br-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .br-tag.broker  { background: #dbeafe; color: #1d4ed8; }
+    .br-tag.agency  { background: #fef3c7; color: #b45309; }
+    .br-tag.license { background: #f0fdf4; color: #166534; font-family: ui-monospace, monospace; }
+
+    /* rating block */
+    .br-rating-block {
+      background: linear-gradient(135deg, #faf5ff 0%, #f0fdf4 100%);
+      border: 1px solid #ede9fe;
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+    }
+    .br-rating-cell { text-align: center; }
+    .br-rating-cell .lbl {
+      font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      font-weight: 600; margin-bottom: 4px;
+    }
+    .br-rating-cell .val {
+      font-size: 18px; font-weight: 800; color: #1e1b4b;
+      letter-spacing: -.02em;
+    }
+    .br-rating-cell .stars-mini {
+      color: #f59e0b; font-size: 12px;
+    }
+
+    /* specialties */
+    .br-section-label {
+      font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.6px;
+      font-weight: 600; margin-bottom: 8px;
+    }
+    .br-specialty-pills {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .br-specialty-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #f5f3ff; color: #4338ca;
+      border-radius: 8px; padding: 4px 10px;
+      font-size: 12px; font-weight: 500;
+    }
+
+    .br-bio {
+      color: var(--text-muted); font-size: 13px;
+      line-height: 1.55; margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* meta row */
+    .br-meta-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; padding: 12px 0;
+      border-top: 1px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
+    }
+    .br-meta-cell {
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .br-meta-cell-label {
+      font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 0.4px;
+      font-weight: 600;
+    }
+    .br-meta-cell-value {
+      font-size: 13px; color: var(--text); font-weight: 600;
+    }
+    .br-langs {
+      display: flex; gap: 4px; flex-wrap: wrap;
+    }
+    .br-lang-tag {
+      background: #e2e8f0; color: #374151;
+      border-radius: 4px; padding: 1px 6px;
+      font-size: 10px; font-weight: 700;
+    }
+
+    /* actions */
+    .br-actions {
+      display: flex; gap: 8px;
+    }
+    .br-actions .btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      border: none; box-shadow: 0 4px 12px rgba(99,102,241,.30);
+      padding: 10px 14px; border-radius: 10px;
+      color: white; font-weight: 600; font-size: 13px;
+      text-decoration: none; text-align: center;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .br-actions .btn-primary:hover {
+      background: linear-gradient(135deg, #4f46e5, #4338ca);
+      box-shadow: 0 6px 16px rgba(99,102,241,.40);
+      transform: translateY(-1px);
+    }
+    .br-icon-btn {
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: white; transition: all .15s ease;
+      font-size: 16px; text-decoration: none; color: var(--text);
+    }
+    .br-icon-btn.wa { color: #25d366; border-color: #25d366; }
+    .br-icon-btn:hover { transform: translateY(-1px); }
+    .br-icon-btn.wa:hover { background: #25d366; color: white; }
+
+    /* empty state */
+    .br-empty {
+      text-align: center; padding: 80px 20px;
+      background: white; border: 2px dashed var(--border);
+      border-radius: 16px;
+    }
+    .br-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+    .br-empty-title { font-size: 18px; font-weight: 700; margin: 0 0 6px; }
+    .br-empty-text { color: var(--text-muted); margin: 0; }
+
+    /* CTA */
+    .br-cta-section {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.10) 0%, transparent 50%),
+        linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      border-radius: 24px; padding: 56px 48px;
+      color: white; position: relative; overflow: hidden;
+      margin-top: 40px;
+    }
+    .br-cta-section::before {
+      content: ""; position: absolute;
+      top: -100px; right: -100px;
+      width: 300px; height: 300px;
+      background: rgba(255,255,255,.06); border-radius: 50%;
+    }
+    .br-cta-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr;
+      gap: 40px; align-items: center; position: relative;
+    }
+    .br-cta-grid h2 {
+      font-size: 32px; font-weight: 800;
+      margin: 0 0 14px; letter-spacing: -.02em; line-height: 1.15;
+    }
+    .br-cta-grid p {
+      font-size: 16px; opacity: .92; line-height: 1.6; margin: 0 0 24px;
+    }
+    .br-cta-benefits {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .br-cta-benefit {
+      display: flex; align-items: center; gap: 10px; font-size: 14px;
+    }
+    .br-cta-benefit-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(255,255,255,.20);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 12px;
+    }
+    .br-cta-actions {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .br-cta-actions .btn {
+      background: white; color: #4f46e5;
+      font-weight: 700; padding: 14px 24px;
+      font-size: 15px; border: none;
+      box-shadow: 0 4px 16px rgba(0,0,0,.20);
+    }
+    .br-cta-actions .btn:hover { transform: translateY(-2px); }
+    .br-cta-actions .btn-secondary {
+      background: rgba(255,255,255,.12); color: white;
+      border: 1.5px solid rgba(255,255,255,.30); box-shadow: none;
+    }
+    .br-cta-actions .btn-secondary:hover { background: rgba(255,255,255,.20); }
+
+    @media (max-width: 768px) {
+      .br-hero h1 { font-size: 32px; }
+      .br-hero-lead { font-size: 16px; }
+      .br-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .br-grid { grid-template-columns: 1fr; }
+      .br-cta-section { padding: 40px 28px; }
+      .br-cta-grid { grid-template-columns: 1fr; gap: 28px; }
+      .br-cta-grid h2 { font-size: 24px; }
+    }
+    @media (max-width: 480px) {
+      .br-stats-grid { grid-template-columns: 1fr; }
+      .br-trust-strip { gap: 14px; }
+      .br-card { padding: 22px; }
+      .br-rating-block { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<!-- HERO -->
+<section class="br-hero">
+  <div class="container">
+    <span class="br-hero-eyebrow">🤝 Yoxlanmış peşəkar broker şəbəkəsi</span>
+    <h1>Biznes sövdələşmənizi <span>peşəkarla</span> aparın</h1>
+    <p class="br-hero-lead">Azərbaycanda fəaliyyət göstərən sertifikatlı biznes brokerləri və M&A agentlikləri. Lisenziya yoxlanılıb, sövdələşmə tarixçəsi ictimaidir, müştəri rəyləri real. Birbaşa əlaqə qurun və biznesinizi peşəkar idarəyə həvalə edin.</p>
+
+    <div class="br-stats-grid">
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-brokers">—</div>
+        <div class="br-stat-label">Aktiv broker</div>
+      </div>
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-deals">—</div>
+        <div class="br-stat-label">Bağlanmış sövdələşmə</div>
+      </div>
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-volume">—</div>
+        <div class="br-stat-label">AZN ümumi həcm</div>
+      </div>
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-rating">—</div>
+        <div class="br-stat-label">Orta reytinq</div>
+      </div>
+    </div>
+
+    <div class="br-trust-strip">
+      <div class="br-trust-item">
+        <span class="br-trust-icon">🛡️</span>
+        <span>Lisenziyası yoxlanmış brokerlər</span>
+      </div>
+      <div class="br-trust-item">
+        <span class="br-trust-icon">📊</span>
+        <span>Real sövdələşmə tarixçəsi</span>
+      </div>
+      <div class="br-trust-item">
+        <span class="br-trust-icon">⚡</span>
+        <span>Orta cavab vaxtı &lt; 4 saat</span>
+      </div>
+      <div class="br-trust-item">
+        <span class="br-trust-icon">🎯</span>
+        <span>Sektor üzrə ixtisas</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH + FILTERS + GRID -->
+<section style="padding-top: 40px;">
+  <div class="container">
+    <div class="br-search-bar">
+      <input type="search" id="search-input" class="br-search-input" placeholder="🔍 Broker adı və ya agentlik axtar...">
+    </div>
+
+    <div class="br-filter-bar">
+      <select id="filter-type">
+        <option value="">Bütün növlər</option>
+        <option value="broker">Fərdi broker</option>
+        <option value="agency">Agentlik</option>
+      </select>
+      <select id="filter-specialty">
+        <option value="">Bütün ixtisaslar</option>
+      </select>
+      <select id="filter-city">
+        <option value="">Bütün şəhərlər</option>
+      </select>
+      <select id="filter-language">
+        <option value="">Bütün dillər</option>
+        <option value="AZ">Azərbaycan dili</option>
+        <option value="EN">İngilis dili</option>
+        <option value="RU">Rus dili</option>
+        <option value="TR">Türk dili</option>
+      </select>
+      <select id="filter-sort">
+        <option value="featured">Seçilmiş brokerlər</option>
+        <option value="rating">Reytinqə görə</option>
+        <option value="deals">Sövdələşmə sayı</option>
+        <option value="volume">Sövdələşmə həcmi</option>
+        <option value="response">Cavab vaxtı</option>
+      </select>
+    </div>
+
+    <div class="br-results-bar">
+      <div class="br-count-text">
+        <strong id="results-count">—</strong> broker tapıldı
+      </div>
+    </div>
+
+    <div class="br-grid" id="broker-grid"></div>
+
+    <div id="empty-state" class="br-empty" style="display:none;">
+      <div class="br-empty-icon">🔍</div>
+      <h3 class="br-empty-title">Heç bir broker tapılmadı</h3>
+      <p class="br-empty-text">Filtrləri dəyişdirib yenidən cəhd edin.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding: 60px 0;">
+  <div class="container">
+    <div class="br-cta-section">
+      <div class="br-cta-grid">
+        <div>
+          <h2>Peşəkar broker kimi qoşulun</h2>
+          <p>Lisenziyanız varsa, BizBazar şəbəkəsinə qoşulun və müştərilər birbaşa sizinlə əlaqə qursun. Pulsuz qeydiyyat, yoxlanmış profil, geniş audit izi.</p>
+          <div class="br-cta-benefits">
+            <div class="br-cta-benefit">
+              <span class="br-cta-benefit-check">✓</span>
+              <span>Yoxlanmış peşəkar profil və lisenziya nümayişi</span>
+            </div>
+            <div class="br-cta-benefit">
+              <span class="br-cta-benefit-check">✓</span>
+              <span>Müştəri rəyləri və sövdələşmə tarixçəsi</span>
+            </div>
+            <div class="br-cta-benefit">
+              <span class="br-cta-benefit-check">✓</span>
+              <span>İlk 6 ay komissiyasız fəaliyyət</span>
+            </div>
+          </div>
+        </div>
+        <div class="br-cta-actions">
+          <a href="contact.html" class="btn btn-lg">Broker olaraq qoşul</a>
+          <a href="https://wa.me/994502009088" target="_blank" rel="noopener" class="btn btn-lg btn-secondary">WhatsApp ilə əlaqə</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
+<script>
+(async function(){
+  mountLayout("brokers");
+
+  const [brokers, categories] = await Promise.all([
+    loadJSON("data/brokers.json"),
+    loadCategories()
+  ]);
+  const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  // Compute stats
+  const totalDeals = brokers.reduce((s, b) => s + (b.deals_closed || 0), 0);
+  const totalVolume = brokers.reduce((s, b) => s + (b.total_volume_azn || 0), 0);
+  const avgRating = brokers.reduce((s, b) => s + (b.rating || 0), 0) / brokers.length;
+
+  document.getElementById("stat-brokers").textContent = brokers.length;
+  document.getElementById("stat-deals").textContent = totalDeals + "+";
+  document.getElementById("stat-volume").textContent = (totalVolume / 1000000).toFixed(1) + "M+";
+  document.getElementById("stat-rating").textContent = avgRating.toFixed(1) + " ★";
+
+  // Populate specialty filter
+  const filterSpec = document.getElementById("filter-specialty");
+  const usedSpecs = [...new Set(brokers.flatMap(b => b.specialties))];
+  usedSpecs.forEach(sid => {
+    const cat = catById[sid];
+    if (!cat) return;
+    const o = document.createElement("option");
+    o.value = sid;
+    o.textContent = catLabel(cat);
+    filterSpec.appendChild(o);
+  });
+
+  // Populate city filter
+  const filterCity = document.getElementById("filter-city");
+  const usedCities = [...new Set(brokers.map(b => b.city))];
+  usedCities.forEach(c => {
+    const o = document.createElement("option");
+    o.value = c;
+    o.textContent = c;
+    filterCity.appendChild(o);
+  });
+
+  const TYPE_LABELS = {
+    az: { broker: "Fərdi broker", agency: "Agentlik" },
+    en: { broker: "Individual broker", agency: "Agency" },
+    ru: { broker: "Частный брокер", agency: "Агентство" }
+  };
+
+  const state = {
+    search: "",
+    type: "",
+    specialty: "",
+    city: "",
+    language: "",
+    sort: "featured"
+  };
+
+  function fmtVolume(v) {
+    if (v >= 1000000) return (v / 1000000).toFixed(1) + "M";
+    if (v >= 1000) return Math.round(v / 1000) + "K";
+    return String(v);
+  }
+
+  function brokerCardHTML(b) {
+    const lang = (typeof getLang === "function") ? getLang() : "az";
+    const name = lang === "ru" && b.name_ru ? b.name_ru : b.name;
+    const bio = lang === "en" ? b.bio_en : lang === "ru" ? b.bio_ru : b.bio_az;
+    const typeLabels = TYPE_LABELS[lang] || TYPE_LABELS.az;
+    const stars = "★".repeat(Math.floor(b.rating)) + "☆".repeat(5 - Math.floor(b.rating));
+
+    const specialtyPills = b.specialties.slice(0, 4).map(sid => {
+      const cat = catById[sid];
+      return cat ? `<span class="br-specialty-pill">${CATEGORY_ICONS[sid] || "🏢"} ${catLabel(cat)}</span>` : "";
+    }).join("");
+
+    const langTags = b.languages.map(l => `<span class="br-lang-tag">${l}</span>`).join("");
+    const waPhone = b.phone.replace(/[^+\d]/g, "");
+
+    return `
+    <article class="br-card${b.featured ? " featured" : ""}">
+      <div class="br-card-head">
+        <img src="${b.avatar}" alt="${name}" class="br-avatar" loading="lazy">
+        <div class="br-name-block">
+          <h3 class="br-name">${name}</h3>
+          <div class="br-name-meta">
+            <span>📍 ${b.city}</span>
+            ${b.verified ? `<span class="br-verified-icon">✓ Yoxlanmış</span>` : ""}
+          </div>
+        </div>
+      </div>
+
+      <div class="br-tag-row">
+        <span class="br-tag ${b.type}">${typeLabels[b.type] || b.type}</span>
+        ${b.license_no ? `<span class="br-tag license">🪪 ${b.license_no}</span>` : ""}
+      </div>
+
+      <div class="br-rating-block">
+        <div class="br-rating-cell">
+          <div class="lbl">Reytinq</div>
+          <div class="val">${b.rating.toFixed(1)}</div>
+          <div class="stars-mini">${stars}</div>
+        </div>
+        <div class="br-rating-cell">
+          <div class="lbl">Sövdələşmə</div>
+          <div class="val">${b.deals_closed}</div>
+          <div class="stars-mini" style="color:var(--text-muted);font-size:11px">bağlanıb</div>
+        </div>
+        <div class="br-rating-cell">
+          <div class="lbl">Həcm</div>
+          <div class="val">${fmtVolume(b.total_volume_azn || 0)}</div>
+          <div class="stars-mini" style="color:var(--text-muted);font-size:11px">AZN</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="br-section-label">İxtisaslaşmalar</div>
+        <div class="br-specialty-pills">${specialtyPills}</div>
+      </div>
+
+      <p class="br-bio">${bio}</p>
+
+      <div class="br-meta-row">
+        <div class="br-meta-cell">
+          <span class="br-meta-cell-label">Cavab vaxtı</span>
+          <span class="br-meta-cell-value">⚡ ${b.response_time_hours} saat</span>
+        </div>
+        <div class="br-meta-cell">
+          <span class="br-meta-cell-label">Dillər</span>
+          <span class="br-meta-cell-value"><div class="br-langs">${langTags}</div></span>
+        </div>
+      </div>
+
+      <div class="br-actions">
+        <a href="broker.html?id=${b.id}" class="btn-primary">Profili gör →</a>
+        <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener" class="br-icon-btn wa" title="WhatsApp">💬</a>
+        <a href="tel:${b.phone}" class="br-icon-btn" title="Zəng et">📞</a>
+      </div>
+    </article>`;
+  }
+
+  function render() {
+    let list = brokers.slice();
+
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      list = list.filter(b =>
+        (b.name && b.name.toLowerCase().includes(q)) ||
+        (b.name_ru && b.name_ru.toLowerCase().includes(q)) ||
+        (b.bio_az && b.bio_az.toLowerCase().includes(q))
+      );
+    }
+    if (state.type) list = list.filter(b => b.type === state.type);
+    if (state.specialty) list = list.filter(b => b.specialties.includes(state.specialty));
+    if (state.city) list = list.filter(b => b.city === state.city);
+    if (state.language) list = list.filter(b => b.languages.includes(state.language));
+
+    switch (state.sort) {
+      case "rating":   list.sort((a, b) => b.rating - a.rating); break;
+      case "deals":    list.sort((a, b) => b.deals_closed - a.deals_closed); break;
+      case "volume":   list.sort((a, b) => (b.total_volume_azn || 0) - (a.total_volume_azn || 0)); break;
+      case "response": list.sort((a, b) => a.response_time_hours - b.response_time_hours); break;
+      default:
+        list.sort((a, b) => {
+          if (a.featured !== b.featured) return b.featured ? 1 : -1;
+          return b.rating - a.rating;
+        });
+        break;
+    }
+
+    document.getElementById("results-count").textContent = list.length;
+
+    const grid = document.getElementById("broker-grid");
+    if (!list.length) {
+      grid.innerHTML = "";
+      document.getElementById("empty-state").style.display = "block";
+      return;
+    }
+    document.getElementById("empty-state").style.display = "none";
+    grid.innerHTML = list.map(b => brokerCardHTML(b)).join("");
+  }
+
+  document.getElementById("search-input").addEventListener("input", e => { state.search = e.target.value; render(); });
+  document.getElementById("filter-type").onchange      = e => { state.type      = e.target.value; render(); };
+  document.getElementById("filter-specialty").onchange = e => { state.specialty = e.target.value; render(); };
+  document.getElementById("filter-city").onchange      = e => { state.city      = e.target.value; render(); };
+  document.getElementById("filter-language").onchange  = e => { state.language  = e.target.value; render(); };
+  document.getElementById("filter-sort").onchange      = e => { state.sort      = e.target.value; render(); };
+
+  render();
+  applyI18n();
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>
