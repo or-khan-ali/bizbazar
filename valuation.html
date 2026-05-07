@@ -3,120 +3,579 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Biznes qiymətləndirmə kalkulyatoru — BizBazar.az</title>
+  <title>Peşəkar Biznes Qiymətləndirməsi — BizBazar.az</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  <!-- SEO -->
-  <meta name="description" content="Pulsuz biznes qiymətləndirmə kalkulyatoru. Aylıq gəlir və mənfəətə əsasən bizneslərinizin bazar dəyərini hesablayın.">
-  <meta name="keywords" content="biznes qiymətləndirmə, biznes valuasiya, biznes dəyəri, valuasiya kalkulyator">
+  <meta name="description" content="Peşəkar biznes qiymətləndirmə modeli. SDE multiple, gəlir multiple və aktiv əsaslı metodları birləşdirən, 15+ keyfiyyət faktorunu nəzərə alan dəqiq valuasiya kalkulyatoru.">
+  <meta name="keywords" content="biznes qiymətləndirmə, biznes valuasiya, SDE multiple, EBITDA, biznes dəyəri, peşəkar qiymətləndirmə">
   <meta name="author" content="BizBazar.az">
   <meta name="robots" content="index, follow">
 
-  <!-- Open Graph (for social sharing) -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Biznes qiymətləndirmə kalkulyatoru — BizBazar.az">
-  <meta property="og:description" content="Pulsuz biznes qiymətləndirmə kalkulyatoru. Aylıq gəlir və mənfəətə əsasən bizneslərinizin bazar dəyərini hesablayın.">
+  <meta property="og:title" content="Peşəkar Biznes Qiymətləndirməsi — BizBazar.az">
+  <meta property="og:description" content="SDE multiple, gəlir və aktiv əsaslı metodları birləşdirən professional valuasiya modeli.">
   <meta property="og:url" content="https://bizbazar.az/valuation.html">
   <meta property="og:image" content="https://bizbazar.az/favicon.svg">
   <meta property="og:site_name" content="BizBazar.az">
   <meta property="og:locale" content="az_AZ">
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Biznes qiymətləndirmə kalkulyatoru — BizBazar.az">
-  <meta name="twitter:description" content="Pulsuz biznes qiymətləndirmə kalkulyatoru. Aylıq gəlir və mənfəətə əsasən bizneslərinizin bazar dəyərini hesablayın.">
-  <meta name="twitter:image" content="https://bizbazar.az/favicon.svg">
 
-  <!-- Canonical URL -->
   <link rel="canonical" href="https://bizbazar.az/valuation.html">
 
   <link rel="stylesheet" href="css/styles.css">
   <style>
-    .val-form { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 16px; padding: 40px; box-shadow: 0 2px 16px rgba(0,0,0,.08); }
-    .val-form .form-group { margin-bottom: 20px; }
-    .val-form label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; color: #374151; }
-    .val-form input, .val-form select { width: 100%; padding: 10px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
-    .val-form input:focus, .val-form select:focus { outline: none; border-color: var(--primary); }
-    .val-form .checkbox-row { display: flex; align-items: center; gap: 10px; }
-    .val-form .checkbox-row input { width: auto; }
-    .val-result { max-width: 600px; margin: 28px auto 0; background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%); border-radius: 16px; padding: 36px; color: #fff; display: none; }
-    .val-result h3 { margin: 0 0 8px; font-size: 18px; opacity: .85; }
-    .val-result .result-range { font-size: 32px; font-weight: 800; margin: 0 0 16px; }
-    .val-result .result-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
-    .val-result .meta-item { background: rgba(255,255,255,.12); border-radius: 10px; padding: 14px; }
-    .val-result .meta-item .lbl { font-size: 12px; opacity: .75; margin-bottom: 4px; }
-    .val-result .meta-item .val { font-size: 20px; font-weight: 700; }
-    .val-result .cta-row { margin-top: 24px; text-align: center; }
-    .val-result .cta-row a { background: #fff; color: #1e3a5f; border-radius: 8px; padding: 12px 28px; font-weight: 700; text-decoration: none; display: inline-block; }
+    /* ==== HERO ==== */
+    .val-hero {
+      background:
+        radial-gradient(circle at 20% 0%, rgba(99,102,241,.14) 0%, transparent 50%),
+        radial-gradient(circle at 80% 100%, rgba(168,85,247,.10) 0%, transparent 50%),
+        linear-gradient(180deg, #f5f3ff 0%, #ffffff 100%);
+      padding: 60px 0 36px;
+    }
+    .val-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,.10); color: #4f46e5;
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; margin-bottom: 14px;
+    }
+    .val-hero h1 {
+      font-size: 38px; font-weight: 800; margin: 0 0 12px;
+      letter-spacing: -.02em; line-height: 1.15; max-width: 720px;
+    }
+    .val-hero p { font-size: 16px; color: var(--text-muted); max-width: 680px; line-height: 1.55; margin: 0; }
+    .val-method-tags {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px;
+    }
+    .val-method-tag {
+      background: white; border: 1px solid var(--border);
+      padding: 6px 12px; border-radius: 999px; font-size: 12px;
+      font-weight: 600; color: var(--text);
+    }
+    .val-method-tag .dot {
+      display: inline-block; width: 7px; height: 7px;
+      border-radius: 50%; margin-right: 6px; vertical-align: middle;
+    }
+
+    /* ==== PROGRESS ==== */
+    .val-progress {
+      display: flex; max-width: 820px; margin: 0 auto 28px;
+      gap: 10px;
+    }
+    .val-progress-step {
+      flex: 1; padding: 14px 12px; background: white;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      text-align: center; font-size: 13px; font-weight: 600;
+      color: var(--text-muted); transition: all .2s ease;
+    }
+    .val-progress-step.active {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white; border-color: #4f46e5;
+      box-shadow: 0 4px 12px rgba(99,102,241,.30);
+    }
+    .val-progress-step.done { background: #ede9fe; color: #5b21b6; border-color: #c4b5fd; }
+    .val-progress-step .num {
+      display: inline-block; width: 22px; height: 22px;
+      border-radius: 50%; background: rgba(255,255,255,.20);
+      line-height: 22px; font-size: 12px; margin-right: 6px;
+    }
+    .val-progress-step:not(.active):not(.done) .num { background: #f1f5f9; color: var(--text-muted); }
+
+    /* ==== FORM ==== */
+    .val-form-wrap {
+      max-width: 820px; margin: 0 auto;
+      background: white; border-radius: 18px; padding: 36px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.04);
+      border: 1px solid var(--border);
+    }
+    .val-step { display: none; }
+    .val-step.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    .val-step h2 { font-size: 22px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.01em; }
+    .val-step .step-sub { color: var(--text-muted); font-size: 14px; margin: 0 0 24px; line-height: 1.5; }
+
+    .val-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .val-field { margin-bottom: 16px; }
+    .val-field label {
+      display: block; font-weight: 600; font-size: 13px;
+      color: var(--text); margin-bottom: 6px;
+    }
+    .val-field .help { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .val-field input, .val-field select {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 14px; box-sizing: border-box; background: #fafafa;
+      transition: all .15s ease;
+    }
+    .val-field input:focus, .val-field select:focus {
+      outline: none; border-color: #6366f1; background: white;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+    }
+
+    .val-radio-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+    .val-radio-card {
+      display: block; padding: 12px 14px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      cursor: pointer; background: #fafafa;
+      transition: all .15s ease;
+    }
+    .val-radio-card input { display: none; }
+    .val-radio-card .title { font-weight: 600; font-size: 13px; margin-bottom: 2px; color: var(--text); }
+    .val-radio-card .desc { font-size: 11px; color: var(--text-muted); line-height: 1.35; }
+    .val-radio-card:hover { border-color: #a5b4fc; background: white; }
+    .val-radio-card.selected {
+      background: #ede9fe; border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,.10);
+    }
+    .val-radio-card.selected .title { color: #4f46e5; }
+
+    .val-step-nav {
+      display: flex; justify-content: space-between; gap: 12px;
+      margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .val-step-nav button {
+      padding: 12px 26px; border-radius: 10px; font-weight: 600;
+      font-size: 14px; cursor: pointer; border: none;
+      transition: all .15s ease;
+    }
+    .val-btn-back {
+      background: white; border: 1.5px solid var(--border); color: var(--text);
+    }
+    .val-btn-back:hover { background: #f8fafc; }
+    .val-btn-next {
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white; box-shadow: 0 4px 12px rgba(99,102,241,.30);
+    }
+    .val-btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(99,102,241,.40); }
+
+    /* ==== RESULT ==== */
+    .val-result-section { display: none; max-width: 920px; margin: 36px auto 0; }
+    .val-result-hero {
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.10) 0%, transparent 50%),
+        linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      border-radius: 20px; padding: 40px;
+      color: white; margin-bottom: 22px;
+      position: relative; overflow: hidden;
+    }
+    .val-result-hero::after {
+      content: ""; position: absolute; top: -100px; right: -80px;
+      width: 280px; height: 280px;
+      background: rgba(255,255,255,.06); border-radius: 50%;
+    }
+    .val-result-eyebrow {
+      font-size: 12px; opacity: .85; margin-bottom: 8px;
+      letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+      position: relative;
+    }
+    .val-result-range {
+      font-size: 42px; font-weight: 800;
+      letter-spacing: -.025em; margin: 0 0 6px; line-height: 1.05;
+      position: relative;
+    }
+    .val-result-mid { font-size: 15px; opacity: .92; position: relative; }
+    .val-result-mid strong { font-weight: 700; }
+
+    .val-methods {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; margin-bottom: 22px;
+    }
+    .val-method-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px;
+    }
+    .val-method-card .label {
+      font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: .5px;
+      font-weight: 600; margin-bottom: 6px;
+    }
+    .val-method-card .value {
+      font-size: 22px; font-weight: 800; color: var(--text);
+      letter-spacing: -.02em; margin-bottom: 4px;
+    }
+    .val-method-card .formula { font-size: 11px; color: var(--text-muted); }
+    .val-method-card.primary { border: 2px solid #6366f1; background: linear-gradient(180deg, #fafaff 0%, #ffffff 60%); }
+    .val-method-card.primary .label { color: #4f46e5; }
+
+    .val-breakdown {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; padding: 26px; margin-bottom: 22px;
+    }
+    .val-breakdown h3 { margin: 0 0 16px; font-size: 17px; font-weight: 700; }
+    .val-adj-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px dashed var(--border); font-size: 14px;
+    }
+    .val-adj-row:last-child { border-bottom: none; }
+    .val-adj-label { color: var(--text-muted); }
+    .val-adj-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .val-adj-value.pos { color: #059669; }
+    .val-adj-value.neg { color: #dc2626; }
+    .val-adj-value.neutral { color: var(--text-muted); }
+
+    .val-insights {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 22px;
+    }
+    .val-insight-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; padding: 22px;
+    }
+    .val-insight-card.strengths { border-left: 4px solid #10b981; }
+    .val-insight-card.risks { border-left: 4px solid #f59e0b; }
+    .val-insight-card h4 {
+      margin: 0 0 12px; font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .val-insight-card ul { margin: 0; padding-left: 20px; font-size: 13px; color: var(--text); line-height: 1.6; }
+    .val-insight-card li { margin-bottom: 6px; }
+
+    .val-cta-pro {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-radius: 16px; padding: 32px; color: white; text-align: center;
+    }
+    .val-cta-pro h3 { margin: 0 0 8px; font-size: 19px; font-weight: 700; }
+    .val-cta-pro p { margin: 0 0 18px; opacity: .80; font-size: 14px; line-height: 1.5; }
+    .val-cta-pro a {
+      background: white; color: #0f172a;
+      padding: 12px 28px; border-radius: 10px;
+      font-weight: 700; text-decoration: none; display: inline-block;
+    }
+    .val-cta-pro a:hover { transform: translateY(-1px); }
+
+    .val-disclaimer {
+      max-width: 920px; margin: 18px auto 0;
+      font-size: 12px; color: var(--text-muted);
+      text-align: center; line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .val-hero h1 { font-size: 28px; }
+      .val-grid-2 { grid-template-columns: 1fr; }
+      .val-form-wrap { padding: 22px; }
+      .val-progress { flex-direction: column; gap: 6px; }
+      .val-progress-step { text-align: left; }
+      .val-result-range { font-size: 32px; }
+      .val-methods { grid-template-columns: 1fr; }
+      .val-insights { grid-template-columns: 1fr; }
+      .val-result-hero { padding: 28px; }
+    }
   </style>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4f46e5">
 </head>
 <body>
 <div id="header-mount"></div>
 
-<div class="page-header">
+<!-- HERO -->
+<section class="val-hero">
   <div class="container">
-    <h1>Biznes Qiymətləndirməsi</h1>
-    <p>Kateqoriya çarpanları əsasında bazar dəyərini hesabla</p>
+    <span class="val-eyebrow">📊 Peşəkar Valuasiya Modeli</span>
+    <h1>Biznesinizin real bazar dəyərini hesablayın</h1>
+    <p>Beynəlxalq M&A təcrübəsində istifadə olunan üç metodu birləşdirən professional kalkulyator. 15+ keyfiyyət faktoru avtomatik nəzərə alınır və ±30% diapazonunda dəqiq qiymət çıxarılır.</p>
+    <div class="val-method-tags">
+      <span class="val-method-tag"><span class="dot" style="background:#6366f1"></span>SDE Multiple metodu</span>
+      <span class="val-method-tag"><span class="dot" style="background:#10b981"></span>Gəlir Multiple metodu</span>
+      <span class="val-method-tag"><span class="dot" style="background:#f59e0b"></span>Aktiv əsaslı qiymətləndirmə</span>
+    </div>
   </div>
-</div>
+</section>
 
-<section>
+<section style="padding: 36px 0 60px;">
   <div class="container">
-    <div class="val-form">
-      <div class="form-group">
-        <label>Biznes kateqoriyası</label>
-        <select id="val-category">
-          <option value="">Kateqoriya seçin...</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Aylıq gəlir (AZN)</label>
-        <input type="number" id="val-revenue" min="0" step="100" placeholder="məs. 15000">
-      </div>
-      <div class="form-group">
-        <label>Aylıq mənfəət (AZN)</label>
-        <input type="number" id="val-profit" min="0" step="100" placeholder="məs. 4000">
-      </div>
-      <div class="form-group">
-        <label>Fəaliyyət müddəti (il)</label>
-        <input type="number" id="val-years" min="1" max="30" step="1" placeholder="1–30">
-      </div>
-      <div class="form-group">
-        <div class="checkbox-row">
-          <input type="checkbox" id="val-equipment">
-          <label for="val-equipment" style="margin:0;font-weight:500">Avadanlıq daxildir</label>
-        </div>
-      </div>
-      <button class="btn btn-primary" id="val-submit" style="width:100%;font-size:16px;padding:14px;">Hesabla</button>
-      <div id="val-error" style="display:none;color:#ef4444;margin-top:10px;font-size:14px;"></div>
+    <div class="val-progress">
+      <div class="val-progress-step active" data-prog="1"><span class="num">1</span>Biznes</div>
+      <div class="val-progress-step" data-prog="2"><span class="num">2</span>Maliyyə</div>
+      <div class="val-progress-step" data-prog="3"><span class="num">3</span>Aktivlər</div>
+      <div class="val-progress-step" data-prog="4"><span class="num">4</span>Keyfiyyət</div>
     </div>
 
-    <div class="val-result" id="val-result">
-      <h3>Təxmini bazar dəyəri</h3>
-      <div class="result-range" id="res-range"></div>
-      <div class="result-meta">
-        <div class="meta-item">
-          <div class="lbl">Ortalama qiymət</div>
-          <div class="val" id="res-mid"></div>
+    <div class="val-form-wrap" id="val-form">
+      <!-- STEP 1: Business basics -->
+      <div class="val-step active" data-step="1">
+        <h2>1. Biznes haqqında əsas məlumatlar</h2>
+        <p class="step-sub">Bu məlumatlar sənaye benchmarkı və lokasiya düzəlişləri üçün istifadə olunur.</p>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>Biznes kateqoriyası *</label>
+            <select id="i-category">
+              <option value="">Seçin...</option>
+            </select>
+          </div>
+          <div class="val-field">
+            <label>Lokasiya keyfiyyəti *</label>
+            <select id="i-location">
+              <option value="prime">Premium (Bakı mərkəz, magistral yol)</option>
+              <option value="good" selected>Yaxşı (rayonun yaxşı yeri)</option>
+              <option value="average">Orta (yaşayış massivi)</option>
+              <option value="poor">Zəif (uzaq, kənar yer)</option>
+            </select>
+          </div>
         </div>
-        <div class="meta-item">
-          <div class="lbl">Geri ödəmə müddəti</div>
-          <div class="val" id="res-payback"></div>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>Fəaliyyət müddəti (il) *</label>
+            <input type="number" id="i-years" min="0" max="50" step="1" placeholder="məs. 5">
+            <div class="help">Biznesin neçə ildir fəaliyyətdə olduğu</div>
+          </div>
+          <div class="val-field">
+            <label>Aktiv müştəri / abunəçi sayı</label>
+            <input type="number" id="i-customers" min="0" step="10" placeholder="məs. 800">
+            <div class="help">Aylıq aktiv müştəri və ya abunəçi sayı</div>
+          </div>
         </div>
-        <div class="meta-item">
-          <div class="lbl">Kateqoriya çarpanı</div>
-          <div class="val" id="res-multiple"></div>
-        </div>
-        <div class="meta-item">
-          <div class="lbl">Mənfəət marjası</div>
-          <div class="val" id="res-margin"></div>
+
+        <div class="val-step-nav">
+          <span></span>
+          <button class="val-btn-next" data-go="2">Növbəti →</button>
         </div>
       </div>
-      <div class="cta-row">
-        <a href="services.html">Peşəkar Qiymətləndirmə Al →</a>
+
+      <!-- STEP 2: Financials -->
+      <div class="val-step" data-step="2">
+        <h2>2. Maliyyə göstəriciləri (son 12 ay)</h2>
+        <p class="step-sub">Doğru qiymət üçün dəqiq rəqəmlər vacibdir. Bütün məbləğlər illik ifadədə (AZN).</p>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>İllik gəlir / dövriyyə (AZN) *</label>
+            <input type="number" id="i-revenue" min="0" step="1000" placeholder="məs. 240000">
+            <div class="help">Son 12 ay üzrə ümumi satış gəliri</div>
+          </div>
+          <div class="val-field">
+            <label>İllik xalis mənfəət (AZN) *</label>
+            <input type="number" id="i-profit" min="0" step="500" placeholder="məs. 60000">
+            <div class="help">Bütün xərclər və vergi sonrası qalan mənfəət</div>
+          </div>
+        </div>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>Sahibin illik maaşı (AZN)</label>
+            <input type="number" id="i-owner-salary" min="0" step="500" placeholder="məs. 18000">
+            <div class="help">SDE üçün geri qatılır — sahibin özünə ödədiyi maaş</div>
+          </div>
+          <div class="val-field">
+            <label>Birdəfəlik / qeyri-müntəzəm xərclər (AZN)</label>
+            <input type="number" id="i-addbacks" min="0" step="500" placeholder="məs. 5000">
+            <div class="help">Bir dəfəlik təmir, məhkəmə, köçmə xərcləri</div>
+          </div>
+        </div>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>Gəlir artımı (son il, %) *</label>
+            <input type="number" id="i-growth" min="-100" max="500" step="1" placeholder="məs. 12">
+            <div class="help">Bu il əvvəlki ilə görə artım/azalma faizi</div>
+          </div>
+          <div class="val-field">
+            <label>Təkrarlanan gəlir (%)</label>
+            <input type="number" id="i-recurring" min="0" max="100" step="5" placeholder="məs. 30">
+            <div class="help">Abunəlik / uzunmüddətli müqavilə əsaslı sabit gəlir payı</div>
+          </div>
+        </div>
+
+        <div class="val-step-nav">
+          <button class="val-btn-back" data-go="1">← Geri</button>
+          <button class="val-btn-next" data-go="3">Növbəti →</button>
+        </div>
       </div>
+
+      <!-- STEP 3: Assets -->
+      <div class="val-step" data-step="3">
+        <h2>3. Aktivlər və icarə vəziyyəti</h2>
+        <p class="step-sub">Maddi aktivlər qiymətin minimum hədəfini (asset floor) müəyyənləşdirir.</p>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>Avadanlıq dəyəri (AZN)</label>
+            <input type="number" id="i-equipment" min="0" step="1000" placeholder="məs. 40000">
+            <div class="help">Hazırkı bazar qiyməti (köhnəlmə nəzərə alınmaqla)</div>
+          </div>
+          <div class="val-field">
+            <label>Mal qalığı dəyəri (AZN)</label>
+            <input type="number" id="i-inventory" min="0" step="500" placeholder="məs. 15000">
+            <div class="help">Mağaza/restoran üçün hazırki ehtiyat dəyəri</div>
+          </div>
+        </div>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>Daşınmaz əmlak vəziyyəti *</label>
+            <select id="i-real-estate">
+              <option value="rent" selected>İcarədir</option>
+              <option value="own">Şəxsi mülkiyyət (qiymətə daxil deyil)</option>
+              <option value="own-included">Şəxsi mülkiyyət (qiymətə daxildir)</option>
+            </select>
+          </div>
+          <div class="val-field" id="rent-field">
+            <label>Aylıq icarə (AZN)</label>
+            <input type="number" id="i-rent" min="0" step="100" placeholder="məs. 2500">
+            <div class="help">Yalnız icarə zamanı doldurun</div>
+          </div>
+        </div>
+
+        <div class="val-grid-2" id="lease-grid">
+          <div class="val-field">
+            <label>İcarə müqaviləsinin qalan müddəti (il)</label>
+            <input type="number" id="i-lease-years" min="0" max="20" step="1" placeholder="məs. 3">
+            <div class="help">Yenilənmə zəmanəti varsa, tam müddəti yazın</div>
+          </div>
+          <div class="val-field">
+            <label>Daxil edilən daşınmaz əmlak dəyəri (AZN)</label>
+            <input type="number" id="i-property-value" min="0" step="1000" placeholder="məs. 0">
+            <div class="help">Yalnız "qiymətə daxildir" seçiminə görə doldurun</div>
+          </div>
+        </div>
+
+        <div class="val-grid-2">
+          <div class="val-field">
+            <label>İşçi sayı *</label>
+            <input type="number" id="i-staff" min="0" step="1" placeholder="məs. 8">
+          </div>
+          <div class="val-field">
+            <label>Lisenziya / icazə durumu</label>
+            <select id="i-license">
+              <option value="full" selected>Bütün lisenziyalar var</option>
+              <option value="partial">Qismən tamamlanıb</option>
+              <option value="none">Lisenziya yoxdur</option>
+              <option value="not-required">Tələb olunmur</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="val-step-nav">
+          <button class="val-btn-back" data-go="2">← Geri</button>
+          <button class="val-btn-next" data-go="4">Növbəti →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Quality factors -->
+      <div class="val-step" data-step="4">
+        <h2>4. Keyfiyyət və risk faktorları</h2>
+        <p class="step-sub">Bu amillər çoxşaylının yuxarı və ya aşağı düzəlişinə təsir edir (ümumi ±%50-ə qədər).</p>
+
+        <div class="val-field">
+          <label>Müştəri konsentrasiyası</label>
+          <div class="val-radio-group">
+            <label class="val-radio-card selected"><input type="radio" name="concentration" value="low" checked>
+              <div class="title">Aşağı (yaxşı)</div><div class="desc">Top 1 müştəri &lt;%20 gəlir</div></label>
+            <label class="val-radio-card"><input type="radio" name="concentration" value="medium">
+              <div class="title">Orta</div><div class="desc">Top 1 müştəri %20–40</div></label>
+            <label class="val-radio-card"><input type="radio" name="concentration" value="high">
+              <div class="title">Yüksək (risk)</div><div class="desc">Top 1 müştəri &gt;%40</div></label>
+          </div>
+        </div>
+
+        <div class="val-field">
+          <label>Sahibə bağlılıq (key person risk)</label>
+          <div class="val-radio-group">
+            <label class="val-radio-card"><input type="radio" name="owner-dep" value="low">
+              <div class="title">Aşağı</div><div class="desc">Sahib olmadan da işləyir</div></label>
+            <label class="val-radio-card selected"><input type="radio" name="owner-dep" value="medium" checked>
+              <div class="title">Orta</div><div class="desc">Sahib qismən cəlb olunur</div></label>
+            <label class="val-radio-card"><input type="radio" name="owner-dep" value="high">
+              <div class="title">Yüksək</div><div class="desc">Sahib hər gün lazımdır</div></label>
+          </div>
+        </div>
+
+        <div class="val-field">
+          <label>Maliyyə sənədlərinin keyfiyyəti</label>
+          <div class="val-radio-group">
+            <label class="val-radio-card"><input type="radio" name="docs" value="audit">
+              <div class="title">Audit edilmiş</div><div class="desc">Müstəqil audit hesabatı</div></label>
+            <label class="val-radio-card selected"><input type="radio" name="docs" value="accounting" checked>
+              <div class="title">Mühasibatlıq</div><div class="desc">Mühasib aparır</div></label>
+            <label class="val-radio-card"><input type="radio" name="docs" value="basic">
+              <div class="title">Sadə qeyd</div><div class="desc">Daxili qeydlər</div></label>
+            <label class="val-radio-card"><input type="radio" name="docs" value="none">
+              <div class="title">Yoxdur</div><div class="desc">Sənəd təşkil olunmayıb</div></label>
+          </div>
+        </div>
+
+        <div class="val-field">
+          <label>Brend və online reputasiya</label>
+          <div class="val-radio-group">
+            <label class="val-radio-card"><input type="radio" name="brand" value="strong">
+              <div class="title">Güclü</div><div class="desc">Tanınan brend, 4.5+ reytinq</div></label>
+            <label class="val-radio-card selected"><input type="radio" name="brand" value="moderate" checked>
+              <div class="title">Orta</div><div class="desc">Yaxşı reputasiya, 4.0+</div></label>
+            <label class="val-radio-card"><input type="radio" name="brand" value="weak">
+              <div class="title">Zəif</div><div class="desc">Az tanınır, az online iz</div></label>
+          </div>
+        </div>
+
+        <div class="val-field">
+          <label>İşçi heyətinin sabitliyi</label>
+          <div class="val-radio-group">
+            <label class="val-radio-card"><input type="radio" name="staff-stability" value="high">
+              <div class="title">Yüksək</div><div class="desc">2+ il qalan əsas heyət</div></label>
+            <label class="val-radio-card selected"><input type="radio" name="staff-stability" value="medium" checked>
+              <div class="title">Orta</div><div class="desc">Müəyyən axıcılıq var</div></label>
+            <label class="val-radio-card"><input type="radio" name="staff-stability" value="low">
+              <div class="title">Aşağı</div><div class="desc">Tez-tez yenilənir</div></label>
+          </div>
+        </div>
+
+        <div class="val-step-nav">
+          <button class="val-btn-back" data-go="3">← Geri</button>
+          <button class="val-btn-next" id="val-calculate">📊 Qiyməti hesabla</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="val-result-section" id="val-result">
+      <div class="val-result-hero">
+        <div class="val-result-eyebrow">Tövsiyə olunan bazar qiyməti</div>
+        <div class="val-result-range" id="r-range">— AZN</div>
+        <div class="val-result-mid">Mərkəzi qiymət: <strong id="r-mid">—</strong> · Diapazon ±%15</div>
+      </div>
+
+      <div class="val-methods">
+        <div class="val-method-card primary">
+          <div class="label">📐 Birinci metod — SDE Multiple</div>
+          <div class="value" id="r-method-sde">—</div>
+          <div class="formula"><span id="r-sde-detail">SDE × düzəlişli çoxşaylı</span></div>
+        </div>
+        <div class="val-method-card">
+          <div class="label">📈 İkinci metod — Gəlir Multiple</div>
+          <div class="value" id="r-method-rev">—</div>
+          <div class="formula"><span id="r-rev-detail">İllik gəlir × sənaye norması</span></div>
+        </div>
+        <div class="val-method-card">
+          <div class="label">🏗️ Üçüncü metod — Aktiv Floor</div>
+          <div class="value" id="r-method-asset">—</div>
+          <div class="formula">Avadanlıq + mal qalığı + əmlak</div>
+        </div>
+      </div>
+
+      <div class="val-breakdown">
+        <h3>📐 Hesablama detalları və düzəlişlər</h3>
+        <div id="r-breakdown"></div>
+      </div>
+
+      <div class="val-insights">
+        <div class="val-insight-card strengths">
+          <h4>✅ Güclü tərəflər</h4>
+          <ul id="r-strengths"></ul>
+        </div>
+        <div class="val-insight-card risks">
+          <h4>⚠️ Risk amilləri</h4>
+          <ul id="r-risks"></ul>
+        </div>
+      </div>
+
+      <div class="val-cta-pro">
+        <h3>Sertifikatlı peşəkar qiymətləndirmə istəyirsiniz?</h3>
+        <p>Bu kalkulyator təxmini dəyər verir. Bank krediti, satış sövdələşməsi və ya hüquqi sənəd üçün sertifikatlı qiymətləndirici tərəfindən imzalanmış rəsmi hesabat sifariş edin.</p>
+        <a href="services.html">Peşəkar qiymətləndirmə →</a>
+      </div>
+
+      <p class="val-disclaimer">⚠️ Diqqət: Bu hesablama avtomatik modeldir və yalnız təxmini istinad nöqtəsi kimi qəbul edilməlidir. Faktiki bazar qiyməti alıcı-satıcı danışıqlarına, lokal şəraitə və konkret biznesin xüsusiyyətlərinə görə dəyişə bilər.</p>
     </div>
   </div>
 </section>
@@ -124,8 +583,14 @@
 <div id="footer-mount"></div>
 <script src="js/app.js"></script>
 <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
+<script>
 (async function(){
   mountLayout("valuation");
+
   const [categories, benchmarksData] = await Promise.all([
     loadCategories(),
     loadJSON("data/benchmarks.json")
@@ -133,7 +598,7 @@
   const benchmarks = benchmarksData.by_category;
   const benchmarkByCategory = Object.fromEntries(benchmarks.map(b => [b.id, b]));
 
-  const catSelect = document.getElementById("val-category");
+  const catSelect = document.getElementById("i-category");
   categories.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c.id;
@@ -141,40 +606,318 @@
     catSelect.appendChild(opt);
   });
 
-  document.getElementById("val-submit").addEventListener("click", () => {
-    const catId = catSelect.value;
-    const revenue = parseFloat(document.getElementById("val-revenue").value) || 0;
-    const profit = parseFloat(document.getElementById("val-profit").value) || 0;
-    const years = parseInt(document.getElementById("val-years").value) || 0;
-    const equipment = document.getElementById("val-equipment").checked;
-    const errEl = document.getElementById("val-error");
+  // Step navigation
+  function goStep(n) {
+    document.querySelectorAll(".val-step").forEach(s => s.classList.toggle("active", s.dataset.step == n));
+    document.querySelectorAll(".val-progress-step").forEach(p => {
+      const k = parseInt(p.dataset.prog);
+      p.classList.toggle("active", k == n);
+      p.classList.toggle("done", k < n);
+    });
+    document.getElementById("val-form").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
-    if (!catId) { errEl.textContent = "Zəhmət olmasa kateqoriya seçin."; errEl.style.display = "block"; return; }
-    if (profit <= 0) { errEl.textContent = "Aylıq mənfəəti daxil edin."; errEl.style.display = "block"; return; }
-    errEl.style.display = "none";
-
-    const bench = benchmarkByCategory[catId];
-    const multiple = bench ? bench.avg_multiple : 12;
-    let estimated = profit * multiple;
-    if (equipment) estimated *= 1.05;
-    if (years >= 5) estimated *= 1.08;
-
-    const low = Math.round(estimated * 0.85);
-    const high = Math.round(estimated * 1.18);
-    const mid = Math.round(estimated);
-    const paybackMonths = profit > 0 ? Math.round(estimated / profit) : 0;
-    const margin = revenue > 0 ? ((profit / revenue) * 100).toFixed(1) : "—";
-
-    document.getElementById("res-range").textContent = fmtAZN(low) + " – " + fmtAZN(high);
-    document.getElementById("res-mid").textContent = fmtAZN(mid);
-    document.getElementById("res-payback").textContent = paybackMonths + " ay";
-    document.getElementById("res-multiple").textContent = "×" + multiple.toFixed(1);
-    document.getElementById("res-margin").textContent = margin + "%";
-
-    const resultEl = document.getElementById("val-result");
-    resultEl.style.display = "block";
-    resultEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.querySelectorAll("[data-go]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const go = btn.dataset.go;
+      if (go) goStep(parseInt(go));
+    });
   });
+
+  // Radio cards
+  document.querySelectorAll(".val-radio-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const input = card.querySelector("input");
+      const name = input.name;
+      document.querySelectorAll(`.val-radio-card`).forEach(c => {
+        if (c.querySelector("input").name === name) c.classList.remove("selected");
+      });
+      card.classList.add("selected");
+      input.checked = true;
+    });
+  });
+
+  // Real estate field toggle
+  const reSelect = document.getElementById("i-real-estate");
+  function updateRealEstateFields() {
+    const v = reSelect.value;
+    document.getElementById("rent-field").style.display = (v === "rent") ? "" : "none";
+  }
+  reSelect.addEventListener("change", updateRealEstateFields);
+  updateRealEstateFields();
+
+  // Calculate
+  document.getElementById("val-calculate").addEventListener("click", () => {
+    const data = collectInputs();
+    if (!validateInputs(data)) return;
+    const result = computeValuation(data);
+    renderResult(data, result);
+  });
+
+  function collectInputs() {
+    const num = id => parseFloat(document.getElementById(id).value) || 0;
+    const radio = name => {
+      const el = document.querySelector(`input[name="${name}"]:checked`);
+      return el ? el.value : null;
+    };
+    return {
+      category: document.getElementById("i-category").value,
+      location: document.getElementById("i-location").value,
+      years: num("i-years"),
+      customers: num("i-customers"),
+      revenue: num("i-revenue"),
+      profit: num("i-profit"),
+      ownerSalary: num("i-owner-salary"),
+      addbacks: num("i-addbacks"),
+      growth: num("i-growth"),
+      recurring: num("i-recurring"),
+      equipment: num("i-equipment"),
+      inventory: num("i-inventory"),
+      realEstate: document.getElementById("i-real-estate").value,
+      rent: num("i-rent"),
+      leaseYears: num("i-lease-years"),
+      propertyValue: num("i-property-value"),
+      staff: num("i-staff"),
+      license: document.getElementById("i-license").value,
+      concentration: radio("concentration"),
+      ownerDep: radio("owner-dep"),
+      docs: radio("docs"),
+      brand: radio("brand"),
+      staffStability: radio("staff-stability")
+    };
+  }
+
+  function validateInputs(d) {
+    if (!d.category) { alert("Kateqoriya seçin"); goStep(1); return false; }
+    if (d.profit <= 0) { alert("İllik xalis mənfəəti daxil edin"); goStep(2); return false; }
+    if (d.revenue <= 0) { alert("İllik gəliri daxil edin"); goStep(2); return false; }
+    if (d.profit > d.revenue) { alert("Mənfəət gəlirdən böyük ola bilməz"); goStep(2); return false; }
+    return true;
+  }
+
+  function computeValuation(d) {
+    const bench = benchmarkByCategory[d.category];
+    // Benchmark avg_multiple is monthly profit multiple (price / monthly_profit).
+    // Convert to annual SDE multiple.
+    const baseMultipleAnnual = (bench ? bench.avg_multiple : 12) / 12;
+
+    // SDE = annual profit + owner salary add-back + non-recurring add-backs
+    const sde = d.profit + d.ownerSalary + d.addbacks;
+
+    // Adjustments (each as fractional change to multiple)
+    const adj = [];
+
+    // 1) Operating history
+    let v;
+    if (d.years < 2) v = -0.20;
+    else if (d.years < 5) v = 0;
+    else if (d.years < 10) v = 0.10;
+    else v = 0.15;
+    adj.push({ label: `Fəaliyyət müddəti (${Math.round(d.years)} il)`, value: v });
+
+    // 2) Growth
+    if (d.growth < -10) v = -0.25;
+    else if (d.growth < 0) v = -0.15;
+    else if (d.growth < 5) v = 0;
+    else if (d.growth < 15) v = 0.10;
+    else if (d.growth < 30) v = 0.20;
+    else v = 0.30;
+    adj.push({ label: `Gəlir artımı (${Math.round(d.growth)}%)`, value: v });
+
+    // 3) Recurring revenue
+    if (d.recurring >= 50) v = 0.15;
+    else if (d.recurring >= 30) v = 0.10;
+    else if (d.recurring >= 15) v = 0.05;
+    else v = 0;
+    adj.push({ label: `Təkrarlanan gəlir (${Math.round(d.recurring)}%)`, value: v });
+
+    // 4) Customer concentration
+    const concMap = { low: 0, medium: -0.05, high: -0.15 };
+    adj.push({ label: "Müştəri konsentrasiyası", value: concMap[d.concentration] || 0 });
+
+    // 5) Owner dependence
+    const ownerMap = { low: 0.10, medium: 0, high: -0.15 };
+    adj.push({ label: "Sahibə bağlılıq", value: ownerMap[d.ownerDep] || 0 });
+
+    // 6) Documentation
+    const docsMap = { audit: 0.10, accounting: 0, basic: -0.10, none: -0.20 };
+    adj.push({ label: "Sənəd keyfiyyəti", value: docsMap[d.docs] || 0 });
+
+    // 7) Brand & online presence
+    const brandMap = { strong: 0.10, moderate: 0, weak: -0.10 };
+    adj.push({ label: "Brend və reputasiya", value: brandMap[d.brand] || 0 });
+
+    // 8) Staff stability
+    const staffMap = { high: 0.05, medium: 0, low: -0.10 };
+    adj.push({ label: "Heyətin sabitliyi", value: staffMap[d.staffStability] || 0 });
+
+    // 9) Location
+    const locMap = { prime: 0.10, good: 0, average: -0.05, poor: -0.15 };
+    adj.push({ label: "Lokasiya keyfiyyəti", value: locMap[d.location] || 0 });
+
+    // 10) Lease (only if renting)
+    let leaseAdj = 0;
+    if (d.realEstate === "rent") {
+      if (d.leaseYears < 2) leaseAdj = -0.10;
+      else if (d.leaseYears >= 5) leaseAdj = 0.05;
+      adj.push({ label: `İcarə müddəti (${Math.round(d.leaseYears)} il qalıb)`, value: leaseAdj });
+    }
+
+    // 11) License status
+    const licMap = { full: 0, "not-required": 0, partial: -0.05, none: -0.15 };
+    adj.push({ label: "Lisenziya durumu", value: licMap[d.license] || 0 });
+
+    // 12) Profit margin vs industry
+    const myMargin = d.profit / d.revenue;
+    const industryMargin = bench ? (bench.avg_profit_azn / bench.avg_revenue_azn) : 0.25;
+    let marginAdj = 0;
+    if (myMargin > industryMargin * 1.3) marginAdj = 0.10;
+    else if (myMargin > industryMargin * 1.1) marginAdj = 0.05;
+    else if (myMargin < industryMargin * 0.7) marginAdj = -0.10;
+    adj.push({ label: `Mənfəət marjası (${(myMargin*100).toFixed(1)}% vs sənaye ${(industryMargin*100).toFixed(0)}%)`, value: marginAdj });
+
+    // Cap total adjustment to ±50%
+    let totalAdj = adj.reduce((s, a) => s + a.value, 0);
+    totalAdj = Math.max(-0.50, Math.min(0.50, totalAdj));
+    const adjustedMultiple = baseMultipleAnnual * (1 + totalAdj);
+
+    // Method 1: SDE-based valuation
+    const sdeValuation = sde * adjustedMultiple;
+
+    // Method 2: Revenue multiple
+    // Base revenue multiple varies by industry. Use industry margin to derive.
+    let revMultiple = 0.4 + Math.min(0.8, industryMargin * 2.5);
+    revMultiple *= (1 + totalAdj * 0.6); // less sensitive than SDE
+    const revValuation = d.revenue * revMultiple;
+
+    // Method 3: Asset floor (equipment + inventory + included property)
+    const includedProperty = (d.realEstate === "own-included") ? d.propertyValue : 0;
+    const assetFloor = d.equipment + d.inventory + includedProperty;
+
+    // Weighted recommendation
+    // 65% SDE, 25% revenue, 10% asset; never below 110% of asset floor
+    const weighted = sdeValuation * 0.65 + revValuation * 0.25 + assetFloor * 0.10;
+    const recommended = Math.max(weighted, assetFloor * 1.1);
+
+    const low = Math.round(recommended * 0.85);
+    const high = Math.round(recommended * 1.18);
+    const mid = Math.round(recommended);
+
+    return {
+      sde, baseMultipleAnnual, adjustedMultiple,
+      sdeValuation: Math.round(sdeValuation),
+      revValuation: Math.round(revValuation),
+      assetFloor: Math.round(assetFloor),
+      revMultiple,
+      low, high, mid,
+      adjustments: adj,
+      totalAdj,
+      industryMargin
+    };
+  }
+
+  function renderResult(d, r) {
+    document.getElementById("r-range").textContent = fmtAZN(r.low) + " – " + fmtAZN(r.high);
+    document.getElementById("r-mid").textContent = fmtAZN(r.mid);
+    document.getElementById("r-method-sde").textContent = fmtAZN(r.sdeValuation);
+    document.getElementById("r-sde-detail").textContent =
+      `${fmtAZN(r.sde)} SDE × ${r.adjustedMultiple.toFixed(2)}`;
+    document.getElementById("r-method-rev").textContent = fmtAZN(r.revValuation);
+    document.getElementById("r-rev-detail").textContent =
+      `${fmtAZN(d.revenue)} × ${r.revMultiple.toFixed(2)}`;
+    document.getElementById("r-method-asset").textContent = fmtAZN(r.assetFloor);
+
+    // Breakdown
+    const bd = document.getElementById("r-breakdown");
+    let html = `
+      <div class="val-adj-row">
+        <span class="val-adj-label">SDE (Sahibə Sərbəst Gəlir) = mənfəət + maaş + birdəfəlik</span>
+        <span class="val-adj-value">${fmtAZN(r.sde)}</span>
+      </div>
+      <div class="val-adj-row">
+        <span class="val-adj-label">Sənaye baza çoxşaylısı (${d.category})</span>
+        <span class="val-adj-value">${r.baseMultipleAnnual.toFixed(2)}× SDE</span>
+      </div>
+      <div class="val-adj-row" style="background:#f8fafc;margin:8px -10px;padding:8px 10px;border-radius:6px;border:none">
+        <span class="val-adj-label" style="font-weight:700;color:var(--text);font-size:13px">Düzəliş faktorları</span>
+        <span></span>
+      </div>
+    `;
+    r.adjustments.forEach(a => {
+      const pct = (a.value * 100).toFixed(0);
+      const cls = a.value > 0 ? "pos" : a.value < 0 ? "neg" : "neutral";
+      const sign = a.value > 0 ? "+" : "";
+      html += `<div class="val-adj-row">
+        <span class="val-adj-label">${a.label}</span>
+        <span class="val-adj-value ${cls}">${sign}${pct}%</span>
+      </div>`;
+    });
+    const totalCls = r.totalAdj > 0 ? "pos" : r.totalAdj < 0 ? "neg" : "neutral";
+    const totalSign = r.totalAdj > 0 ? "+" : "";
+    html += `<div class="val-adj-row" style="border-top:2px solid var(--border);padding-top:14px;margin-top:8px">
+      <span class="val-adj-label" style="font-weight:700;color:var(--text)">Ümumi düzəliş</span>
+      <span class="val-adj-value ${totalCls}">${totalSign}${(r.totalAdj*100).toFixed(0)}%</span>
+    </div>
+    <div class="val-adj-row">
+      <span class="val-adj-label" style="font-weight:700;color:var(--text)">Düzəlişli SDE çoxşaylı</span>
+      <span class="val-adj-value">${r.adjustedMultiple.toFixed(2)}× SDE</span>
+    </div>
+    <div class="val-adj-row" style="background:#ede9fe;margin:8px -10px;padding:12px 10px;border-radius:6px;border:none">
+      <span class="val-adj-label" style="font-weight:700;color:#4f46e5;font-size:14px">Çəkili tövsiyə (65% SDE + 25% Gəlir + 10% Aktiv)</span>
+      <span class="val-adj-value" style="color:#4f46e5;font-size:15px">${fmtAZN(r.mid)}</span>
+    </div>`;
+    bd.innerHTML = html;
+
+    // Strengths & risks
+    const strengths = [], risks = [];
+    if (d.years >= 5) strengths.push(`${Math.round(d.years)} ildir fəaliyyətdə — sabit tarixçə`);
+    else if (d.years < 2) risks.push("Yeni biznes (2 ildən az) — qiymət iddiası məhduddur");
+
+    if (d.growth >= 15) strengths.push(`Güclü gəlir artımı (+${Math.round(d.growth)}%) qiyməti yuxarı çəkir`);
+    else if (d.growth < 0) risks.push(`Mənfi artım (${Math.round(d.growth)}%) — qiyməti azaldır`);
+
+    const myMargin = d.profit / d.revenue;
+    if (myMargin > r.industryMargin * 1.2) strengths.push(`Sənaye ortasından yuxarı mənfəət marjası (${(myMargin*100).toFixed(0)}%)`);
+    else if (myMargin < r.industryMargin * 0.7) risks.push(`Aşağı mənfəət marjası (${(myMargin*100).toFixed(0)}%) — operativ səmərəsizlik`);
+
+    if (d.recurring >= 30) strengths.push(`Yüksək təkrarlanan gəlir (${Math.round(d.recurring)}%) — sabitlik`);
+
+    if (d.concentration === "low") strengths.push("Müştəri bazası diversifikasiyalı");
+    else if (d.concentration === "high") risks.push("Yüksək müştəri konsentrasiyası — bir neçə müştəri itkisi böhran yaradır");
+
+    if (d.ownerDep === "low") strengths.push("Sahibsiz işləyən struktur — passiv mülkiyyət üçün uyğun");
+    else if (d.ownerDep === "high") risks.push("Sahibə yüksək bağlılıq — alıcının operativ qoşulması tələb olunur");
+
+    if (d.docs === "audit") strengths.push("Audit edilmiş hesabatlar — investor etibarı yüksək");
+    else if (d.docs === "none") risks.push("Maliyyə sənədləri yoxdur — alıcının yoxlama imkanı zəifdir");
+
+    if (d.brand === "strong") strengths.push("Güclü brend tanınması");
+    else if (d.brand === "weak") risks.push("Zəif brend — marketinq investisiyası tələb olunacaq");
+
+    if (d.location === "prime") strengths.push("Premium lokasiya — sabit müştəri axını");
+    else if (d.location === "poor") risks.push("Zəif lokasiya — alıcı sayı məhduddur");
+
+    if (d.realEstate === "rent" && d.leaseYears < 2) risks.push("İcarə müqaviləsi 2 ildən az qalıb — yenidən danışıq riski");
+    if (d.realEstate === "own-included") strengths.push("Daşınmaz əmlak qiymətə daxildir");
+
+    if (d.staffStability === "low") risks.push("İşçi axıcılığı yüksəkdir — bilik itkisi riski");
+    else if (d.staffStability === "high") strengths.push("Sabit heyət — əməliyyatların davamlılığı");
+
+    if (d.license === "none") risks.push("Lisenziya yoxdur — fəaliyyətin legallaşdırılması xərcləri");
+
+    if (r.assetFloor > r.sdeValuation * 1.5) {
+      strengths.push("Yüksək maddi aktivlər — qiymətin əsası möhkəmdir");
+    }
+
+    if (strengths.length === 0) strengths.push("Müəyyən edilmiş güclü tərəflər yoxdur");
+    if (risks.length === 0) risks.push("Əhəmiyyətli risk amilləri tapılmadı");
+
+    document.getElementById("r-strengths").innerHTML = strengths.map(s => `<li>${s}</li>`).join("");
+    document.getElementById("r-risks").innerHTML = risks.map(s => `<li>${s}</li>`).join("");
+
+    document.getElementById("val-result").style.display = "block";
+    document.getElementById("val-result").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   applyI18n();
   window.addEventListener("langchange", () => location.reload());
