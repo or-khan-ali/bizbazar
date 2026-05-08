@@ -380,47 +380,6 @@ const STRINGS = {
     telegram_contact: "Telegram",
     profit_margin: "Profit margin",
     payback_period: "Payback period",
-    nav_investors: "Investors",
-    inv_hero_eyebrow: "Verified investor network",
-    inv_hero_title_1: "Connect with investors",
-    inv_hero_title_2: "ready to back your business",
-    inv_hero_sub: "Verified investors looking to acquire ready businesses or invest capital in operating companies in Azerbaijan. Direct contact, NDA-protected, with full professional support.",
-    inv_stat_investors: "Active investors",
-    inv_stat_volume: "AZN total budget",
-    inv_stat_deals: "Closed deals",
-    inv_stat_verified: "Verified profiles",
-    inv_trust_verified: "Identity-verified investors",
-    inv_trust_nda: "NDA-protected confidentiality",
-    inv_trust_response: "24-hour response time",
-    inv_trust_direct: "Direct, broker-free contact",
-    inv_filter_all_types: "All types",
-    inv_filter_all_sectors: "All sectors",
-    inv_filter_all_budgets: "All budgets",
-    inv_filter_all_intent: "All intents",
-    inv_type_individual: "Individual",
-    inv_type_corporate: "Corporate",
-    inv_intent_buy: "Looking to buy",
-    inv_intent_invest: "Seeking partnership",
-    inv_sort_featured: "Featured profiles",
-    inv_sort_budget_high: "Budget: high to low",
-    inv_sort_budget_low: "Budget: low to high",
-    inv_sort_deals: "Most experienced",
-    inv_sort_rating: "By rating",
-    inv_count_suffix: "investors found",
-    inv_budget_label: "Investment budget",
-    inv_sectors_label: "Areas of interest",
-    inv_rating_label: "Rating",
-    inv_deals_label: "Deals closed",
-    inv_action_connect: "Connect",
-    inv_empty_title: "No results found",
-    inv_empty_text: "Try adjusting your filters to see more profiles.",
-    inv_cta_title: "Register as an investor",
-    inv_cta_sub: "BizBazar delivers verified business opportunities directly to you. Find quality deals — confidentially, without wasting time.",
-    inv_cta_benefit_1: "New verified business listings every week",
-    inv_cta_benefit_2: "Financial, legal and valuation support",
-    inv_cta_benefit_3: "Dedicated account manager",
-    inv_cta_btn_primary: "Register now",
-    inv_cta_btn_whatsapp: "Contact via WhatsApp",
     recent_title: "Recently viewed",
     testimonials_title: "Customer reviews",
     deals_closed_label: "Deals closed",
@@ -815,6 +774,10 @@ async function loadFranchises() {
   return loadJSON("data/franchises.json");
 }
 
+async function loadInvestors() {
+  return loadJSON("data/investors.json");
+}
+
 /* ============ City / District i18n ============ */
 const CITY_TRANSLATIONS = {
   "Bakı": { en: "Baku", ru: "Баку" },
@@ -911,6 +874,9 @@ function renderFooter() {
         <div class="footer-col">
           <h4 data-i18n="footer_platform"></h4>
           <a href="listings.html" data-i18n="nav_browse"></a>
+          <a href="franchises.html" data-i18n="nav_franchises"></a>
+          <a href="investors.html" data-i18n="nav_investors"></a>
+          <a href="brokers.html">Brokerlər</a>
           <a href="services.html" data-i18n="nav_services"></a>
           <a href="sell.html" data-i18n="nav_sell"></a>
         </div>
@@ -1049,33 +1015,38 @@ function skeletonCardHTML() {
 function listingCardHTML(l, categoriesById) {
   const cat = categoriesById[l.category];
   const icon = CATEGORY_ICONS[l.category] || "🏢";
-  const featuredBadge = l.featured ? `<div class="listing-badge">${t("badge_featured")}</div>` : "";
-  const verifiedBadge = l.verified ? `<div class="verified-badge">✓ ${t("verified")}</div>` : "";
+  const title = locField(l, "title");
+  const titleEsc = title.replace(/"/g, '&quot;');
+  const featuredBadge = l.featured
+    ? `<div style="position:absolute;top:12px;left:12px;background:#f59e0b;color:white;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;z-index:3;">${t("badge_featured")}</div>`
+    : "";
+  const verifiedBadge = l.verified
+    ? `<div style="display:inline-flex;align-items:center;gap:4px;background:#dcfce7;color:#16a34a;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;align-self:flex-start;">✓ ${t("verified")}</div>`
+    : "";
   const thumb = getListingThumb(l);
   const saved = isFavorite(l.id);
   const waBtn = l.whatsapp && l.phone
-    ? `<a class="wa-btn wa-btn-sm" href="https://wa.me/994502009088" target="_blank" onclick="event.stopPropagation()">WhatsApp</a>`
+    ? `<a href="https://wa.me/994502009088" target="_blank" onclick="event.preventDefault();event.stopPropagation();window.open(this.href,'_blank')" style="display:inline-flex;align-items:center;gap:6px;background:#25d366;color:white;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;text-decoration:none;align-self:flex-start;margin-top:6px;">💬 WhatsApp</a>`
     : "";
   return `
-  <a class="listing-card" href="listing.html?id=${l.id}">
-    <div class="listing-image">
-      <img src="${thumb}" alt="${locField(l,'title')}" loading="lazy">
+  <a class="listing-card" href="listing.html?id=${l.id}" style="display:flex;flex-direction:column;background:white;border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;text-decoration:none;color:#0f172a;height:100%;box-shadow:0 1px 3px rgba(0,0,0,.04);">
+    <div style="position:relative;width:100%;height:180px;background:linear-gradient(135deg,#fef3c7,#fed7aa);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">
+      <span style="position:absolute;font-size:72px;opacity:.45;z-index:0;">${icon}</span>
+      <img src="${thumb}" alt="${titleEsc}" loading="lazy" onerror="this.style.display='none'" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;">
       ${featuredBadge}
-      <span class="cat-overlay">${icon}</span>
-      <button class="save-btn${saved ? ' saved' : ''}" data-id="${l.id}" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('saved');toggleFavorite('${l.id}')">♥</button>
-      <label class="compare-checkbox-wrap" onclick="event.stopPropagation()"><input type="checkbox" class="compare-cb" data-id="${l.id}" data-title="${locField(l,'title').replace(/"/g,'&quot;')}"></label>
+      <button data-id="${l.id}" onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('saved');toggleFavorite('${l.id}');this.style.color=this.classList.contains('saved')?'#e63946':'#94a3b8'" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.92);border:none;border-radius:50%;width:34px;height:34px;font-size:16px;cursor:pointer;z-index:3;color:${saved ? '#e63946' : '#94a3b8'};display:flex;align-items:center;justify-content:center;">♥</button>
     </div>
-    <div class="listing-body">
+    <div style="padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;">
       ${verifiedBadge}
-      <div class="listing-cat">${catLabel(cat)}</div>
-      <h3 class="listing-title">${locField(l, "title")}</h3>
-      <div class="listing-loc">📍 ${locDistrict(l.district)}, ${locCity(l.city)}</div>
-      <div class="listing-meta">
+      <div style="font-size:11px;font-weight:600;color:#2563eb;text-transform:uppercase;letter-spacing:.04em;">${catLabel(cat)}</div>
+      <h3 style="font-size:16px;font-weight:700;margin:0;color:#0f172a;line-height:1.35;">${title}</h3>
+      <div style="font-size:13px;color:#64748b;">📍 ${locDistrict(l.district)}, ${locCity(l.city)}</div>
+      <div style="display:flex;gap:10px;font-size:12px;color:#64748b;flex-wrap:wrap;">
         <span>📐 ${fmtNum(l.area_m2)} m²</span>
         <span>👥 ${l.staff_count}</span>
         <span>📅 ${l.operating_years} ${t("listing_meta_years")}</span>
       </div>
-      <div class="listing-price">${fmtAZN(l.price_azn)}<span class="listing-price-sub">${fmtUSD(l.price_azn)}</span></div>
+      <div style="font-size:20px;font-weight:800;color:#0f172a;margin-top:auto;padding-top:10px;border-top:1px solid #f1f5f9;">${fmtAZN(l.price_azn)}<span style="font-size:12px;font-weight:500;color:#64748b;margin-left:4px;">${fmtUSD(l.price_azn)}</span></div>
       ${waBtn}
     </div>
   </a>`;
