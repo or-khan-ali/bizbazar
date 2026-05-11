@@ -1,3 +1,4 @@
+window.BIZBAZAR_AI_ENDPOINT = "https://bizbazar-ai.orkhan-r-ali.workers.dev";
 // BizBazar — shared utilities
 // i18n, formatting, data loading, header setup
 // Approximate exchange rate AZN -> USD
@@ -1080,4 +1081,741 @@ function listingCardHTML(l, categoriesById) {
       ${waBtn}
     </div>
   </a>`;
+}
+
+
+/* ============================================================
+   AI Chatbot — rule-based FAQ, 3 languages, self-mounting
+   ============================================================ */
+
+const CHATBOT_FAQ = {
+  az: [
+    { id: 0, q: "BizBazar nədir?",
+      patterns: ["bizbazar", "nədir", "sayt nədir", "platforma", "haqqında"],
+      a: "BizBazar.az Azərbaycanda fəaliyyət göstərən bizneslərin alqı-satqısı, qiymətləndirilməsi və investor-sahibkar uyğunlaşdırılması üçün peşəkar platformadır. Bir məkanda 5 xidmət: yoxlanmış biznes elanları, broker şəbəkəsi, investor kataloqu, peşəkar qiymətləndirmə və xəritə-əsaslı axtarış." },
+    { id: 1, q: "Biznesimi necə satıram?",
+      patterns: ["sat", "satım", "satmaq", "biznes sat", "elan", "necə sat", "satışa qoy", "necə qoy"],
+      a: "Saytın yuxarısındakı 'Sat' bölməsindən elan yerləşdirə bilərsiniz. Elan formasında biznesin gəliri, mənfəəti, lokasiyası və əlaqə məlumatları daxil olur. Peşəkar broker dəstəyi istəyirsinizsə, 'Brokerlər' bölməsindən birbaşa əlaqə qurun." },
+    { id: 2, q: "Pulsuzdurmu?",
+      patterns: ["pulsuz", "qiymət", "ödənişli", "ödəniş", "neçəyə", "free", "abunə"],
+      a: "Əsas funksiyalar pulsuzdur — elan yerləşdirmək, axtarış etmək, qiymətləndirmə kalkulyatorundan istifadə etmək. Premium elan paketləri (50 AZN/ay), broker abunəlikləri və peşəkar qiymətləndirmə hesabatları ödənişlidir." },
+    { id: 3, q: "Hansı dillərdə var?",
+      patterns: ["dil", "ingilis", "rus", "english", "russian", "language", "azerbaijani"],
+      a: "Sayt 3 dildə işləyir: Azərbaycan, İngilis və Rus. Header-dəki AZ/EN/RU pereklyuçateli ilə dəyişə bilərsiniz. Bütün elanlar 3 dildə təqdim olunur." },
+    { id: 4, q: "Mobil tətbiq var?",
+      patterns: ["mobil", "tətbiq", "telefon", "app", "ios", "android", "yüklə", "endir"],
+      a: "Saytı telefonda açın və 'Ana ekrana əlavə et' düyməsinə basın — bu Progressive Web App-dir, tətbiq kimi işləyir. Native iOS və Android tətbiqlər 2027-də planlaşdırılıb." },
+
+    { id: 5, q: "Hansı sənədlər lazımdır?",
+      patterns: ["sənəd", "document", "lazım", "qeydiyyat", "lisenziya", "vergi"],
+      a: "Elan üçün: biznes lisenziyası, son 12 ayın gəlir-mənfəət hesabatları, icarə müqaviləsi (icarədirsə), avadanlıq siyahısı. Yoxlanma nişanı (verified badge) almaq üçün bu sənədləri komandamıza göndərməlisiniz." },
+    { id: 6, q: "Məxfilik necə qorunur?",
+      patterns: ["məxfilik", "gizli", "anonim", "nda", "privacy", "secret", "konfidensial"],
+      a: "Elanın detalları yalnız yoxlanmış alıcılara açıqlanır. NDA (Non-Disclosure Agreement) imzalanır. Şirkət adı, ünvanı və əlaqə yalnız ciddi maraq göstərdikdən sonra paylaşılır — işçi və müştəriləriniz xəbər tutmur." },
+    { id: 7, q: "Satış neçə zaman çəkir?",
+      patterns: ["nə qədər", "vaxt", "zaman", "müddət", "neçə ay", "neçə gün", "tez"],
+      a: "Ortalama 3-6 ay (Bakıda yaxşı yoxlanmış biznes üçün). Düzgün qiymət, tam sənədlər və broker dəstəyi ilə bu müddət 2 aya qədər qısala bilər. Qiymət bazardan yüksək olanda 9-12 ay çəkə bilər." },
+    { id: 8, q: "Biznes almaq istəyirəm",
+      patterns: ["al", "alıcı", "almaq", "satın", "axtarıram", "buy", "axtar"],
+      a: "'Bütün elanlar' səhifəsində filtrləyə bilərsiniz: sektor, qiymət, lokasiya, sənəd statusuna görə. Hər elanın profilində birbaşa WhatsApp və zəng düymələri var. Daha çox seçim üçün 'Brokerlər' səhifəsindən broker ilə əlaqə qurun." },
+    { id: 9, q: "Qiymətləndirmə necə işləyir?",
+      patterns: ["qiymət", "valuation", "qiymətləndirmə", "dəyər", "neçəyə dəyər", "valuasiya"],
+      a: "Saytda 4 mərhələli peşəkar valuasiya kalkulyatoru var — 'Qiymətləndirmə' menyusundan açın. 20+ giriş ilə 3 metoddan qiymət hesablayır: SDE Multiple, Gəlir Multiple, Aktiv Floor. 12 düzəliş faktoru avtomatik tətbiq olunur (lokasiya, gəlir artımı, sənəd keyfiyyəti və s.)." },
+
+    { id: 10, q: "Brokerlər kimlərdir?",
+      patterns: ["broker", "brokerler", "kim", "agentlik", "agency"],
+      a: "Saytda 10 yoxlanmış biznes brokeri var — fərdi brokerlər və agentliklər. Hər brokerin lisenziya nömrəsi, sövdələşmə tarixçəsi (volume), reytinq və ixtisaslaşmaları görünür. 'Brokerlər' menyusundan onları filtrlə və birbaşa WhatsApp/telefonla əlaqə qurun." },
+    { id: 11, q: "Broker komissiyası nə qədərdir?",
+      patterns: ["komissiya", "commission", "neçə faiz", "tariff", "tarif", "fiz"],
+      a: "Klassik brokerlərdə 5-10% komissiya, BizBazar üzərindən isə 3% (1.5% alıcı + 1.5% satıcı). Komissiya yalnız sövdələşmə bağlandıqda alınır — əvvəlcədən ödəniş yoxdur." },
+    { id: 12, q: "Broker olmaq istəyirəm",
+      patterns: ["broker ol", "qeydiyyat", "qoşul", "register", "join", "broker kim ola"],
+      a: "Peşəkar broker və ya agentlik kimi qoşulmaq üçün 'Brokerlər' səhifəsinin altındakı 'Broker olaraq qoşul' düyməsindən forma doldurun. İlk 6 ay komissiyasız — yalnız platforma abunəliyi (200 AZN/ay)." },
+    { id: 13, q: "İnvestor axtarıram",
+      patterns: ["investor", "investisiya", "kapital", "maliyy", "pay axtarır"],
+      a: "'İnvestorlar' səhifəsində 10 yoxlanmış investor profili mövcuddur — fərdi və korporativ, AZN 15K-2M büdcə aralığında. Hər biri ilə birbaşa əlaqə (NDA imzaladıqdan sonra) qura bilərsiniz." },
+    { id: 14, q: "Hansı sektorlar var?",
+      patterns: ["sektor", "kategoriya", "növ", "sahə", "industry", "category"],
+      a: "12 əsas kateqoriya: kafe/restoran, gözəllik salonu, avtoservis, pərakəndə, fitness, istehsalat, təhsil, tibbi, otel/hostel, əyləncə, xidmət, aptek. Hər biri xəritə və filtrdə əlçatandır." },
+
+    { id: 15, q: "Xəritədə necə baxım?",
+      patterns: ["xəritə", "map", "harada", "lokasiya", "yerləşmə"],
+      a: "'Xəritə' menyusundan Bakı və regionların interaktiv xəritəsi açılır. Biznes və investor markerləri ayrı rənglərlə göstərilir. Marker üzərinə klik edib detalları gör, yan sidebar-dan elanların siyahısı." },
+    { id: 16, q: "Premium elan nədir?",
+      patterns: ["premium", "feature", "seçilmiş", "öndə", "üst", "vip"],
+      a: "Premium elan paketi (50-150 AZN/ay) elan sizinin ana səhifədə və axtarış nəticələrində öndə görünməsini, 3-4x daha çox baxış almasını və 'Premium' nişanı əlavə edilməsini təmin edir." },
+    { id: 17, q: "Yoxlanma necə baş verir?",
+      patterns: ["yoxla", "verified", "yoxlanma", "sertifikat", "təsdiq"],
+      a: "Yoxlama 3 mərhələdə baş verir: 1) Lisenziya və sənədlərin yoxlanması; 2) Komandamızın biznesə fiziki ziyarəti; 3) Maliyyə hesabatlarının auditi (istəyə bağlı). Bütün proseslər 5-10 iş günü çəkir, pulsuzdur." },
+    { id: 18, q: "Vergi məsələləri",
+      patterns: ["vergi", "tax", "vergilər", "vergi necə"],
+      a: "Biznes alqı-satqısı zamanı vergi tətbiq olunur (gəlir vergisi, ƏDV bəzi hallarda). Komandamız sizə kompleks mühasibatlıq və hüquqi məsləhət təşkil edə bilər — 'Xidmətlər' bölməsindən baxın və ya WhatsApp-la əlaqə saxlayın." },
+    { id: 19, q: "Niyə BizBazar-ı seçim?",
+      patterns: ["niyə", "fərq", "üstün", "why", "advantage", "fayda"],
+      a: "5 səbəb: 1) Yeganə peşəkar biznes platforması — tap.az kimi ümumi elan saytı deyil; 2) Yoxlanmış elanlar və brokerlər; 3) NDA qorunan məxfilik; 4) 3% komissiya (klassik 5-10% əvəzinə); 5) Pulsuz peşəkar qiymətləndirmə alətləri." },
+
+    { id: 20, q: "Hansı şəhərlərdə fəaliyyət göstərir?",
+      patterns: ["şəhər", "regions", "harada", "bakı dan başqa", "city"],
+      a: "Hazırda Bakı, Gəncə, Sumqayıt, Quba, Qəbələ və digər regionları əhatə edir. Xəritə görünüşündən bütün şəhərləri görə bilərsiniz. 2027-də Tbilisi (Gürcüstan) launch planlaşdırılıb." },
+    { id: 21, q: "Franşiza seçimi",
+      patterns: ["franşiza", "franchise", "francise", "lisenziya satışı"],
+      a: "'Franşizalar' menyusundan fəal franşiza imkanlarına baxa bilərsiniz. Hər franşizanın ROI, geri ödəmə müddəti, başlanğıc kapital və royalty faizi göstərilib." },
+    { id: 22, q: "Əlaqə necə qura bilərəm?",
+      patterns: ["əlaqə", "contact", "telefon", "whatsapp", "support", "dəstək", "kömək"],
+      a: "WhatsApp: +994 50 200 90 88. E-mail: info@bizbazar.az. Bütün suallar üçün cavab müddəti 24 saat ərzində. Aşağıdakı 'Əlaqə' bölməsindən forma doldurub göndərə bilərsiniz." },
+    { id: 23, q: "Hesabat sifariş etmək",
+      patterns: ["hesabat", "report", "valuasiya hesabat", "sertifikat", "rəsmi"],
+      a: "Peşəkar valuasiya hesabatları (150-500 AZN) bank krediti, hüquqi sövdələşmə və ya rəsmi sənəd üçün lazımdırsa, 'Xidmətlər' bölməsindən sifariş verin. Sertifikatlı qiymətləndirici tərəfindən 3-5 iş günü ərzində hazırlanır." },
+    { id: 24, q: "Şikayət bildirmək",
+      patterns: ["şikayət", "problem", "complaint", "report", "şikayyət", "yanlış"],
+      a: "Yanlış elan, scam və ya hər hansı problem üçün dərhal WhatsApp +994 50 200 90 88 ünvanına yazın. Şikayət 24 saat ərzində baxılır, lazım olduqda elan saytdan silinir." },
+
+    { id: 25, q: "Biznes hesabı yaratmaq",
+      patterns: ["hesab", "qeydiyyat", "account", "register", "yarat", "üzv ol"],
+      a: "Hazırda elan yerləşdirmək üçün qeydiyyat tələb olunmur — sadəcə əlaqə məlumatlarını verirsiniz. İstifadəçi profili və saxlanmış elanlar funksiyası 2026 Q4-də launch olunacaq." },
+    { id: 26, q: "Saxlanılmış elanlar (sevimlilər)",
+      patterns: ["sevimli", "favorit", "saxla", "saved", "favorite", "bookmark", "ürəkcik"],
+      a: "Hər elan kartında ürəkcik (♥) ikonuna klik edib saxlaya bilərsiniz. Saxlanılmış elanlar 'Sevimlilər' menyusundan baxıla bilər və brauzerinizdə saxlanılır." },
+    { id: 27, q: "Müqayisə aləti",
+      patterns: ["müqayisə", "compare", "qarşılaşdır", "iki", "üç biznes"],
+      a: "Hər elan kartındakı checkbox ilə 2-3 biznesi seçib 'Müqayisə et' düyməsinə klik edin. Yan-yana qiymət, gəlir, mənfəət, lokasiya, ROI göstəriciləri görüntülənir." },
+    { id: 28, q: "Cabir kafeyi və ya restoran satılır?",
+      patterns: ["kafe", "restoran", "cafe", "restaurant", "yemək", "qida"],
+      a: "Bəli, kafe və restoran kateqoriyasında 8+ elan var — Bakı (Yasamal, Nəsimi, Binəqədi), Quba mərkəzində. 'Bütün elanlar' → kateqoriyada 'Kafe və Restoran' seçin." },
+    { id: 29, q: "Gözəllik salonu, fitness, klinika",
+      patterns: ["gözəllik", "salon", "barber", "fitness", "klinika", "stomato", "tibbi"],
+      a: "Hər biri ayrı kateqoriyada var. Gözəllik salonu (5+ elan), fitness klub (2 elan), stomatoloji klinika (1 elan, Nəsimi). Premium SPA Wellness Mərkəzi yeni elanlardan biridir (AZN 280K, Nəsimi)." }
+  ],
+
+  en: [
+    { id: 0, q: "What is BizBazar?",
+      patterns: ["what is", "bizbazar", "about", "platform", "site"],
+      a: "BizBazar.az is the professional platform for buying, selling, valuing, and matching businesses with investors in Azerbaijan. One place for 5 services: verified business listings, broker network, investor directory, professional valuation, and map-based search." },
+    { id: 1, q: "How do I sell my business?",
+      patterns: ["sell", "selling", "list business", "list my", "post listing", "how to sell"],
+      a: "Click 'Sell' in the top menu to post a listing. The form captures revenue, profit, location, and contact info. For professional broker assistance, connect via the 'Brokers' section." },
+    { id: 2, q: "Is it free?",
+      patterns: ["free", "cost", "price", "how much", "paid", "subscription"],
+      a: "Core features are free — posting listings, searching, using the valuation calculator. Premium listings (AZN 50/month), broker subscriptions, and certified valuation reports are paid." },
+    { id: 3, q: "What languages?",
+      patterns: ["language", "english", "russian", "azerbaijani", "translate"],
+      a: "The site runs in 3 languages: Azerbaijani, English, Russian. Switch via the AZ/EN/RU toggle in the header. All listings are presented in all 3 languages." },
+    { id: 4, q: "Mobile app?",
+      patterns: ["mobile", "app", "phone", "ios", "android", "install"],
+      a: "Open the site on your phone and tap 'Add to Home Screen' — it's a Progressive Web App that works like a native app. Native iOS/Android apps are planned for 2027." },
+
+    { id: 5, q: "What documents do I need?",
+      patterns: ["document", "papers", "needed", "license", "tax", "required"],
+      a: "For a listing: business license, last 12 months' P&L, lease agreement (if leased), equipment inventory. To earn the verified badge, send these documents to our team." },
+    { id: 6, q: "How is confidentiality protected?",
+      patterns: ["confidential", "privacy", "anonymous", "nda", "secret", "hidden"],
+      a: "Listing details are disclosed only to verified buyers. NDA is signed. Company name, address, and contact are shared only after serious interest — staff and customers never find out." },
+    { id: 7, q: "How long does selling take?",
+      patterns: ["how long", "time", "duration", "months", "fast", "quick"],
+      a: "Average 3-6 months for a well-verified business in Baku. With proper pricing, complete documents, and broker support, this can shorten to 2 months. Above-market pricing extends to 9-12 months." },
+    { id: 8, q: "I want to buy a business",
+      patterns: ["buy", "purchase", "buyer", "looking for", "acquire"],
+      a: "Filter on the 'Listings' page by sector, price, location, document status. Each listing has direct WhatsApp and call buttons. For broader access, connect with a broker via the 'Brokers' page." },
+    { id: 9, q: "How does valuation work?",
+      patterns: ["valuation", "appraise", "worth", "value", "price my", "estimate"],
+      a: "The site offers a 4-step professional valuation calculator — open from 'Valuation' menu. With 20+ inputs, it computes 3 methods: SDE Multiple, Revenue Multiple, Asset Floor. 12 adjustment factors are auto-applied." },
+
+    { id: 10, q: "Who are the brokers?",
+      patterns: ["broker", "agent", "agency", "who"],
+      a: "The site has 10 verified business brokers — individuals and agencies. Each shows license number, deal history (volume), rating, and specializations. Filter on the 'Brokers' menu and contact via WhatsApp/phone." },
+    { id: 11, q: "What's the broker commission?",
+      patterns: ["commission", "fee", "percent", "rate", "charge"],
+      a: "Traditional brokers charge 5-10%, while BizBazar takes 3% (1.5% buyer + 1.5% seller). Commission is only charged when a deal closes — no upfront fees." },
+    { id: 12, q: "How do I become a broker?",
+      patterns: ["become broker", "join as broker", "broker signup", "register broker"],
+      a: "To join as a professional broker or agency, fill out the form at the bottom of the 'Brokers' page. First 6 months are commission-free — only the platform subscription applies (AZN 200/month)." },
+    { id: 13, q: "Looking for investors",
+      patterns: ["investor", "investment", "capital", "funding", "find investor"],
+      a: "The 'Investors' page lists 10 verified investor profiles — individuals and corporates, AZN 15K-2M budget range. Connect directly after signing NDA." },
+    { id: 14, q: "What sectors are covered?",
+      patterns: ["sector", "category", "industry", "type", "what kind"],
+      a: "12 main categories: cafe/restaurant, beauty salon, auto service, retail, fitness, manufacturing, education, medical, hotel/hostel, entertainment, services, pharmacy. All accessible via map and filters." },
+
+    { id: 15, q: "How does the map view work?",
+      patterns: ["map", "location", "where", "geographic", "view"],
+      a: "From the 'Map' menu, an interactive map of Baku and regions opens. Business and investor markers are shown in different colors. Click a marker for details, or use the sidebar list." },
+    { id: 16, q: "What is a premium listing?",
+      patterns: ["premium", "featured", "top", "highlight", "vip"],
+      a: "A premium listing package (AZN 50-150/month) puts your listing at the top of the homepage and search results, gets 3-4× more views, and adds a 'Premium' badge." },
+    { id: 17, q: "How does verification work?",
+      patterns: ["verify", "verified", "certified", "vetting"],
+      a: "Verification has 3 stages: 1) License/document review; 2) Our team's physical visit to the business; 3) Financial audit (optional). All steps take 5-10 business days, free of charge." },
+    { id: 18, q: "Tax matters",
+      patterns: ["tax", "taxes"],
+      a: "Business transactions are subject to taxes (income tax, sometimes VAT). Our team can arrange comprehensive accounting and legal advisory — see the 'Services' section or message us on WhatsApp." },
+    { id: 19, q: "Why choose BizBazar?",
+      patterns: ["why bizbazar", "advantage", "different", "better"],
+      a: "5 reasons: 1) Only specialized business platform — not a general classifieds; 2) Verified listings and brokers; 3) NDA-protected confidentiality; 4) 3% commission vs traditional 5-10%; 5) Free professional valuation tools." },
+
+    { id: 20, q: "Which cities?",
+      patterns: ["city", "cities", "region", "where do you operate"],
+      a: "Currently covering Baku, Ganja, Sumgait, Guba, Gabala, and other regions. See all cities in the map view. Tbilisi (Georgia) launch is planned for 2027." },
+    { id: 21, q: "Franchise opportunities",
+      patterns: ["franchise", "franchising"],
+      a: "Browse active franchise opportunities under the 'Franchises' menu. Each shows ROI, payback period, startup capital, and royalty percentage." },
+    { id: 22, q: "Contact / support",
+      patterns: ["contact", "support", "help", "phone", "whatsapp", "email"],
+      a: "WhatsApp: +994 50 200 90 88. Email: info@bizbazar.az. Response time within 24 hours. You can also use the contact form at the bottom of the site." },
+    { id: 23, q: "Order a valuation report",
+      patterns: ["valuation report", "report", "official", "certified report"],
+      a: "Professional valuation reports (AZN 150-500) for bank loans, legal transactions, or official documents can be ordered from 'Services'. Prepared by a certified appraiser in 3-5 business days." },
+    { id: 24, q: "Report a problem",
+      patterns: ["report", "complaint", "fraud", "scam", "wrong"],
+      a: "For false listings, scams, or any issue, message WhatsApp +994 50 200 90 88 immediately. Complaints are reviewed within 24 hours; listings are removed if needed." },
+
+    { id: 25, q: "Create an account",
+      patterns: ["account", "register", "sign up", "signup", "create"],
+      a: "Currently no account is required to post a listing — just contact info. User profiles and saved-listings features launch in Q4 2026." },
+    { id: 26, q: "Saved listings (favorites)",
+      patterns: ["favorite", "save", "bookmark", "heart"],
+      a: "Click the heart (♥) icon on any listing card to save it. View saved listings under the 'Favorites' menu — stored in your browser." },
+    { id: 27, q: "Comparison tool",
+      patterns: ["compare", "comparison", "side by side"],
+      a: "Select 2-3 businesses via the checkbox on each listing card, then click 'Compare'. View price, revenue, profit, location, ROI side-by-side." },
+    { id: 28, q: "Cafe or restaurant for sale?",
+      patterns: ["cafe", "restaurant", "food"],
+      a: "Yes, the cafe/restaurant category has 8+ listings — Baku (Yasamal, Nasimi, Binagadi), central Guba. Go to 'Listings' → select 'Cafe & Restaurant' category." },
+    { id: 29, q: "Beauty salon, fitness, clinic",
+      patterns: ["beauty", "salon", "barber", "fitness", "clinic", "dental"],
+      a: "Each has its own category. Beauty salons (5+ listings), fitness clubs (2 listings), dental clinic (1 listing, Nasimi). The new Premium SPA & Wellness Center is featured (AZN 280K, Nasimi)." }
+  ],
+
+  ru: [
+    { id: 0, q: "Что такое BizBazar?",
+      patterns: ["что такое", "bizbazar", "сайт", "платформа", "о вас"],
+      a: "BizBazar.az — профессиональная платформа для покупки, продажи, оценки бизнеса и подбора инвесторов в Азербайджане. 5 сервисов в одном месте: проверенные объявления, сеть брокеров, каталог инвесторов, профессиональная оценка, карта." },
+    { id: 1, q: "Как продать бизнес?",
+      patterns: ["продать", "продажа", "разместить", "как продать", "объявление"],
+      a: "Нажмите 'Продать' в верхнем меню и заполните форму с указанием выручки, прибыли, расположения и контактов. Для профессиональной поддержки брокера обратитесь через раздел 'Брокеры'." },
+    { id: 2, q: "Это бесплатно?",
+      patterns: ["бесплатно", "цена", "сколько", "стоимость", "платно"],
+      a: "Основные функции бесплатны — размещение объявлений, поиск, калькулятор оценки. Платными являются: премиум-объявления (50 AZN/мес), подписка для брокеров и сертифицированные отчёты об оценке." },
+    { id: 3, q: "Какие языки?",
+      patterns: ["язык", "русский", "английский", "азербайджанский"],
+      a: "Сайт работает на 3 языках: азербайджанском, английском и русском. Переключение AZ/EN/RU в шапке. Все объявления представлены на 3 языках." },
+    { id: 4, q: "Есть мобильное приложение?",
+      patterns: ["мобильн", "приложение", "телефон", "app", "android", "ios"],
+      a: "Откройте сайт на телефоне и нажмите 'Добавить на главный экран' — это Progressive Web App, работает как нативное приложение. Нативные iOS/Android приложения запланированы на 2027 год." },
+
+    { id: 5, q: "Какие документы нужны?",
+      patterns: ["документ", "нужно", "требуется", "лицензия"],
+      a: "Для объявления: бизнес-лицензия, отчёты о доходах-расходах за 12 месяцев, договор аренды (если арендуете), список оборудования. Для получения значка 'Проверено' отправьте эти документы нашей команде." },
+    { id: 6, q: "Как защищается конфиденциальность?",
+      patterns: ["конфиденц", "анонимно", "приват", "секрет", "nda"],
+      a: "Детали объявления раскрываются только проверенным покупателям. Подписывается NDA. Имя компании, адрес и контакты передаются только после серьёзного интереса — сотрудники и клиенты не узнают." },
+    { id: 7, q: "Сколько занимает продажа?",
+      patterns: ["сколько занимает", "время", "месяц", "длительно", "быстро"],
+      a: "В среднем 3-6 месяцев для хорошо проверенного бизнеса в Баку. С правильной ценой, полными документами и поддержкой брокера можно уложиться в 2 месяца. Завышенная цена растягивает срок до 9-12 месяцев." },
+    { id: 8, q: "Хочу купить бизнес",
+      patterns: ["купить", "покупка", "приобрести", "ищу бизнес"],
+      a: "На странице 'Все объявления' фильтруйте по сектору, цене, местоположению, статусу документов. На каждом объявлении есть кнопки WhatsApp и звонка. Для более широкого доступа свяжитесь с брокером через раздел 'Брокеры'." },
+    { id: 9, q: "Как работает оценка?",
+      patterns: ["оценка", "стоимость", "сколько стоит мой", "valuation"],
+      a: "На сайте есть 4-шаговый калькулятор профессиональной оценки — откройте через меню 'Оценка'. 20+ параметров рассчитывают 3 метода: SDE Multiple, Revenue Multiple, Asset Floor. Автоматически применяется 12 корректирующих факторов." },
+
+    { id: 10, q: "Кто такие брокеры?",
+      patterns: ["брокер", "агент", "агентство"],
+      a: "На сайте 10 проверенных бизнес-брокеров — частные и агентства. У каждого указаны номер лицензии, история сделок (объём), рейтинг, специализация. Фильтруйте на странице 'Брокеры' и связывайтесь по WhatsApp/телефону." },
+    { id: 11, q: "Какая комиссия брокера?",
+      patterns: ["комиссия", "процент", "сколько берет"],
+      a: "Традиционные брокеры берут 5-10%, BizBazar берет 3% (1.5% покупатель + 1.5% продавец). Комиссия взимается только при закрытии сделки — без предоплат." },
+    { id: 12, q: "Хочу стать брокером",
+      patterns: ["стать брокер", "брокер регистр", "присоедин"],
+      a: "Чтобы присоединиться как профессиональный брокер или агентство, заполните форму внизу страницы 'Брокеры'. Первые 6 месяцев без комиссии — только платформенная подписка (200 AZN/мес)." },
+    { id: 13, q: "Ищу инвесторов",
+      patterns: ["инвестор", "инвестиц", "капитал", "найти инвест"],
+      a: "На странице 'Инвесторы' представлено 10 проверенных профилей — частные и корпоративные, бюджет AZN 15K-2M. Прямой контакт после подписания NDA." },
+    { id: 14, q: "Какие сектора есть?",
+      patterns: ["сектор", "категор", "сфера", "индустри"],
+      a: "12 основных категорий: кафе/ресторан, салон красоты, автосервис, розница, фитнес, производство, образование, медицина, отель/хостел, развлечения, услуги, аптека." },
+
+    { id: 15, q: "Как работает карта?",
+      patterns: ["карт", "расположен", "где", "география"],
+      a: "В меню 'Карта' открывается интерактивная карта Баку и регионов. Бизнес и инвесторы отмечены разными цветами. Кликните по маркеру для деталей, или используйте список в сайдбаре." },
+    { id: 16, q: "Что такое премиум-объявление?",
+      patterns: ["премиум", "избран", "топ", "vip"],
+      a: "Премиум-объявление (50-150 AZN/мес) ставит ваше объявление в топ главной страницы и результатов поиска, даёт в 3-4 раза больше просмотров и значок 'Premium'." },
+    { id: 17, q: "Как происходит проверка?",
+      patterns: ["проверк", "верификац", "сертификат"],
+      a: "Проверка в 3 этапа: 1) Проверка лицензии и документов; 2) Физический визит нашей команды в бизнес; 3) Финансовый аудит (по желанию). Все этапы 5-10 рабочих дней, бесплатно." },
+    { id: 18, q: "Налоговые вопросы",
+      patterns: ["налог", "ндс", "налоги"],
+      a: "При продаже бизнеса применяются налоги (подоходный, иногда НДС). Наша команда может организовать комплексное бухгалтерское и юридическое сопровождение — см. раздел 'Услуги' или WhatsApp." },
+    { id: 19, q: "Почему BizBazar?",
+      patterns: ["почему", "преимущ", "отлич"],
+      a: "5 причин: 1) Единственная специализированная платформа — не общий сайт объявлений; 2) Проверенные объявления и брокеры; 3) Конфиденциальность под NDA; 4) Комиссия 3% вместо классических 5-10%; 5) Бесплатные профессиональные инструменты оценки." },
+
+    { id: 20, q: "В каких городах?",
+      patterns: ["город", "регион", "где работаете"],
+      a: "Сейчас охватываем Баку, Гянджу, Сумгаит, Кубу, Габалу и другие регионы. Все города видны в режиме карты. Запуск в Тбилиси (Грузия) запланирован на 2027 год." },
+    { id: 21, q: "Франшизы",
+      patterns: ["франшиза", "франчайз"],
+      a: "Активные франчайзинговые предложения смотрите в меню 'Франшизы'. У каждой указаны ROI, срок окупаемости, стартовый капитал и роялти." },
+    { id: 22, q: "Контакты / поддержка",
+      patterns: ["контакт", "поддержк", "помощь", "телефон", "whatsapp", "почта"],
+      a: "WhatsApp: +994 50 200 90 88. Email: info@bizbazar.az. Время ответа в течение 24 часов. Также используйте форму внизу сайта." },
+    { id: 23, q: "Заказать отчёт об оценке",
+      patterns: ["отчёт", "официальн", "сертифицир"],
+      a: "Профессиональные отчёты об оценке (150-500 AZN) для банковских кредитов, юридических сделок или официальных документов заказывайте в разделе 'Услуги'. Готовится сертифицированным оценщиком за 3-5 рабочих дней." },
+    { id: 24, q: "Сообщить о проблеме",
+      patterns: ["жалоб", "проблем", "мошенник", "обман"],
+      a: "О ложных объявлениях, мошенничестве или любой проблеме сразу пишите на WhatsApp +994 50 200 90 88. Жалобы рассматриваются в течение 24 часов; при необходимости объявление удаляется." },
+
+    { id: 25, q: "Создать аккаунт",
+      patterns: ["аккаунт", "регистрац", "учётная запись"],
+      a: "Сейчас для размещения объявления не требуется регистрация — только контакты. Профили пользователей и сохранённые объявления запускаются в Q4 2026." },
+    { id: 26, q: "Избранные объявления",
+      patterns: ["избранн", "сохран", "сердечк"],
+      a: "Нажмите на иконку сердца (♥) на карточке объявления, чтобы сохранить. Просмотр сохранённых в меню 'Избранное' — хранятся в браузере." },
+    { id: 27, q: "Сравнение",
+      patterns: ["сравнен", "сравнить"],
+      a: "Выберите 2-3 бизнеса через чекбокс на карточках, затем нажмите 'Сравнить'. Цена, выручка, прибыль, расположение, ROI отображаются параллельно." },
+    { id: 28, q: "Кафе или ресторан на продажу?",
+      patterns: ["кафе", "ресторан", "общепит"],
+      a: "Да, в категории кафе/ресторанов 8+ объявлений — Баку (Ясамал, Насими, Бинагади), центральная Куба. 'Все объявления' → категория 'Кафе и Рестораны'." },
+    { id: 29, q: "Салон красоты, фитнес, клиника",
+      patterns: ["красот", "салон", "фитнес", "клиник", "стоматолог"],
+      a: "Каждый в своей категории. Салоны красоты (5+ объявлений), фитнес-клубы (2 объявления), стоматологическая клиника (1, Насими). Premium SPA & Wellness Центр среди новых (AZN 280K, Насими)." }
+  ]
+};
+
+const CHATBOT_UI_STRINGS = {
+  az: {
+    title: "BizBazar Köməkçi",
+    status: "Onlayn · indi cavab verir",
+    placeholder: "Sualınızı yazın...",
+    welcome: "Salam! Mən BizBazar köməkçi botuyam. Sayt haqqında istənilən sualı verin.",
+    suggestPrefix: "Tez-tez verilən suallar:",
+    related: "Əlaqəli suallar:",
+    notFound: "Sualınıza tam cavab tapa bilmədim. Komandamız WhatsApp vasitəsilə kömək edə bilər.",
+    wa: "WhatsApp ilə yaz",
+    send: "Göndər",
+    helpful: "Bu cavab faydalı oldu?",
+    yes: "Bəli", no: "Xeyr"
+  },
+  en: {
+    title: "BizBazar Assistant",
+    status: "Online · replying instantly",
+    placeholder: "Ask a question...",
+    welcome: "Hi! I'm the BizBazar assistant bot. Ask me anything about the site.",
+    suggestPrefix: "Frequently asked:",
+    related: "Related questions:",
+    notFound: "I couldn't find a complete answer. Our team can help via WhatsApp.",
+    wa: "Message on WhatsApp",
+    send: "Send",
+    helpful: "Was this helpful?",
+    yes: "Yes", no: "No"
+  },
+  ru: {
+    title: "Помощник BizBazar",
+    status: "Онлайн · отвечает сразу",
+    placeholder: "Задайте вопрос...",
+    welcome: "Здравствуйте! Я бот-помощник BizBazar. Спросите что угодно о сайте.",
+    suggestPrefix: "Часто задаваемые:",
+    related: "Похожие вопросы:",
+    notFound: "Я не нашёл полного ответа. Наша команда поможет через WhatsApp.",
+    wa: "Написать в WhatsApp",
+    send: "Отправить",
+    helpful: "Это было полезно?",
+    yes: "Да", no: "Нет"
+  }
+};
+
+const CHATBOT_WA = "https://wa.me/994502009088";
+
+function _bbNormalize(s) {
+  return (s || "")
+    .toLowerCase()
+    .replace(/[.,!?;:'"()[\]{}]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function _bbMatchFAQ(query, lang) {
+  const q = _bbNormalize(query);
+  if (q.length < 2) return null;
+  const tokens = q.split(" ").filter(t => t.length >= 2);
+  const faqs = CHATBOT_FAQ[lang] || CHATBOT_FAQ.az;
+
+  let best = null, bestScore = 0;
+  faqs.forEach(faq => {
+    let score = 0;
+    // Pattern phrase match (highest weight)
+    faq.patterns.forEach(p => {
+      const pn = _bbNormalize(p);
+      if (q.includes(pn)) score += 8 + pn.length / 3;
+    });
+    // Token overlap with patterns
+    faq.patterns.forEach(p => {
+      const pTokens = _bbNormalize(p).split(" ").filter(t => t.length >= 2);
+      pTokens.forEach(pt => {
+        tokens.forEach(t => {
+          if (t === pt) score += 3;
+          else if (t.length >= 4 && pt.includes(t)) score += 1.5;
+          else if (pt.length >= 4 && t.includes(pt)) score += 1.5;
+        });
+      });
+    });
+    // Title token overlap (mild signal)
+    const titleTokens = _bbNormalize(faq.q).split(" ").filter(t => t.length >= 3);
+    titleTokens.forEach(tt => { if (q.includes(tt)) score += 0.8; });
+
+    if (score > bestScore) { bestScore = score; best = faq; }
+  });
+  return bestScore >= 4 ? { faq: best, score: bestScore } : null;
+}
+
+function _bbRenderMessage(text, who, options) {
+  const wrap = document.getElementById("bb-chat-messages");
+  if (!wrap) return;
+  const m = document.createElement("div");
+  m.className = "bb-msg bb-msg-" + who;
+  let inner = `<div class="bb-bubble">${text}</div>`;
+  if (options && options.length) {
+    inner += `<div class="bb-chips">` +
+      options.map(o => `<button class="bb-chip" data-q="${(o.q || o).replace(/"/g, '&quot;')}">${o.label || o.q || o}</button>`).join("") +
+      `</div>`;
+  }
+  m.innerHTML = inner;
+  wrap.appendChild(m);
+  wrap.scrollTop = wrap.scrollHeight;
+
+  m.querySelectorAll(".bb-chip").forEach(b => {
+    b.onclick = () => {
+      const q = b.dataset.q;
+      _bbAsk(q);
+    };
+  });
+}
+
+function _bbShowWelcome() {
+  const lang = (typeof getLang === "function") ? getLang() : "az";
+  const ui = CHATBOT_UI_STRINGS[lang] || CHATBOT_UI_STRINGS.az;
+  const wrap = document.getElementById("bb-chat-messages");
+  wrap.innerHTML = "";
+  _bbRenderMessage(ui.welcome, "bot");
+  const faqs = CHATBOT_FAQ[lang] || CHATBOT_FAQ.az;
+  const suggested = [1, 9, 10, 19, 22].map(i => ({ q: faqs[i].q, label: faqs[i].q }));
+  _bbRenderMessage(`<i style="opacity:.7">${ui.suggestPrefix}</i>`, "bot", suggested);
+}
+
+function _bbAsk(question) {
+  const input = document.getElementById("bb-chat-input");
+  if (input) input.value = "";
+  _bbRenderMessage(question, "user");
+
+  const lang = (typeof getLang === "function") ? getLang() : "az";
+  const ui = CHATBOT_UI_STRINGS[lang] || CHATBOT_UI_STRINGS.az;
+
+  // Track history for API context
+  window._bbHistory = window._bbHistory || [];
+  window._bbHistory.push({ role: "user", content: question });
+  if (window._bbHistory.length > 10) window._bbHistory = window._bbHistory.slice(-10);
+
+  // Typing indicator
+  const wrap = document.getElementById("bb-chat-messages");
+  const t = document.createElement("div");
+  t.className = "bb-msg bb-msg-bot bb-typing";
+  t.innerHTML = `<div class="bb-bubble"><span></span><span></span><span></span></div>`;
+  wrap.appendChild(t);
+  wrap.scrollTop = wrap.scrollHeight;
+
+  // Try real AI API first, fall back to local FAQ
+  _bbAskAPI(question, lang).then(apiAnswer => {
+    t.remove();
+
+    if (apiAnswer) {
+      const html = apiAnswer.replace(/\n/g, "<br>");
+      _bbRenderMessage(html, "bot");
+      window._bbHistory.push({ role: "assistant", content: apiAnswer });
+      return;
+    }
+
+    // Fallback: rule-based FAQ
+    const m = _bbMatchFAQ(question, lang);
+    if (m) {
+      const related = (CHATBOT_FAQ[lang] || CHATBOT_FAQ.az)
+        .filter(f => f.id !== m.faq.id)
+        .slice(0, 3)
+        .map(f => ({ q: f.q, label: f.q }));
+      _bbRenderMessage(m.faq.a, "bot");
+      window._bbHistory.push({ role: "assistant", content: m.faq.a });
+      setTimeout(() => _bbRenderMessage(`<i style="opacity:.7">${ui.related}</i>`, "bot", related), 200);
+    } else {
+      const waMsg = encodeURIComponent(question);
+      _bbRenderMessage(
+        `${ui.notFound}<br><br><a class="bb-wa-link" href="${CHATBOT_WA}?text=${waMsg}" target="_blank" rel="noopener">💬 ${ui.wa}</a>`,
+        "bot"
+      );
+    }
+  });
+}
+
+// Calls the Cloudflare Worker if configured via window.BIZBAZAR_AI_ENDPOINT.
+// Returns the answer string, or null if not configured / on error.
+async function _bbAskAPI(question, lang) {
+  const endpoint = window.BIZBAZAR_AI_ENDPOINT;
+  if (!endpoint) return null;
+  try {
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 15000);
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: question,
+        lang: lang,
+        history: (window._bbHistory || []).slice(0, -1)  // exclude the current user msg
+      }),
+      signal: ctrl.signal
+    });
+    clearTimeout(timeout);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data && data.answer ? data.answer : null;
+  } catch (e) {
+    console.warn("BizBazar AI API failed, falling back to FAQ:", e.message);
+    return null;
+  }
+}
+
+function _bbToggleChat() {
+  document.body.classList.toggle("bb-chat-open");
+  if (document.body.classList.contains("bb-chat-open")) {
+    const inp = document.getElementById("bb-chat-input");
+    if (inp && window.innerWidth > 600) setTimeout(() => inp.focus(), 250);
+  }
+}
+
+function _bbInjectCSS() {
+  if (document.getElementById("bb-chatbot-css")) return;
+  const css = `
+    #bb-chatbot * { box-sizing: border-box; }
+    .bb-chat-bubble {
+      position: fixed; right: 20px; bottom: 20px;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, #4F46E5, #6366F1);
+      box-shadow: 0 10px 30px rgba(79,70,229,.40);
+      cursor: pointer; z-index: 9998;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .bb-chat-bubble:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 14px 36px rgba(79,70,229,.50); }
+    .bb-chat-bubble svg { width: 28px; height: 28px; fill: white; transition: opacity .2s; }
+    .bb-chat-bubble .bb-icon-close { display: none; }
+    body.bb-chat-open .bb-chat-bubble .bb-icon-chat { display: none; }
+    body.bb-chat-open .bb-chat-bubble .bb-icon-close { display: block; }
+    .bb-chat-bubble .bb-pulse {
+      position: absolute; inset: -4px; border-radius: 50%;
+      border: 2px solid #6366F1; opacity: 0;
+      animation: bbPulse 2.2s ease-out infinite;
+    }
+    @keyframes bbPulse {
+      0% { transform: scale(1); opacity: .55; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    body.bb-chat-open .bb-chat-bubble .bb-pulse { display: none; }
+
+    .bb-chat-panel {
+      position: fixed; right: 20px; bottom: 92px;
+      width: 380px; height: 560px;
+      background: white; border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(15,23,42,.30);
+      display: flex; flex-direction: column;
+      z-index: 9999; overflow: hidden;
+      transform: translateY(20px) scale(.96); opacity: 0;
+      pointer-events: none;
+      transition: transform .25s cubic-bezier(.4,0,.2,1), opacity .25s;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    body.bb-chat-open .bb-chat-panel {
+      transform: translateY(0) scale(1); opacity: 1; pointer-events: auto;
+    }
+    .bb-chat-header {
+      background: linear-gradient(135deg, #0A2540 0%, #1E3A5F 100%);
+      color: white; padding: 16px 18px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .bb-chat-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: white; color: #0A2540;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; flex-shrink: 0;
+    }
+    .bb-chat-headinfo { flex: 1; min-width: 0; }
+    .bb-chat-title { font-size: 15px; font-weight: 700; }
+    .bb-chat-status {
+      font-size: 11px; opacity: .8;
+      display: flex; align-items: center; gap: 6px; margin-top: 2px;
+    }
+    .bb-chat-status::before {
+      content: ""; width: 7px; height: 7px;
+      background: #10B981; border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16,185,129,.6);
+      animation: bbDot 1.6s infinite;
+    }
+    @keyframes bbDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16,185,129,.6); }
+      50% { box-shadow: 0 0 0 5px rgba(16,185,129,0); }
+    }
+
+    .bb-chat-messages {
+      flex: 1; overflow-y: auto; padding: 16px 14px;
+      background: #FAFAFB;
+      display: flex; flex-direction: column; gap: 12px;
+      scroll-behavior: smooth;
+    }
+    .bb-msg { display: flex; flex-direction: column; gap: 6px; max-width: 86%; }
+    .bb-msg-bot { align-self: flex-start; }
+    .bb-msg-user { align-self: flex-end; }
+    .bb-bubble {
+      padding: 10px 14px; border-radius: 14px;
+      font-size: 13.5px; line-height: 1.5;
+      word-wrap: break-word; max-width: 100%;
+    }
+    .bb-msg-bot .bb-bubble {
+      background: white; color: #0F172A;
+      border: 1px solid #E2E8F0;
+      border-bottom-left-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.03);
+    }
+    .bb-msg-user .bb-bubble {
+      background: linear-gradient(135deg, #4F46E5, #6366F1);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+    .bb-chips { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+    .bb-chip {
+      background: white; border: 1px solid #C7D2FE;
+      color: #4F46E5; padding: 8px 12px; border-radius: 10px;
+      cursor: pointer; font-size: 12.5px; font-weight: 500;
+      text-align: left; transition: all .15s;
+      font-family: inherit;
+    }
+    .bb-chip:hover { background: #EEF2FF; border-color: #6366F1; transform: translateX(2px); }
+    .bb-wa-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #25D366; color: white;
+      padding: 8px 14px; border-radius: 8px;
+      font-size: 12.5px; font-weight: 700;
+      text-decoration: none; margin-top: 4px;
+    }
+    .bb-wa-link:hover { background: #1EBE5C; color: white; }
+
+    .bb-typing .bb-bubble {
+      display: inline-flex; gap: 4px; padding: 12px 14px;
+    }
+    .bb-typing .bb-bubble span {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #94A3B8;
+      animation: bbType 1.2s infinite ease-in-out;
+    }
+    .bb-typing .bb-bubble span:nth-child(2) { animation-delay: .15s; }
+    .bb-typing .bb-bubble span:nth-child(3) { animation-delay: .30s; }
+    @keyframes bbType {
+      0%, 60%, 100% { transform: translateY(0); opacity: .4; }
+      30% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    .bb-chat-input-wrap {
+      display: flex; gap: 8px; padding: 12px 14px;
+      border-top: 1px solid #E2E8F0; background: white;
+    }
+    .bb-chat-input {
+      flex: 1; border: 1.5px solid #E2E8F0;
+      padding: 10px 14px; border-radius: 999px;
+      font-size: 14px; outline: none;
+      font-family: inherit;
+      transition: border-color .15s;
+    }
+    .bb-chat-input:focus { border-color: #6366F1; }
+    .bb-chat-send {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 0; background: linear-gradient(135deg, #4F46E5, #6366F1);
+      color: white; font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .15s;
+      flex-shrink: 0;
+    }
+    .bb-chat-send:hover { transform: scale(1.06); }
+    .bb-chat-send:disabled { opacity: .4; cursor: not-allowed; }
+    .bb-chat-footer {
+      text-align: center; padding: 6px 0;
+      font-size: 10px; color: #94A3B8;
+      background: white; border-top: 1px solid #F1F5F9;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 600px) {
+      .bb-chat-panel {
+        right: 8px; left: 8px; bottom: 84px;
+        width: auto; height: calc(100vh - 110px); max-height: 600px;
+      }
+      .bb-chat-bubble { right: 16px; bottom: 16px; width: 54px; height: 54px; }
+      .bb-chat-bubble svg { width: 24px; height: 24px; }
+    }
+  `;
+  const style = document.createElement("style");
+  style.id = "bb-chatbot-css";
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
+function mountChatbot() {
+  if (document.getElementById("bb-chatbot")) return;
+  _bbInjectCSS();
+
+  const lang = (typeof getLang === "function") ? getLang() : "az";
+  const ui = CHATBOT_UI_STRINGS[lang] || CHATBOT_UI_STRINGS.az;
+
+  const wrap = document.createElement("div");
+  wrap.id = "bb-chatbot";
+  wrap.innerHTML = `
+    <button class="bb-chat-bubble" onclick="_bbToggleChat()" aria-label="AI Köməkçi">
+      <span class="bb-pulse"></span>
+      <svg class="bb-icon-chat" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-2 12H6v-2h12v2zm0-4H6V8h12v2z"/></svg>
+      <svg class="bb-icon-close" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+    </button>
+    <div class="bb-chat-panel" role="dialog" aria-label="${ui.title}">
+      <div class="bb-chat-header">
+        <div class="bb-chat-avatar">B</div>
+        <div class="bb-chat-headinfo">
+          <div class="bb-chat-title">${ui.title}</div>
+          <div class="bb-chat-status">${ui.status}</div>
+        </div>
+      </div>
+      <div class="bb-chat-messages" id="bb-chat-messages"></div>
+      <div class="bb-chat-input-wrap">
+        <input class="bb-chat-input" id="bb-chat-input" type="text"
+               placeholder="${ui.placeholder}"
+               onkeydown="if(event.key==='Enter'){_bbAsk(this.value.trim());event.preventDefault();}">
+        <button class="bb-chat-send" onclick="_bbAsk(document.getElementById('bb-chat-input').value.trim())">→</button>
+      </div>
+      <div class="bb-chat-footer">BizBazar.az · AI Köməkçi</div>
+    </div>
+  `;
+  document.body.appendChild(wrap);
+  _bbShowWelcome();
+
+  // Re-render welcome on language change
+  window.addEventListener("langchange", () => {
+    const newLang = (typeof getLang === "function") ? getLang() : "az";
+    const newUi = CHATBOT_UI_STRINGS[newLang] || CHATBOT_UI_STRINGS.az;
+    wrap.querySelector(".bb-chat-title").textContent = newUi.title;
+    wrap.querySelector(".bb-chat-status").textContent = newUi.status;
+    wrap.querySelector(".bb-chat-input").placeholder = newUi.placeholder;
+    _bbShowWelcome();
+  });
+}
+
+// Auto-mount on page load
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", mountChatbot);
+} else {
+  mountChatbot();
 }
