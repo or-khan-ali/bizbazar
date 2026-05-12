@@ -1383,11 +1383,21 @@ const CHATBOT_FAQ = {
       a: "Каждый в своей категории. Салоны красоты (5+ объявлений), фитнес-клубы (2 объявления), стоматологическая клиника (1, Насими). Premium SPA & Wellness Центр среди новых (AZN 280K, Насими)." }
   ]
 };
-
+const BB_PERSONAS = [
+  { name: "SAID",  tagline: "Biznes alışı və satışında qərarverməni asanlaşdıran süni intellekt əsaslı köməkçi." },
+  { name: "AILIN", tagline: "Biznes almaq və satmaq istəyənlər üçün ağıllı rəqəmsal məsləhətçi." },
+  { name: "AISEL", tagline: "Azərbaycanda biznes alışı və satışı üzrə süni intellekt əsaslı konsultant." },
+  { name: "AILA",  tagline: "Biznes sövdələşmələrində alıcı və satıcıları düzgün istiqamətləndirən AI köməkçi." },
+  { name: "AIDA",  tagline: "Biznes alışı və satışını daha sadə, şəffaf və ağıllı edən rəqəmsal köməkçi." },
+  { name: "AIDAN", tagline: "Biznes qiymətləndirilməsi, alıcı-satıcı uyğunluğu və sövdələşmə prosesində süni intellekt əsaslı dəstəkçi." },
+  { name: "NAILA", tagline: "Biznes alışı və satışı prosesində istifadəçini addım-addım yönləndirən ağıllı məsləhətçi." },
+  { name: "AIAN",  tagline: "Biznes sövdələşmələri üçün hazırlanmış süni intellekt əsaslı rəqəmsal konsultant." }
+];
+window._bbPersona = BB_PERSONAS[Math.floor(Math.random() * BB_PERSONAS.length)];
 const CHATBOT_UI_STRINGS = {
-  az: {
-    title: "BizBazar Köməkçi",
-    status: "Onlayn · indi cavab verir",
+    az: {
+    title: window._bbPersona.name,
+    status: window._bbPersona.tagline,
     placeholder: "Sualınızı yazın...",
     welcome: "Salam! Mən BizBazar köməkçi botuyam. Sayt haqqında istənilən sualı verin.",
     suggestPrefix: "Tez-tez verilən suallar:",
@@ -1399,8 +1409,8 @@ const CHATBOT_UI_STRINGS = {
     yes: "Bəli", no: "Xeyr"
   },
   en: {
-    title: "BizBazar Assistant",
-    status: "Online · replying instantly",
+    title: window._bbPersona.name,
+    status: window._bbPersona.tagline,
     placeholder: "Ask a question...",
     welcome: "Hi! I'm the BizBazar assistant bot. Ask me anything about the site.",
     suggestPrefix: "Frequently asked:",
@@ -1412,8 +1422,8 @@ const CHATBOT_UI_STRINGS = {
     yes: "Yes", no: "No"
   },
   ru: {
-    title: "Помощник BizBazar",
-    status: "Онлайн · отвечает сразу",
+    title: window._bbPersona.name,
+    status: window._bbPersona.tagline,
     placeholder: "Задайте вопрос...",
     welcome: "Здравствуйте! Я бот-помощник BizBazar. Спросите что угодно о сайте.",
     suggestPrefix: "Часто задаваемые:",
@@ -1561,6 +1571,8 @@ function _bbAsk(question) {
 async function _bbAskAPI(question, lang) {
   const endpoint = window.BIZBAZAR_AI_ENDPOINT;
   if (!endpoint) return null;
+  const persona = BB_PERSONAS[Math.floor(Math.random() * BB_PERSONAS.length)];
+  window._bbLastPersona = persona;
   try {
     const ctrl = new AbortController();
     const timeout = setTimeout(() => ctrl.abort(), 15000);
@@ -1570,14 +1582,16 @@ async function _bbAskAPI(question, lang) {
       body: JSON.stringify({
         message: question,
         lang: lang,
-        history: (window._bbHistory || []).slice(0, -1)  // exclude the current user msg
+        persona: persona.name,
+        history: (window._bbHistory || []).slice(0, -1)
       }),
       signal: ctrl.signal
     });
     clearTimeout(timeout);
     if (!res.ok) return null;
     const data = await res.json();
-    return data && data.answer ? data.answer : null;
+    if (!data || !data.answer) return null;
+    return `<b>${persona.name}:</b> ${data.answer}`;
   } catch (e) {
     console.warn("BizBazar AI API failed, falling back to FAQ:", e.message);
     return null;
