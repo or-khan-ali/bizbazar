@@ -829,6 +829,23 @@ function catLabel(catObj) {
   return catObj ? (catObj[`label_${lang}`] || catObj.label_az) : "";
 }
 
+/* ============ Dark mode ============ */
+function getDarkMode() {
+  return localStorage.getItem("bb_darkmode") === "1";
+}
+function applyDarkMode(dark) {
+  document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+  document.querySelectorAll(".dark-toggle").forEach(btn => {
+    btn.textContent = dark ? "☀️" : "🌙";
+    btn.setAttribute("aria-label", dark ? "Light mode" : "Dark mode");
+  });
+}
+function toggleDarkMode() {
+  const next = !getDarkMode();
+  localStorage.setItem("bb_darkmode", next ? "1" : "0");
+  applyDarkMode(next);
+}
+
 /* ============ Shared UI: header / footer ============ */
 function renderHeader(activePage) {
   return `
@@ -851,6 +868,7 @@ function renderHeader(activePage) {
         <a href="favorites.html" class="${activePage === 'favorites' ? 'active' : ''}">♥ <span data-i18n="nav_favorites"></span>${getFavorites().length > 0 ? ` <span class="fav-count">${getFavorites().length}</span>` : ''}</a>
       </nav>
       <div class="header-actions header-actions-desktop">
+        <button class="dark-toggle" aria-label="Dark mode" onclick="toggleDarkMode()">🌙</button>
         <div class="lang-switch">
           <button data-lang="az">AZ</button>
           <button data-lang="en">EN</button>
@@ -882,10 +900,13 @@ function renderHeader(activePage) {
       <a href="favorites.html" class="${activePage === 'favorites' ? 'active' : ''}">♥ <span data-i18n="nav_favorites"></span>${getFavorites().length > 0 ? ` <span class="fav-count">${getFavorites().length}</span>` : ''}</a>
     </nav>
     <div class="header-actions header-actions-mobile">
-      <div class="lang-switch">
-        <button data-lang="az">AZ</button>
-        <button data-lang="en">EN</button>
-        <button data-lang="ru">RU</button>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="dark-toggle" aria-label="Dark mode" onclick="toggleDarkMode()">🌙</button>
+        <div class="lang-switch">
+          <button data-lang="az">AZ</button>
+          <button data-lang="en">EN</button>
+          <button data-lang="ru">RU</button>
+        </div>
       </div>
       <a href="sell.html" class="btn btn-primary" data-i18n="cta_list"></a>
     </div>
@@ -945,6 +966,7 @@ function mountLayout(activePage) {
   });
   document.documentElement.lang = getLang();
   applyI18n();
+  applyDarkMode(getDarkMode());
   mountCookiesBanner();
 }
 
