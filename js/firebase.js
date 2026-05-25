@@ -196,4 +196,26 @@ export function listenMessages(convId, callback) {
     collection(db, "conversations", convId, "messages"),
     orderBy("createdAt", "asc"),
     limit(200)
-  
+  );
+  return onSnapshot(q, snap => {
+    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })));
+  });
+}
+
+/**
+ * Send a message in a conversation.
+ */
+export async function sendMessage(convId, senderUid, text) {
+  const ts = serverTimestamp();
+  await addDoc(collection(db, "conversations", convId, "messages"), {
+    senderId: senderUid,
+    text: text.trim(),
+    createdAt: ts,
+    read: false
+  });
+  // update conversation summary
+  await updateDoc(doc(db, "conversations", convId), {
+    lastMessage: text.trim().slice(0, 100),
+    lastMessageAt: ts
+  });
+}
