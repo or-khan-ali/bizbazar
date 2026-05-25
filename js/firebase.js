@@ -50,14 +50,32 @@ let confirmationResult = null;
 
 /**
  * Set up invisible reCAPTCHA and send OTP.
+ * Always clears any previous verifier and uses a dedicated
+ * div container (not the button itself) to avoid token reuse errors.
  * @param {string} phoneNumber  E.164 format, e.g. "+994501234567"
- * @param {string} buttonId     ID of the submit button (used as reCAPTCHA anchor)
  */
-export async function sendOTP(phoneNumber, buttonId = "otp-send-btn") {
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, buttonId, {
+export async function sendOTP(phoneNumber) {
+  // Clear any previous verifier to avoid stale token errors
+  if (window.recaptchaVerifier) {
+    try { window.recaptchaVerifier.clear(); } catch (_) {}
+    window.recaptchaVerifier = null;
+  }
+
+  // Use a dedicated container div; create it if missing
+  let container = document.getElementById("recaptcha-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "recaptcha-container";
+    document.body.appendChild(container);
+  } else {
+    container.innerHTML = ""; // reset widget
+  }
+
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
     size: "invisible",
     callback: () => {}
   });
+
   confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
   return confirmationResult;
 }
@@ -178,26 +196,4 @@ export function listenMessages(convId, callback) {
     collection(db, "conversations", convId, "messages"),
     orderBy("createdAt", "asc"),
     limit(200)
-  );
-  return onSnapshot(q, snap => {
-    callback(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-  });
-}
-
-/**
- * Send a message in a conversation.
- */
-export async function sendMessage(convId, senderUid, text) {
-  const ts = serverTimestamp();
-  await addDoc(collection(db, "conversations", convId, "messages"), {
-    senderId: senderUid,
-    text: text.trim(),
-    createdAt: ts,
-    read: false
-  });
-  // update conversation summary
-  await updateDoc(doc(db, "conversations", convId), {
-    lastMessage: text.trim().slice(0, 100),
-    lastMessageAt: ts
-  });
-}
+  

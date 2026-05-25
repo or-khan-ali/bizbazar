@@ -461,7 +461,7 @@
     btn.disabled = true;
     document.getElementById("send-btn-text").innerHTML = `<span class="loading-spinner"></span>${tx("sending")}`;
     try {
-      await sendOTP(phone, "otp-send-btn");
+      await sendOTP(phone);
       goToStep("otp");
     } catch (e) {
       console.error(e);
@@ -557,3 +557,4 @@
 </script>
 </body>
 </html>
+                
