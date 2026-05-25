@@ -876,9 +876,27 @@ function renderHeader(activePage) {
         </div>
         <div id="header-auth-desktop" style="display:flex;align-items:center;gap:8px">
           <a href="auth.html" class="btn btn-outline btn-sm" id="hdr-signin-desktop" data-i18n="cta_signin" style="display:none"></a>
-          <a href="profile.html" class="header-user-btn" id="hdr-profile-desktop" style="display:none" title="Profil">
-            <span class="header-avatar" id="hdr-avatar-desktop">?</span>
-          </a>
+          <div class="hdr-user-wrap" id="hdr-profile-desktop" style="display:none;position:relative">
+            <button class="header-user-btn hdr-user-trigger" id="hdr-user-trigger-desktop"
+              onclick="var w=document.getElementById('hdr-profile-desktop');w.classList.toggle('open');event.stopPropagation()"
+              style="display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--border);border-radius:999px;padding:4px 10px 4px 4px;cursor:pointer;color:var(--text)">
+              <span class="header-avatar" id="hdr-avatar-desktop" style="width:28px;height:28px;font-size:11px">?</span>
+              <span id="hdr-user-name-desktop" style="font-size:13px;font-weight:600;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="hdr-user-menu" style="display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.13);min-width:170px;padding:6px;z-index:9999">
+              <a href="profile.html" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:14px;font-weight:500" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Profilim
+              </a>
+              <a href="messages.html" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;color:var(--text);text-decoration:none;font-size:14px;font-weight:500" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Mesajlar
+              </a>
+              <div style="margin:4px 6px;border-top:1px solid var(--border)"></div>
+              <a href="#" onclick="window._bbSignOut&&window._bbSignOut();return false" style="display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;color:#ef4444;text-decoration:none;font-size:14px;font-weight:500" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background=''">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Çıxış
+              </a>
+            </div>
+          </div>
           <a href="messages.html" class="header-msgs-btn" id="hdr-msgs-desktop" style="display:none" title="Mesajlar">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </a>
@@ -919,8 +937,9 @@ function renderHeader(activePage) {
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <a href="auth.html" class="btn btn-outline btn-sm" id="hdr-signin-mobile" data-i18n="cta_signin" style="display:none"></a>
-        <a href="profile.html" class="header-user-btn" id="hdr-profile-mobile" style="display:none">
-          <span class="header-avatar" id="hdr-avatar-mobile">?</span>
+        <a href="profile.html" class="header-user-btn" id="hdr-profile-mobile" style="display:none;align-items:center;gap:6px;text-decoration:none">
+          <span class="header-avatar" id="hdr-avatar-mobile" style="width:28px;height:28px;font-size:11px">?</span>
+          <span id="hdr-user-name-mobile" style="font-size:13px;font-weight:600;color:var(--text);max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
         </a>
         <a href="messages.html" class="header-msgs-btn" id="hdr-msgs-mobile" style="display:none">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -991,35 +1010,68 @@ function mountLayout(activePage) {
 }
 
 function _mountHeaderAuth() {
-  // Dynamically import Firebase auth — only if firebase.js exists on the page
-  import("./js/firebase.js").then(({ auth, onAuthStateChanged, getProfile }) => {
+  import("./js/firebase.js?v=2").then(({ auth, onAuthStateChanged, signOut, getProfile }) => {
+    // Sign-out handler exposed globally for dropdown
+    window._bbSignOut = () => signOut(auth).then(() => { location.href = "index.html"; });
+
+    // Close user dropdown when clicking outside
+    document.addEventListener("click", () => {
+      const w = document.getElementById("hdr-profile-desktop");
+      if (w) w.classList.remove("open");
+    });
+
     onAuthStateChanged(auth, async user => {
       const signinDesktop  = document.getElementById("hdr-signin-desktop");
       const profileDesktop = document.getElementById("hdr-profile-desktop");
       const msgsDesktop    = document.getElementById("hdr-msgs-desktop");
       const avatarDesktop  = document.getElementById("hdr-avatar-desktop");
+      const nameDesktop    = document.getElementById("hdr-user-name-desktop");
+      const menuDesktop    = document.getElementById("hdr-user-menu-desktop");
       const signinMobile   = document.getElementById("hdr-signin-mobile");
       const profileMobile  = document.getElementById("hdr-profile-mobile");
       const msgsMobile     = document.getElementById("hdr-msgs-mobile");
       const avatarMobile   = document.getElementById("hdr-avatar-mobile");
+      const nameMobile     = document.getElementById("hdr-user-name-mobile");
 
-      if (!signinDesktop) return; // header not rendered yet
+      if (!signinDesktop) return;
 
       if (user) {
         if (signinDesktop)  signinDesktop.style.display  = "none";
         if (profileDesktop) profileDesktop.style.display = "flex";
-        if (msgsDesktop)    msgsDesktop.style.display    = "flex";
+        if (msgsDesktop)    msgsDesktop.style.display    = "none"; // now inside dropdown
         if (signinMobile)   signinMobile.style.display   = "none";
         if (profileMobile)  profileMobile.style.display  = "flex";
-        if (msgsMobile)     msgsMobile.style.display     = "flex";
+        if (msgsMobile)     msgsMobile.style.display     = "none"; // inside dropdown
 
-        // show initials
+        // Show dropdown menu
+        if (menuDesktop) menuDesktop.style.display = "none"; // closed by default
+
+        // Load name + avatar
         const profile = await getProfile(user.uid).catch(() => null);
-        const name = profile?.displayName || user.phoneNumber || "?";
-        const initials = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+        const fullName = profile?.displayName || "";
+        const firstName = fullName.split(" ")[0] || user.phoneNumber || "Hesabım";
+        const initials = fullName
+          ? fullName.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
+          : (user.phoneNumber ? user.phoneNumber.slice(-2) : "?");
         const color = profile?.avatarColor || "#1a2744";
+
         if (avatarDesktop) { avatarDesktop.textContent = initials; avatarDesktop.style.background = color; }
-        if (avatarMobile)  { avatarMobile.textContent  = initials; avatarMobile.style.background  = color; }
+        if (nameDesktop)   nameDesktop.textContent = firstName;
+        if (avatarMobile)  { avatarMobile.textContent = initials; avatarMobile.style.background = color; }
+        if (nameMobile)    nameMobile.textContent = firstName;
+
+        // Toggle dropdown open state → show/hide menu div
+        const trigger = document.getElementById("hdr-user-trigger-desktop");
+        if (trigger) {
+          trigger.onclick = (e) => {
+            e.stopPropagation();
+            const wrap = document.getElementById("hdr-profile-desktop");
+            const menu = document.getElementById("hdr-user-menu-desktop");
+            if (!wrap || !menu) return;
+            const isOpen = wrap.classList.toggle("open");
+            menu.style.display = isOpen ? "block" : "none";
+          };
+        }
       } else {
         if (signinDesktop)  signinDesktop.style.display  = "inline-flex";
         if (profileDesktop) profileDesktop.style.display = "none";
@@ -1030,7 +1082,6 @@ function _mountHeaderAuth() {
       }
     });
   }).catch(() => {
-    // Firebase not configured yet — show sign-in links
     ["hdr-signin-desktop","hdr-signin-mobile"].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.style.display = "inline-flex";
@@ -1814,114 +1865,4 @@ function _bbInjectCSS() {
     .bb-wa-link:hover { background: #1EBE5C; color: white; }
 
     .bb-typing .bb-bubble {
-      display: inline-flex; gap: 4px; padding: 12px 14px;
-    }
-    .bb-typing .bb-bubble span {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #94A3B8;
-      animation: bbType 1.2s infinite ease-in-out;
-    }
-    .bb-typing .bb-bubble span:nth-child(2) { animation-delay: .15s; }
-    .bb-typing .bb-bubble span:nth-child(3) { animation-delay: .30s; }
-    @keyframes bbType {
-      0%, 60%, 100% { transform: translateY(0); opacity: .4; }
-      30% { transform: translateY(-4px); opacity: 1; }
-    }
-
-    .bb-chat-input-wrap {
-      display: flex; gap: 8px; padding: 12px 14px;
-      border-top: 1px solid #E2E8F0; background: white;
-    }
-    .bb-chat-input {
-      flex: 1; border: 1.5px solid #E2E8F0;
-      padding: 10px 14px; border-radius: 999px;
-      font-size: 14px; outline: none;
-      font-family: inherit;
-      transition: border-color .15s;
-    }
-    .bb-chat-input:focus { border-color: #6366F1; }
-    .bb-chat-send {
-      width: 40px; height: 40px; border-radius: 50%;
-      border: 0; background: linear-gradient(135deg, #4F46E5, #6366F1);
-      color: white; font-size: 18px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: transform .15s;
-      flex-shrink: 0;
-    }
-    .bb-chat-send:hover { transform: scale(1.06); }
-    .bb-chat-send:disabled { opacity: .4; cursor: not-allowed; }
-    .bb-chat-footer {
-      text-align: center; padding: 6px 0;
-      font-size: 10px; color: #94A3B8;
-      background: white; border-top: 1px solid #F1F5F9;
-    }
-
-    /* Mobile responsive */
-    @media (max-width: 600px) {
-      .bb-chat-panel {
-        right: 8px; left: 8px; bottom: 84px;
-        width: auto; height: calc(100vh - 110px); max-height: 600px;
-      }
-      .bb-chat-bubble { right: 16px; bottom: 16px; width: 54px; height: 54px; }
-      .bb-chat-bubble svg { width: 24px; height: 24px; }
-    }
-  `;
-  const style = document.createElement("style");
-  style.id = "bb-chatbot-css";
-  style.textContent = css;
-  document.head.appendChild(style);
-}
-
-function mountChatbot() {
-  if (document.getElementById("bb-chatbot")) return;
-  _bbInjectCSS();
-
-  const lang = (typeof getLang === "function") ? getLang() : "az";
-  const ui = CHATBOT_UI_STRINGS[lang] || CHATBOT_UI_STRINGS.az;
-
-  const wrap = document.createElement("div");
-  wrap.id = "bb-chatbot";
-  wrap.innerHTML = `
-    <button class="bb-chat-bubble" onclick="_bbToggleChat()" aria-label="AI Köməkçi">
-      <span class="bb-pulse"></span>
-      <svg class="bb-icon-chat" viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-2 12H6v-2h12v2zm0-4H6V8h12v2z"/></svg>
-      <svg class="bb-icon-close" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-    </button>
-    <div class="bb-chat-panel" role="dialog" aria-label="${ui.title}">
-      <div class="bb-chat-header">
-        <div class="bb-chat-avatar">B</div>
-        <div class="bb-chat-headinfo">
-          <div class="bb-chat-title">${ui.title}</div>
-          <div class="bb-chat-status">${ui.status}</div>
-        </div>
-      </div>
-      <div class="bb-chat-messages" id="bb-chat-messages"></div>
-      <div class="bb-chat-input-wrap">
-        <input class="bb-chat-input" id="bb-chat-input" type="text"
-               placeholder="${ui.placeholder}"
-               onkeydown="if(event.key==='Enter'){_bbAsk(this.value.trim());event.preventDefault();}">
-        <button class="bb-chat-send" onclick="_bbAsk(document.getElementById('bb-chat-input').value.trim())">→</button>
-      </div>
-      <div class="bb-chat-footer">BizBazar.az · AI Köməkçi</div>
-    </div>
-  `;
-  document.body.appendChild(wrap);
-  _bbShowWelcome();
-
-  // Re-render welcome on language change
-  window.addEventListener("langchange", () => {
-    const newLang = (typeof getLang === "function") ? getLang() : "az";
-    const newUi = CHATBOT_UI_STRINGS[newLang] || CHATBOT_UI_STRINGS.az;
-    wrap.querySelector(".bb-chat-title").textContent = newUi.title;
-    wrap.querySelector(".bb-chat-status").textContent = newUi.status;
-    wrap.querySelector(".bb-chat-input").placeholder = newUi.placeholder;
-    _bbShowWelcome();
-  });
-}
-
-// Auto-mount on page load
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", mountChatbot);
-} else {
-  mountChatbot();
-}
+     
