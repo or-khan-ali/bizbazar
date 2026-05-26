@@ -1010,7 +1010,7 @@ function mountLayout(activePage) {
 }
 
 function _mountHeaderAuth() {
-  import("./js/firebase.js?v=2").then(({ auth, onAuthStateChanged, signOut, getProfile }) => {
+  import("./firebase.js?v=3").then(({ auth, onAuthStateChanged, signOut, getProfile }) => {
     // Sign-out handler exposed globally for dropdown
     window._bbSignOut = () => signOut(auth).then(() => { location.href = "index.html"; });
 
