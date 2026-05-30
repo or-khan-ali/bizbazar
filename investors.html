@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>İnvestorlar — BizBazar.az</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="description" content="Biznes almaq və ya investisiya imkanları ilə maraqlanan istifadəçilər üçün pilot investor kataloqu. Məlumatlar yekun danışıqlardan əvvəl ayrıca yoxlanmalıdır.">
+  <meta name="description" content="Azərbaycanda biznesə investisiya etmək və ya hazır biznes almaq istəyən yoxlanmış investorlar. Strateji alıcılar, fərdi investorlar, mələk investorlar — birbaşa əlaqə.">
   <meta name="keywords" content="investor, investisiya, biznes almaq, strateji alıcı, mələk investor, Azərbaycan investor, Bakı investor">
   <meta name="author" content="BizBazar.az">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:title" content="İnvestorlar — BizBazar.az">
-  <meta property="og:description" content="Biznes almaq və investisiya imkanları ilə maraqlanan istifadəçilər üçün pilot investor kataloqu.">
+  <meta property="og:description" content="Azərbaycanda biznesə investisiya etmək istəyən yoxlanmış investorlar.">
   <meta property="og:url" content="https://bizbazar.az/investors.html">
   <meta property="og:image" content="https://bizbazar.az/favicon.svg">
   <meta property="og:site_name" content="BizBazar.az">
@@ -178,13 +178,6 @@
     .inv-card.featured {
       border: 2px solid #6366f1;
       background: linear-gradient(180deg, #fafaff 0%, #ffffff 60%);
-    }
-    .inv-demo-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #fef3c7; color: #92400e; border: 1px solid #fde68a;
-      border-radius: 8px; padding: 5px 10px;
-      font-size: 11px; font-weight: 700; letter-spacing: .2px;
-      align-self: flex-start;
     }
     .inv-card.featured::after {
       content: "★ Premium";
@@ -538,11 +531,11 @@
       </div>
       <div class="inv-stat">
         <div class="inv-stat-num" id="stat-deals">—</div>
-        <div class="inv-stat-label">Sektor / Sectors / Секторов</div>
+        <div class="inv-stat-label" data-i18n="inv_stat_deals"></div>
       </div>
       <div class="inv-stat">
         <div class="inv-stat-num" id="stat-verified">—</div>
-        <div class="inv-stat-label">Kataloq / Catalogue / Каталог</div>
+        <div class="inv-stat-label" data-i18n="inv_stat_verified"></div>
       </div>
     </div>
 
@@ -595,6 +588,8 @@
         <option value="featured" data-i18n="inv_sort_featured"></option>
         <option value="budget-high" data-i18n="inv_sort_budget_high"></option>
         <option value="budget-low" data-i18n="inv_sort_budget_low"></option>
+        <option value="deals" data-i18n="inv_sort_deals"></option>
+        <option value="rating" data-i18n="inv_sort_rating"></option>
       </select>
     </div>
 
@@ -648,7 +643,7 @@
 
 <div id="footer-mount"></div>
 
-<script src="js/app.js?v=phase2"></script>
+<script src="js/app.js"></script>
 <script>
 if (typeof loadInvestors !== 'function') {
   function loadInvestors() { return loadJSON('data/investors.json'); }
@@ -670,12 +665,13 @@ if ('serviceWorker' in navigator) {
 
   // Compute stats
   const totalVolume = investors.reduce((s, i) => s + (i.budget_max_azn || 0), 0);
-  const usedSectorCount = new Set(investors.flatMap(i => i.sectors)).size;
+  const totalDeals = investors.reduce((s, i) => s + (i.deals_done || 0), 0);
+  const verifiedCount = investors.filter(i => i.verified).length;
 
   document.getElementById("stat-investors").textContent = investors.length;
   document.getElementById("stat-volume").textContent = (totalVolume / 1000000).toFixed(1) + "M+";
-  document.getElementById("stat-deals").textContent = usedSectorCount;
-  document.getElementById("stat-verified").textContent = "Nümunə";
+  document.getElementById("stat-deals").textContent = totalDeals + "+";
+  document.getElementById("stat-verified").textContent = Math.round((verifiedCount / investors.length) * 100) + "%";
 
   // Populate sector filter
   const filterSector = document.getElementById("filter-sector");
@@ -720,6 +716,8 @@ if ('serviceWorker' in navigator) {
     switch (state.sort) {
       case "budget-high": list.sort((a, b) => b.budget_max_azn - a.budget_max_azn); break;
       case "budget-low":  list.sort((a, b) => a.budget_min_azn - b.budget_min_azn); break;
+      case "deals":       list.sort((a, b) => b.deals_done - a.deals_done); break;
+      case "rating":      list.sort((a, b) => b.rating - a.rating); break;
       default:            list.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)); break;
     }
 
@@ -738,7 +736,7 @@ if ('serviceWorker' in navigator) {
 
   function investorCardHTML(inv) {
     const lang = getLang();
-    const alias = lang === "ru" ? (inv.alias_ru || inv.alias) : lang === "en" ? (inv.alias_en || inv.alias) : inv.alias;
+    const alias = lang === "az" ? inv.alias : inv.alias_en;
     const desc =
       lang === "en" ? inv.description_en :
       lang === "ru" ? (inv.description_ru || inv.description_az) :
@@ -746,6 +744,7 @@ if ('serviceWorker' in navigator) {
 
     const typeLabels = TYPE_LABELS[lang] || TYPE_LABELS.az;
     const intentLabels = INTENT_LABELS[lang] || INTENT_LABELS.az;
+    const stars = "★".repeat(Math.round(inv.rating)) + "☆".repeat(5 - Math.round(inv.rating));
 
     const sectorPills = inv.sectors.map(sid => {
       const cat = catById[sid];
@@ -756,13 +755,13 @@ if ('serviceWorker' in navigator) {
 
     return `
     <article class="inv-card${inv.featured ? " featured" : ""}">
-      <span class="inv-demo-badge">🧪 Nümunə · Образец · Sample</span>
       <div class="inv-card-head">
         <div class="inv-avatar">${TYPE_ICONS[inv.type] || "👤"}</div>
         <div class="inv-name-block">
           <h3 class="inv-name">${alias}</h3>
           <div class="inv-name-meta">
             <span>📍 ${inv.location}</span>
+            ${inv.verified ? `<span class="inv-verified-icon">✓ ${t("verified")}</span>` : ""}
           </div>
         </div>
       </div>
@@ -791,12 +790,12 @@ if ('serviceWorker' in navigator) {
 
       <div class="inv-meta-row">
         <div class="inv-meta-cell">
-          <span class="inv-meta-cell-label">📍 Yer / Location</span>
-          <span class="inv-meta-cell-value">${inv.location}</span>
+          <span class="inv-meta-cell-label" data-i18n="inv_rating_label"></span>
+          <span class="inv-meta-cell-value"><span class="inv-rating">${stars}</span> ${inv.rating.toFixed(1)}</span>
         </div>
         <div class="inv-meta-cell">
-          <span class="inv-meta-cell-label">🎯 Maraq / Intent</span>
-          <span class="inv-meta-cell-value">${intentLabels[inv.transaction_type] || inv.transaction_type}</span>
+          <span class="inv-meta-cell-label" data-i18n="inv_deals_label"></span>
+          <span class="inv-meta-cell-value">${inv.deals_done} ${t("broker_deals")}</span>
         </div>
       </div>
 

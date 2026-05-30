@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Brokerlər — BizBazar.az</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <meta name="description" content="Biznes alqı-satışında broker və məsləhətçi dəstəyi üçün pilot kataloq. Profil məlumatları yekun sövdələşmədən əvvəl ayrıca yoxlanmalıdır.">
-  <meta name="keywords" content="biznes broker, biznes məsləhətçi, M&A dəstəyi, Bakı broker, Azərbaycan biznes satışı">
+  <meta name="description" content="Azərbaycanda fəaliyyət göstərən yoxlanmış peşəkar biznes brokerləri. Reytinqlər, sövdələşmə tarixçəsi, ixtisaslaşmalar və birbaşa əlaqə.">
+  <meta name="keywords" content="biznes broker, peşəkar broker, biznes agentlik, M&A broker, Bakı broker, Azərbaycan biznes broker">
   <meta name="author" content="BizBazar.az">
   <meta name="robots" content="index, follow">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Brokerlər — BizBazar.az">
-  <meta property="og:description" content="Biznes alqı-satışında broker və məsləhətçi dəstəyi üçün pilot kataloq.">
+  <meta property="og:description" content="Azərbaycanda fəaliyyət göstərən yoxlanmış peşəkar biznes brokerləri.">
   <meta property="og:url" content="https://bizbazar.az/brokers.html">
   <meta property="og:image" content="https://bizbazar.az/favicon.svg">
   <meta property="og:site_name" content="BizBazar.az">
@@ -151,22 +151,6 @@
       color: white; font-size: 11px; font-weight: 700;
       padding: 5px 12px; border-radius: 999px;
       letter-spacing: 0.3px;
-    }
-    .br-demo-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #fef3c7; color: #92400e;
-      border: 1px solid #fde68a;
-      border-radius: 8px; padding: 5px 10px;
-      font-size: 11px; font-weight: 700; letter-spacing: .2px;
-      align-self: flex-start;
-    }
-    .br-avatar-fallback {
-      width: 64px; height: 64px; border-radius: 50%;
-      flex-shrink: 0; border: 3px solid #ede9fe;
-      box-shadow: 0 4px 12px rgba(99,102,241,.20);
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #ede9fe, #c7d2fe);
-      color: #4f46e5; font-weight: 800; font-size: 22px;
     }
 
     /* card head */
@@ -401,20 +385,43 @@
   <div class="container">
     <span class="br-hero-eyebrow">🤝 Yoxlanmış peşəkar broker şəbəkəsi</span>
     <h1>Biznes sövdələşmənizi <span>peşəkarla</span> aparın</h1>
-    <p class="br-hero-lead">Biznes alqı-satışında broker və məsləhətçi dəstəyinə ehtiyacı olan istifadəçilər üçün pilot kataloq. Profil məlumatları və təcrübə yekun əməkdaşlıqdan əvvəl ayrıca yoxlanmalıdır.</p>
+    <p class="br-hero-lead">Azərbaycanda fəaliyyət göstərən sertifikatlı biznes brokerləri və M&A agentlikləri. Lisenziya yoxlanılıb, sövdələşmə tarixçəsi ictimaidir, müştəri rəyləri real. Birbaşa əlaqə qurun və biznesinizi peşəkar idarəyə həvalə edin.</p>
+
+    <div class="br-stats-grid">
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-brokers">—</div>
+        <div class="br-stat-label">Aktiv broker</div>
+      </div>
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-deals">—</div>
+        <div class="br-stat-label">Bağlanmış sövdələşmə</div>
+      </div>
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-volume">—</div>
+        <div class="br-stat-label">AZN ümumi həcm</div>
+      </div>
+      <div class="br-stat">
+        <div class="br-stat-num" id="stat-rating">—</div>
+        <div class="br-stat-label">Orta reytinq</div>
+      </div>
+    </div>
 
     <div class="br-trust-strip">
       <div class="br-trust-item">
-        <span class="br-trust-icon">🧪</span>
-        <span>Nümunə kataloq · Demonstration catalogue · Демонстрационный каталог</span>
+        <span class="br-trust-icon">🛡️</span>
+        <span>Lisenziyası yoxlanmış brokerlər</span>
+      </div>
+      <div class="br-trust-item">
+        <span class="br-trust-icon">📊</span>
+        <span>Real sövdələşmə tarixçəsi</span>
+      </div>
+      <div class="br-trust-item">
+        <span class="br-trust-icon">⚡</span>
+        <span>Orta cavab vaxtı &lt; 4 saat</span>
       </div>
       <div class="br-trust-item">
         <span class="br-trust-icon">🎯</span>
         <span>Sektor üzrə ixtisas</span>
-      </div>
-      <div class="br-trust-item">
-        <span class="br-trust-icon">🤝</span>
-        <span>Birbaşa əlaqə</span>
       </div>
     </div>
   </div>
@@ -448,6 +455,10 @@
       </select>
       <select id="filter-sort">
         <option value="featured">Seçilmiş brokerlər</option>
+        <option value="rating">Reytinqə görə</option>
+        <option value="deals">Sövdələşmə sayı</option>
+        <option value="volume">Sövdələşmə həcmi</option>
+        <option value="response">Cavab vaxtı</option>
       </select>
     </div>
 
@@ -501,7 +512,7 @@
 
 <div id="footer-mount"></div>
 
-<script src="js/app.js?v=phase2"></script>
+<script src="js/app.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
@@ -516,6 +527,16 @@ if ('serviceWorker' in navigator) {
     loadCategories()
   ]);
   const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+
+  // Compute stats
+  const totalDeals = brokers.reduce((s, b) => s + (b.deals_closed || 0), 0);
+  const totalVolume = brokers.reduce((s, b) => s + (b.total_volume_azn || 0), 0);
+  const avgRating = brokers.reduce((s, b) => s + (b.rating || 0), 0) / brokers.length;
+
+  document.getElementById("stat-brokers").textContent = brokers.length;
+  document.getElementById("stat-deals").textContent = totalDeals + "+";
+  document.getElementById("stat-volume").textContent = (totalVolume / 1000000).toFixed(1) + "M+";
+  document.getElementById("stat-rating").textContent = avgRating.toFixed(1) + " ★";
 
   // Populate specialty filter
   const filterSpec = document.getElementById("filter-specialty");
@@ -554,12 +575,18 @@ if ('serviceWorker' in navigator) {
     sort: "featured"
   };
 
+  function fmtVolume(v) {
+    if (v >= 1000000) return (v / 1000000).toFixed(1) + "M";
+    if (v >= 1000) return Math.round(v / 1000) + "K";
+    return String(v);
+  }
+
   function brokerCardHTML(b) {
     const lang = (typeof getLang === "function") ? getLang() : "az";
-    const name = lang === "ru" && b.name_ru ? b.name_ru : (lang === "en" && b.name_en ? b.name_en : b.name);
+    const name = lang === "ru" && b.name_ru ? b.name_ru : b.name;
     const bio = lang === "en" ? b.bio_en : lang === "ru" ? b.bio_ru : b.bio_az;
     const typeLabels = TYPE_LABELS[lang] || TYPE_LABELS.az;
-    const initial = (name || "?").replace(/^\[[^\]]*\]\s*/, "").trim().charAt(0).toUpperCase() || "?";
+    const stars = "★".repeat(Math.floor(b.rating)) + "☆".repeat(5 - Math.floor(b.rating));
 
     const specialtyPills = b.specialties.slice(0, 4).map(sid => {
       const cat = catById[sid];
@@ -567,22 +594,42 @@ if ('serviceWorker' in navigator) {
     }).join("");
 
     const langTags = b.languages.map(l => `<span class="br-lang-tag">${l}</span>`).join("");
+    const waPhone = b.phone.replace(/[^+\d]/g, "");
 
     return `
     <article class="br-card${b.featured ? " featured" : ""}">
-      <span class="br-demo-badge">🧪 Nümunə · Образец · Sample</span>
       <div class="br-card-head">
-        <div class="br-avatar-fallback" aria-hidden="true">${initial}</div>
+        <img src="${b.avatar}" alt="${name}" class="br-avatar" loading="lazy">
         <div class="br-name-block">
           <h3 class="br-name">${name}</h3>
           <div class="br-name-meta">
             <span>📍 ${b.city}</span>
+            ${b.verified ? `<span class="br-verified-icon">✓ Yoxlanmış</span>` : ""}
           </div>
         </div>
       </div>
 
       <div class="br-tag-row">
         <span class="br-tag ${b.type}">${typeLabels[b.type] || b.type}</span>
+        ${b.license_no ? `<span class="br-tag license">🪪 ${b.license_no}</span>` : ""}
+      </div>
+
+      <div class="br-rating-block">
+        <div class="br-rating-cell">
+          <div class="lbl">Reytinq</div>
+          <div class="val">${b.rating.toFixed(1)}</div>
+          <div class="stars-mini">${stars}</div>
+        </div>
+        <div class="br-rating-cell">
+          <div class="lbl">Sövdələşmə</div>
+          <div class="val">${b.deals_closed}</div>
+          <div class="stars-mini" style="color:var(--text-muted);font-size:11px">bağlanıb</div>
+        </div>
+        <div class="br-rating-cell">
+          <div class="lbl">Həcm</div>
+          <div class="val">${fmtVolume(b.total_volume_azn || 0)}</div>
+          <div class="stars-mini" style="color:var(--text-muted);font-size:11px">AZN</div>
+        </div>
       </div>
 
       <div>
@@ -594,6 +641,10 @@ if ('serviceWorker' in navigator) {
 
       <div class="br-meta-row">
         <div class="br-meta-cell">
+          <span class="br-meta-cell-label">Cavab vaxtı</span>
+          <span class="br-meta-cell-value">⚡ ${b.response_time_hours} saat</span>
+        </div>
+        <div class="br-meta-cell">
           <span class="br-meta-cell-label">Dillər</span>
           <span class="br-meta-cell-value"><div class="br-langs">${langTags}</div></span>
         </div>
@@ -601,7 +652,8 @@ if ('serviceWorker' in navigator) {
 
       <div class="br-actions">
         <a href="broker.html?id=${b.id}" class="btn-primary">Profili gör →</a>
-        ${b.email ? `<a href="mailto:${b.email}" class="br-icon-btn" title="E-mail">✉️</a>` : ""}
+        <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener" class="br-icon-btn wa" title="WhatsApp">💬</a>
+        <a href="tel:${b.phone}" class="br-icon-btn" title="Zəng et">📞</a>
       </div>
     </article>`;
   }
@@ -622,7 +674,18 @@ if ('serviceWorker' in navigator) {
     if (state.city) list = list.filter(b => b.city === state.city);
     if (state.language) list = list.filter(b => b.languages.includes(state.language));
 
-    list.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+    switch (state.sort) {
+      case "rating":   list.sort((a, b) => b.rating - a.rating); break;
+      case "deals":    list.sort((a, b) => b.deals_closed - a.deals_closed); break;
+      case "volume":   list.sort((a, b) => (b.total_volume_azn || 0) - (a.total_volume_azn || 0)); break;
+      case "response": list.sort((a, b) => a.response_time_hours - b.response_time_hours); break;
+      default:
+        list.sort((a, b) => {
+          if (a.featured !== b.featured) return b.featured ? 1 : -1;
+          return b.rating - a.rating;
+        });
+        break;
+    }
 
     document.getElementById("results-count").textContent = list.length;
 
