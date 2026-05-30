@@ -75,6 +75,12 @@
     .bp-badge.verified    { background: #d1fae5; color: #065f46; }
     .bp-badge.license     { background: #f0fdf4; color: #166534; font-family: ui-monospace, monospace; }
     .bp-badge.featured    { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; }
+    .bp-badge.demo        { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .bp-avatar-fallback {
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #ede9fe, #c7d2fe);
+      color: #4f46e5; font-weight: 800; font-size: 44px;
+    }
 
     /* ==== STATS ==== */
     .bp-stats-grid {
@@ -234,7 +240,7 @@
 <div id="bp-root"></div>
 
 <div id="footer-mount"></div>
-<script src="js/app.js"></script>
+<script src="js/app.js?v=phase2"></script>
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
@@ -274,12 +280,12 @@ if ('serviceWorker' in navigator) {
   }
 
   const lang = (typeof getLang === "function") ? getLang() : "az";
-  const name = lang === "ru" && broker.name_ru ? broker.name_ru : broker.name;
+  const name = lang === "ru" && broker.name_ru ? broker.name_ru : (lang === "en" && broker.name_en ? broker.name_en : broker.name);
   const bio = lang === "en" ? broker.bio_en : lang === "ru" ? broker.bio_ru : broker.bio_az;
   document.title = name + " — BizBazar.az";
 
   const brokerListings = listings.filter(l => l.broker_id === broker.id);
-  const stars = "★".repeat(Math.floor(broker.rating)) + "☆".repeat(5 - Math.floor(broker.rating));
+  const initial = (name || "?").replace(/^\[[^\]]*\]\s*/, "").trim().charAt(0).toUpperCase() || "?";
   const memberSince = new Date(broker.member_since + "-01")
     .toLocaleDateString("az-AZ", { month: "long", year: "numeric" });
 
@@ -293,14 +299,6 @@ if ('serviceWorker' in navigator) {
   }).join("");
 
   const langsHTML = broker.languages.map(l => `<span class="bp-lang">${l}</span>`).join("");
-  const waPhone = broker.phone.replace(/[^+\d]/g, "");
-
-  function fmtVolume(v) {
-    if (!v) return "—";
-    if (v >= 1000000) return (v / 1000000).toFixed(1) + "M AZN";
-    if (v >= 1000) return Math.round(v / 1000) + "K AZN";
-    return fmtAZN(v);
-  }
 
   root.innerHTML = `
     <section class="bp-hero">
@@ -308,43 +306,40 @@ if ('serviceWorker' in navigator) {
         <a href="brokers.html" class="bp-back-link">← Bütün brokerlərə qayıt</a>
 
         <div class="bp-hero-card">
-          <img src="${broker.avatar}" alt="${name}" class="bp-avatar">
+          <div class="bp-avatar bp-avatar-fallback" aria-hidden="true">${initial}</div>
           <div class="bp-hero-info">
             <div class="bp-badges">
+              <span class="bp-badge demo">🧪 Nümunə · Образец · Sample</span>
               <span class="bp-badge ${broker.type === 'agency' ? 'type-agency' : 'type-broker'}">${broker.type === 'agency' ? '🏢 ' : '👤 '}${typeLabel}</span>
-              ${broker.verified ? `<span class="bp-badge verified">✓ Yoxlanmış</span>` : ""}
               ${broker.featured ? `<span class="bp-badge featured">★ Premium</span>` : ""}
-              ${broker.license_no ? `<span class="bp-badge license">🪪 ${broker.license_no}</span>` : ""}
             </div>
             <h1 class="bp-name">${name}</h1>
             <div class="bp-meta-row">
               <span>📍 ${broker.city}</span>
-              <span class="dot">·</span>
-              <span><span class="bp-rating-stars">${stars}</span> <span class="bp-rating-num">${broker.rating.toFixed(1)}</span> <span style="color:var(--text-muted)">(${broker.reviews} rəy)</span></span>
             </div>
           </div>
         </div>
 
         <div class="bp-stats-grid">
           <div class="bp-stat">
-            <div class="lbl">Sövdələşmə</div>
-            <div class="val">${broker.deals_closed}</div>
-            <div class="sub">bağlanıb</div>
-          </div>
-          <div class="bp-stat">
-            <div class="lbl">Ümumi həcm</div>
-            <div class="val">${fmtVolume(broker.total_volume_azn)}</div>
-            <div class="sub">satılmış biznes</div>
-          </div>
-          <div class="bp-stat">
-            <div class="lbl">Cavab vaxtı</div>
-            <div class="val">⚡ ${broker.response_time_hours} saat</div>
-            <div class="sub">orta hesabla</div>
-          </div>
-          <div class="bp-stat">
             <div class="lbl">Üzvlük</div>
             <div class="val small">${memberSince}</div>
             <div class="sub">tarixindən</div>
+          </div>
+          <div class="bp-stat">
+            <div class="lbl">Şəhər</div>
+            <div class="val small">${broker.city}</div>
+            <div class="sub">fəaliyyət bölgəsi</div>
+          </div>
+          <div class="bp-stat">
+            <div class="lbl">Dillər</div>
+            <div class="val small">${broker.languages.join(", ")}</div>
+            <div class="sub">danışıq dilləri</div>
+          </div>
+          <div class="bp-stat">
+            <div class="lbl">Tip</div>
+            <div class="val small">${typeLabel}</div>
+            <div class="sub">profil növü</div>
           </div>
         </div>
       </div>
@@ -379,14 +374,13 @@ if ('serviceWorker' in navigator) {
           <aside class="bp-sidebar">
             <div class="bp-contact-card">
               <div class="bp-contact-title">Əlaqə</div>
+              <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;line-height:1.5;">🧪 Bu nümunə profildir · Это образец профиля · This is a sample profile</p>
               <div class="bp-contact-btns">
-                <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener" class="bp-btn bp-btn-wa">💬 WhatsApp</a>
-                <a href="tel:${broker.phone}" class="bp-btn bp-btn-phone">📞 ${broker.phone}</a>
+                <a href="https://wa.me/994502009088" target="_blank" rel="noopener" class="bp-btn bp-btn-wa">💬 WhatsApp</a>
                 ${broker.email ? `<a href="mailto:${broker.email}" class="bp-btn bp-btn-email">✉️ E-mail göndər</a>` : ""}
               </div>
               <div class="bp-contact-info">
                 <div class="row"><span class="lbl">Şəhər</span><span class="val">${broker.city}</span></div>
-                <div class="row"><span class="lbl">Cavab vaxtı</span><span class="val">${broker.response_time_hours} saat</span></div>
                 <div class="row" style="align-items:flex-start"><span class="lbl">Dillər</span><span class="val"><div class="bp-langs">${langsHTML}</div></span></div>
               </div>
             </div>

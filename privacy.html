@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Məxfilik siyasəti — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="BizBazar.az məxfilik siyasəti: hansı məlumatlar toplanır, necə saxlanılır, məxfilik necə qorunur, istifadəçi hüquqları və məlumat sorğuları.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bizbazar.az/privacy.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>(function(){if(localStorage.getItem('bb_darkmode')==='1')document.documentElement.setAttribute('data-theme','dark')})()</script>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 id="page-title"></h1>
+    <p id="page-subtitle"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container legal-doc">
+    <div class="legal-note" id="draft-banner" style="border-color:rgba(220,38,38,.45);background:#fef2f2;color:#7f1d1d;font-weight:700;"></div>
+    <div class="legal-note" id="legal-note"></div>
+    <div id="legal-body"></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js?v=phase2"></script>
+<script>
+const PRIVACY_COPY = {
+  az: {
+    pageTitle: "Məxfilik siyasəti",
+    pageSubtitle: "İstifadəçi və biznes məlumatlarının toplanması, saxlanması və qorunması prinsipləri.",
+    draft: "QARALAMA — hüquqi yoxlama gözlənilir. Hələ hüquqi cəhətdən bağlayıcı deyil.",
+    note: "Bu mətn ilkin siyasətdir və hüquqi məsləhət deyil. Canlı istifadə, ödəniş və sənəd yükləmə funksiyaları aktivləşməzdən əvvəl Azərbaycan qanunvericiliyini bilən hüquqşünas tərəfindən yoxlanmalıdır.",
+    sections: [
+      { h: "1. Hansı məlumatları toplayırıq", list: [
+        "Hesab və əlaqə məlumatları: ad, soyad, telefon nömrəsi, e-poçt ünvanı, parol (şifrələnmiş formada) və profil parametrləri;",
+        "Satıcı biznes məlumatları: satış qiyməti, gəlir, mənfəət, kateqoriya, şəhər və rayon, biznes təsviri, əməliyyat göstəriciləri və yüklənən sənədlər (maliyyə hesabatları, lisenziyalar, müqavilələr);",
+        "Alıcı məlumatları: niyyət, büdcə aralığı, maliyyələşdirmə statusu, alış məqsədi və NDA müraciətləri;",
+        "Qiymətləndirmə və lead məlumatları: qiymətləndirmə kalkulyatoruna daxil edilən rəqəmlər, xidmət sorğuları və əlaqə üçün buraxılan məlumatlar;",
+        "Texniki məlumatlar: cihaz, brauzer, IP əsaslı təxmini məkan, sayt istifadəsi statistikası və cookies seçimi."
+      ]},
+      { h: "2. Məlumatlardan istifadə", list: [
+        "Elanların moderasiyası və yayımı;",
+        "Alıcı-satıcı sorğularının və NDA prosesinin idarə edilməsi;",
+        "Hesabın yaradılması, daxil olma və təhlükəsizlik;",
+        "Qiymətləndirmə, due diligence və peşəkar xidmət sorğularının yönləndirilməsi;",
+        "Dəstək, fırıldaqçılığın qarşısının alınması və məhsulun təkmilləşdirilməsi."
+      ]},
+      { h: "3. Məlumatların saxlanması", list: [
+        "İstifadəçi hesabları, elanlar, sorğular və sənədlər Google Firebase infrastrukturunda (Authentication, Firestore və Cloud Storage) saxlanılır;",
+        "Firebase Google tərəfindən idarə olunan və beynəlxalq təhlükəsizlik standartlarına uyğun bulud platformasıdır; məlumatlar ötürülmə və saxlanma zamanı şifrələnir;",
+        "Həssas maliyyə sənədləri açıq kataloqda saxlanılmır və yalnız təsdiqlənmiş giriş vasitəsilə əlçatan olmalıdır."
+      ]},
+      { h: "4. Məxfilik necə qorunur", paras: [
+        "BizBazar açıq elan məlumatları ilə həssas məlumatları ayırır. Dəqiq gəlir/mənfəət rəqəmləri, sənədlər və satıcının birbaşa əlaqə məlumatları açıq elanda göstərilmir.",
+        "Bu məlumatlara giriş yalnız alıcının NDA sorğusu satıcı və ya admin tərəfindən təsdiqləndikdən sonra verilir. Ətraflı məlumat üçün NDA prosesi və Məxfilik qaydası səhifələrinə baxın."
+      ]},
+      { h: "5. Üçüncü tərəflərlə paylaşım", paras: [
+        "Məlumatlar üçüncü tərəflərə satılmır. Yalnız aşağıdakı hallarda paylaşıla bilər: istifadəçinin razılığı ilə qiymətləndirmə, hüquqi, vergi, audit və maliyyə xidməti təminatçılarına; platformanı işlədən texniki xidmət təminatçılarına (məsələn, Google Firebase); qanunvericiliyin tələb etdiyi hallarda səlahiyyətli orqanlara."
+      ]},
+      { h: "6. Cookies və lokal seçimlər", paras: [
+        "Sayt dil seçimi, qaranlıq rejim, favoritlər, son baxılan elanlar və cookies razılığı kimi seçimləri brauzerin lokal yaddaşında saxlaya bilər. Bu məlumatlar cihazınızda qalır."
+      ]},
+      { h: "7. Məlumatların saxlanma müddəti", paras: [
+        "Hesab məlumatları hesab aktiv olduğu müddətdə saxlanılır. Hesabın silinməsi tələb edildikdə, məlumatlar qanuni öhdəliklər (məsələn, mühasibat və vergi) tələb etmədiyi halda ağlabatan müddət ərzində silinir və ya anonimləşdirilir. Tamamlanmamış sorğular və qaralamalar müəyyən müddətdən sonra avtomatik təmizlənə bilər."
+      ]},
+      { h: "8. İstifadəçi hüquqları", list: [
+        "Toplanan məlumatlara giriş və onların surətini tələb etmək;",
+        "Yanlış məlumatların düzəldilməsini tələb etmək;",
+        "Məlumatların silinməsini (qanuni öhdəliklər çərçivəsində) tələb etmək;",
+        "Razılığı geri götürmək və ya emala etiraz etmək."
+      ]},
+      { h: "9. Məlumat sorğuları üçün əlaqə", paras: [
+        "Məlumatlarınızla bağlı istənilən sorğu (giriş, düzəliş, silinmə, razılığın geri götürülməsi) üçün info@bizbazar.az ünvanına müraciət edin. Sorğuları ağlabatan müddətdə cavablandırmağa çalışırıq."
+      ]}
+    ]
+  },
+  en: {
+    pageTitle: "Privacy Policy",
+    pageSubtitle: "How we collect, store, and protect user and business information.",
+    draft: "DRAFT — pending legal review. Not yet legally binding.",
+    note: "This text is an initial policy and not legal advice. Before live use, payments, and document uploads are enabled, it must be reviewed by a lawyer familiar with Azerbaijani law.",
+    sections: [
+      { h: "1. What data we collect", list: [
+        "Account and contact data: first name, last name, phone number, email, password (in encrypted form), and profile settings;",
+        "Seller business data: asking price, revenue, profit, category, city and district, business description, operating metrics, and uploaded documents (financial statements, licenses, contracts);",
+        "Buyer data: intent, budget range, financing status, acquisition purpose, and NDA requests;",
+        "Valuation and lead data: figures entered into the valuation calculator, service requests, and contact details you leave;",
+        "Technical data: device, browser, approximate IP-based location, site usage statistics, and cookie preferences."
+      ]},
+      { h: "2. How we use data", list: [
+        "Moderating and publishing listings;",
+        "Managing buyer-seller inquiries and the NDA process;",
+        "Account creation, sign-in, and security;",
+        "Routing valuation, due diligence, and professional service requests;",
+        "Support, fraud prevention, and product improvement."
+      ]},
+      { h: "3. How data is stored", list: [
+        "User accounts, listings, inquiries, and documents are stored on Google Firebase infrastructure (Authentication, Firestore, and Cloud Storage);",
+        "Firebase is a cloud platform operated by Google that meets international security standards; data is encrypted in transit and at rest;",
+        "Sensitive financial documents are not stored in a public directory and should be accessible only through approved access."
+      ]},
+      { h: "4. How confidentiality is protected", paras: [
+        "BizBazar separates public listing data from sensitive data. Exact revenue/profit figures, documents, and the seller's direct contact details are not shown in the public listing.",
+        "Access to this data is granted only after a buyer's NDA request is approved by the seller or an admin. See the NDA Process and Confidentiality pages for details."
+      ]},
+      { h: "5. Sharing with third parties", paras: [
+        "Data is not sold to third parties. It may be shared only: with valuation, legal, tax, audit, and financial service providers with your consent; with technical service providers that operate the platform (e.g., Google Firebase); and with authorities where required by law."
+      ]},
+      { h: "6. Cookies and local preferences", paras: [
+        "The site may store preferences such as language, dark mode, favorites, recently viewed listings, and cookie consent in your browser's local storage. This data stays on your device."
+      ]},
+      { h: "7. Data retention", paras: [
+        "Account data is kept while the account is active. When account deletion is requested, data is deleted or anonymized within a reasonable period, unless legal obligations (e.g., accounting and tax) require otherwise. Incomplete inquiries and drafts may be automatically cleared after a certain period."
+      ]},
+      { h: "8. User rights", list: [
+        "Request access to and a copy of the data collected;",
+        "Request correction of inaccurate data;",
+        "Request deletion of data (within legal obligations);",
+        "Withdraw consent or object to processing."
+      ]},
+      { h: "9. Contact for data requests", paras: [
+        "For any request regarding your data (access, correction, deletion, withdrawal of consent), contact info@bizbazar.az. We aim to respond within a reasonable timeframe."
+      ]}
+    ]
+  },
+  ru: {
+    pageTitle: "Политика конфиденциальности",
+    pageSubtitle: "Как мы собираем, храним и защищаем данные пользователей и бизнеса.",
+    draft: "ЧЕРНОВИК — ожидает юридической проверки. Пока не имеет юридической силы.",
+    note: "Этот текст является предварительной политикой и не является юридической консультацией. До запуска работы, платежей и загрузки документов он должен быть проверён юристом, знающим законодательство Азербайджана.",
+    sections: [
+      { h: "1. Какие данные мы собираем", list: [
+        "Данные аккаунта и контакты: имя, фамилия, номер телефона, email, пароль (в зашифрованном виде) и настройки профиля;",
+        "Бизнес-данные продавца: цена продажи, выручка, прибыль, категория, город и район, описание бизнеса, операционные показатели и загруженные документы (финансовая отчётность, лицензии, договоры);",
+        "Данные покупателя: намерение, диапазон бюджета, статус финансирования, цель приобретения и NDA-запросы;",
+        "Данные оценки и лиды: цифры, введённые в калькулятор оценки, запросы на услуги и оставленные контактные данные;",
+        "Технические данные: устройство, браузер, приблизительное местоположение по IP, статистика использования сайта и настройки cookies."
+      ]},
+      { h: "2. Как мы используем данные", list: [
+        "Модерация и публикация объявлений;",
+        "Управление запросами покупателей и продавцов и процессом NDA;",
+        "Создание аккаунта, вход и безопасность;",
+        "Направление запросов на оценку, due diligence и профессиональные услуги;",
+        "Поддержка, предотвращение мошенничества и улучшение продукта."
+      ]},
+      { h: "3. Как хранятся данные", list: [
+        "Аккаунты пользователей, объявления, запросы и документы хранятся в инфраструктуре Google Firebase (Authentication, Firestore и Cloud Storage);",
+        "Firebase — облачная платформа Google, соответствующая международным стандартам безопасности; данные шифруются при передаче и хранении;",
+        "Чувствительные финансовые документы не хранятся в публичном каталоге и должны быть доступны только через одобренный доступ."
+      ]},
+      { h: "4. Как защищается конфиденциальность", paras: [
+        "BizBazar разделяет публичные данные объявления и чувствительные данные. Точные цифры выручки/прибыли, документы и прямые контакты продавца не показываются в публичном объявлении.",
+        "Доступ к этим данным предоставляется только после одобрения NDA-запроса покупателя продавцом или администратором. Подробнее см. страницы «Процесс NDA» и «Конфиденциальность»."
+      ]},
+      { h: "5. Передача третьим лицам", paras: [
+        "Данные не продаются третьим лицам. Они могут быть переданы только: поставщикам услуг оценки, юридических, налоговых, аудиторских и финансовых услуг с вашего согласия; техническим поставщикам, обеспечивающим работу платформы (например, Google Firebase); и органам власти, когда этого требует закон."
+      ]},
+      { h: "6. Cookies и локальные настройки", paras: [
+        "Сайт может хранить такие настройки, как язык, тёмный режим, избранное, недавно просмотренные объявления и согласие на cookies, в локальном хранилище браузера. Эти данные остаются на вашем устройстве."
+      ]},
+      { h: "7. Срок хранения данных", paras: [
+        "Данные аккаунта хранятся, пока аккаунт активен. При запросе на удаление аккаунта данные удаляются или анонимизируются в разумный срок, если иное не требуется юридическими обязательствами (например, бухгалтерия и налоги). Незавершённые запросы и черновики могут автоматически удаляться через определённый период."
+      ]},
+      { h: "8. Права пользователя", list: [
+        "Запросить доступ к собранным данным и их копию;",
+        "Запросить исправление неточных данных;",
+        "Запросить удаление данных (в рамках юридических обязательств);",
+        "Отозвать согласие или возразить против обработки."
+      ]},
+      { h: "9. Контакты для запросов о данных", paras: [
+        "По любому запросу относительно ваших данных (доступ, исправление, удаление, отзыв согласия) обращайтесь на info@bizbazar.az. Мы стремимся отвечать в разумные сроки."
+      ]}
+    ]
+  }
+};
+
+function renderLegal(COPY, suffix) {
+  const c = COPY[getLang()] || COPY.az;
+  document.title = c.pageTitle + " — BizBazar.az";
+  document.getElementById("page-title").textContent = c.pageTitle;
+  document.getElementById("page-subtitle").textContent = c.pageSubtitle;
+  document.getElementById("draft-banner").textContent = c.draft;
+  document.getElementById("legal-note").textContent = c.note;
+  document.getElementById("legal-body").innerHTML = c.sections.map(s => {
+    let html = "<h2>" + s.h + "</h2>";
+    if (s.paras) html += s.paras.map(p => "<p>" + p + "</p>").join("");
+    if (s.list) html += "<ul>" + s.list.map(li => "<li>" + li + "</li>").join("") + "</ul>";
+    return html;
+  }).join("");
+}
+
+(function(){
+  mountLayout("privacy");
+  renderLegal(PRIVACY_COPY);
+  window.addEventListener("langchange", () => { renderLegal(PRIVACY_COPY); });
+})();
+</script>
+</body>
+</html>

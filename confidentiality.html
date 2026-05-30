@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Məxfilik qaydası — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="BizBazar.az məxfiliyin necə qorunduğunu izah edir: həssas maliyyə və əlaqə məlumatları açıq deyil, giriş yalnız NDA sorğusu təsdiqləndikdən sonra verilir.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bizbazar.az/confidentiality.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>(function(){if(localStorage.getItem('bb_darkmode')==='1')document.documentElement.setAttribute('data-theme','dark')})()</script>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 id="page-title"></h1>
+    <p id="page-subtitle"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container legal-doc">
+    <div class="legal-note" id="draft-banner" style="border-color:rgba(220,38,38,.45);background:#fef2f2;color:#7f1d1d;font-weight:700;"></div>
+    <div class="legal-note" id="legal-note"></div>
+    <div id="legal-body"></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js?v=phase2"></script>
+<script>
+const CONF_COPY = {
+  az: {
+    pageTitle: "Məxfilik qaydası",
+    pageSubtitle: "Biznes satışı zamanı həssas məlumatların platformada necə qorunduğu.",
+    draft: "QARALAMA — hüquqi yoxlama gözlənilir. Hələ hüquqi cəhətdən bağlayıcı deyil.",
+    note: "Bu səhifə məxfiliyin necə işlədiyini izah edir və hüquqi məsləhət deyil. Proseslər və texniki tədbirlər inkişaf etdikcə yenilənə bilər.",
+    sections: [
+      { h: "Niyə məxfilik vacibdir", paras: [
+        "Biznesin satıldığı barədə məlumatın yayılması əməkdaşlara, müştərilərə, təchizatçılara və rəqiblərə təsir edə bilər. Buna görə BizBazar açıq elan məlumatları ilə həssas məlumatları ayırır."
+      ]},
+      { h: "Məxfilik necə qorunur", paras: [
+        "Həssas maliyyə göstəriciləri və satıcının birbaşa əlaqə məlumatları açıq elanda göstərilmir. Bu məlumatlara giriş yalnız alıcının NDA sorğusu satıcı və ya admin tərəfindən təsdiqləndikdən sonra verilir.",
+        "Bu, platformanın nəzərdə tutulan və aktiv prosesidir. Sistem inkişaf etdikcə əlavə texniki tədbirlər (rol əsaslı giriş, təhlükəsiz sənəd otağı, giriş jurnalı) gücləndiriləcək."
+      ]},
+      { h: "Açıq göstərilə bilən məlumatlar", list: [
+        "Kateqoriya, şəhər və təxmini rayon;",
+        "Satış qiyməti və ümumi biznes təsviri;",
+        "Sahə, fəaliyyət müddəti, işçi sayı kimi yüksək səviyyəli göstəricilər;",
+        "Elanın moderasiya və sənəd baxışı statusu."
+      ]},
+      { h: "Yalnız NDA və təsdiqdən sonra paylaşılan məlumatlar", list: [
+        "Dəqiq gəlir, mənfəət, rentabellik və müştəri bazası;",
+        "Müqavilələr, vergi sənədləri, bank çıxarışları və lisenziyalar;",
+        "Satıcının birbaşa əlaqə məlumatları;",
+        "Biznesin dəqiq ünvanı və daxili əməliyyat məlumatları."
+      ]},
+      { h: "Alıcı sorğusu prosesi", list: [
+        "Alıcı hesab yaradır və əsas əlaqə məlumatlarını təqdim edir;",
+        "Maraqlandığı elana NDA sorğusu göndərir;",
+        "Komanda və ya satıcı alıcının niyyətini, büdcəsini və uyğunluğunu nəzərdən keçirir;",
+        "Yalnız satıcı və ya admin təsdiqindən sonra tam sənəd və əlaqə məlumatı açılır."
+      ]},
+      { h: "Satıcı üçün tövsiyə", paras: [
+        "Elan göndərərkən biznes adını, dəqiq ünvanı, əməkdaş adlarını və həssas maliyyə sənədlərini açıq təsvir sahəsinə yazmayın. Bu məlumatları yalnız təsdiqli alıcı prosesindən sonra paylaşın. Platforma açıq elanı bu prinsiplə qorumağa çalışsa da, açıq mətndə özünüz yerləşdirdiyiniz məlumat artıq həssas saymır."
+      ]},
+      { h: "Məhdudiyyətlər (dürüst qeyd)", paras: [
+        "Heç bir platforma məxfiliyə 100% zəmanət verə bilməz. Təsdiqdən sonra məlumatı görən alıcının onu necə istifadə etməsi NDA öhdəlikləri ilə tənzimlənir, lakin bu, insan davranışına əsaslanır. Maksimum qorunma üçün həssas məlumatı yalnız ciddi və yoxlanmış alıcılarla mərhələli şəkildə paylaşın."
+      ]}
+    ]
+  },
+  en: {
+    pageTitle: "Confidentiality",
+    pageSubtitle: "How sensitive information is protected on the platform during a business sale.",
+    draft: "DRAFT — pending legal review. Not yet legally binding.",
+    note: "This page explains how confidentiality works and is not legal advice. Processes and technical measures may be updated as the platform develops.",
+    sections: [
+      { h: "Why confidentiality matters", paras: [
+        "News that a business is for sale can affect employees, customers, suppliers, and competitors. That is why BizBazar separates public listing data from sensitive data."
+      ]},
+      { h: "How confidentiality is protected", paras: [
+        "Sensitive financial figures and the seller's direct contact details are not shown in the public listing. Access to this data is granted only after a buyer's NDA request is approved by the seller or an admin.",
+        "This is the platform's intended and active process. As the system develops, additional technical measures (role-based access, a secure document room, an access log) will be strengthened."
+      ]},
+      { h: "Information that may be shown publicly", list: [
+        "Category, city, and approximate district;",
+        "Asking price and general business description;",
+        "High-level metrics such as sector, years in operation, and headcount;",
+        "Listing moderation and document review status."
+      ]},
+      { h: "Information shared only after NDA and approval", list: [
+        "Exact revenue, profit, profitability, and customer base;",
+        "Contracts, tax documents, bank statements, and licenses;",
+        "The seller's direct contact details;",
+        "The business's exact address and internal operating data."
+      ]},
+      { h: "Buyer inquiry process", list: [
+        "The buyer creates an account and provides basic contact details;",
+        "Sends an NDA request on a listing of interest;",
+        "The team or seller reviews the buyer's intent, budget, and suitability;",
+        "Full documents and contact details are revealed only after seller or admin approval."
+      ]},
+      { h: "Advice for sellers", paras: [
+        "When submitting a listing, do not write the business name, exact address, employee names, or sensitive financial documents in the public description field. Share this information only after the approved-buyer process. Although the platform tries to protect the public listing on this principle, information you place yourself in the public text is no longer treated as confidential."
+      ]},
+      { h: "Limitations (an honest note)", paras: [
+        "No platform can guarantee 100% confidentiality. How a buyer who has been granted access uses the information is governed by NDA obligations, but it relies on human behaviour. For maximum protection, share sensitive information gradually and only with serious, verified buyers."
+      ]}
+    ]
+  },
+  ru: {
+    pageTitle: "Конфиденциальность",
+    pageSubtitle: "Как на платформе защищается чувствительная информация при продаже бизнеса.",
+    draft: "ЧЕРНОВИК — ожидает юридической проверки. Пока не имеет юридической силы.",
+    note: "Эта страница объясняет, как работает конфиденциальность, и не является юридической консультацией. Процессы и технические меры могут обновляться по мере развития платформы.",
+    sections: [
+      { h: "Почему конфиденциальность важна", paras: [
+        "Новость о том, что бизнес продаётся, может повлиять на сотрудников, клиентов, поставщиков и конкурентов. Поэтому BizBazar разделяет публичные данные объявления и чувствительные данные."
+      ]},
+      { h: "Как защищается конфиденциальность", paras: [
+        "Чувствительные финансовые показатели и прямые контакты продавца не показываются в публичном объявлении. Доступ к этим данным предоставляется только после одобрения NDA-запроса покупателя продавцом или администратором.",
+        "Это предусмотренный и активный процесс платформы. По мере развития системы будут усиливаться дополнительные технические меры (доступ на основе ролей, защищённая комната документов, журнал доступа)."
+      ]},
+      { h: "Информация, которая может показываться публично", list: [
+        "Категория, город и приблизительный район;",
+        "Цена продажи и общее описание бизнеса;",
+        "Высокоуровневые показатели: сфера, срок работы, число сотрудников;",
+        "Статус модерации объявления и проверки документов."
+      ]},
+      { h: "Информация, передаваемая только после NDA и одобрения", list: [
+        "Точная выручка, прибыль, рентабельность и клиентская база;",
+        "Договоры, налоговые документы, банковские выписки и лицензии;",
+        "Прямые контактные данные продавца;",
+        "Точный адрес бизнеса и внутренние операционные данные."
+      ]},
+      { h: "Процесс запроса покупателя", list: [
+        "Покупатель создаёт аккаунт и предоставляет основные контактные данные;",
+        "Отправляет NDA-запрос по интересующему объявлению;",
+        "Команда или продавец рассматривает намерение, бюджет и соответствие покупателя;",
+        "Полные документы и контакты раскрываются только после одобрения продавца или администратора."
+      ]},
+      { h: "Рекомендация для продавцов", paras: [
+        "При подаче объявления не указывайте название бизнеса, точный адрес, имена сотрудников и чувствительные финансовые документы в публичном поле описания. Делитесь этой информацией только после процесса одобренного покупателя. Хотя платформа старается защитить публичное объявление по этому принципу, информация, которую вы сами разместили в публичном тексте, больше не считается конфиденциальной."
+      ]},
+      { h: "Ограничения (честное замечание)", paras: [
+        "Ни одна платформа не может гарантировать 100% конфиденциальность. То, как покупатель, получивший доступ, использует информацию, регулируется обязательствами NDA, но зависит от поведения человека. Для максимальной защиты передавайте чувствительную информацию поэтапно и только серьёзным, проверенным покупателям."
+      ]}
+    ]
+  }
+};
+
+function renderLegal(COPY) {
+  const c = COPY[getLang()] || COPY.az;
+  document.title = c.pageTitle + " — BizBazar.az";
+  document.getElementById("page-title").textContent = c.pageTitle;
+  document.getElementById("page-subtitle").textContent = c.pageSubtitle;
+  document.getElementById("draft-banner").textContent = c.draft;
+  document.getElementById("legal-note").textContent = c.note;
+  document.getElementById("legal-body").innerHTML = c.sections.map(s => {
+    let html = "<h2>" + s.h + "</h2>";
+    if (s.paras) html += s.paras.map(p => "<p>" + p + "</p>").join("");
+    if (s.list) html += "<ul>" + s.list.map(li => "<li>" + li + "</li>").join("") + "</ul>";
+    return html;
+  }).join("");
+}
+
+(function(){
+  mountLayout("confidentiality");
+  renderLegal(CONF_COPY);
+  window.addEventListener("langchange", () => { renderLegal(CONF_COPY); });
+})();
+</script>
+</body>
+</html>

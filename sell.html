@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Biznesini sat — BizBazar.az</title>
+  <title>Biznes satmaq — BizBazar.az</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- SEO -->
-  <meta name="description" content="Bizneslərini satmaq üçün ən sürətli yol. Yoxlanmış alıcı bazası, peşəkar dəstək, məxfilik. Pulsuz başla.">
-  <meta name="keywords" content="biznes sat, biznes satmaq, biznes elan ver, biznes broker">
+  <meta name="description" content="Biznesinizi BizBazar.az-da açıq və ya məxfi formada satışa göndərin. Elan moderasiyası, NDA əsaslı alıcı sorğuları, qiymətləndirmə və due diligence dəstəyi.">
+  <meta name="keywords" content="biznes satmaq, biznes sat, biznes elan ver, hazır biznes satılır, məxfi biznes satışı, biznes broker">
   <meta name="author" content="BizBazar.az">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph (for social sharing) -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Biznesini sat — BizBazar.az">
-  <meta property="og:description" content="Bizneslərini satmaq üçün ən sürətli yol. Yoxlanmış alıcı bazası, peşəkar dəstək, məxfilik. Pulsuz başla.">
+  <meta property="og:title" content="Biznes satmaq — BizBazar.az">
+  <meta property="og:description" content="Biznesinizi açıq və ya məxfi formada satışa göndərin. Moderasiya, NDA sorğuları və peşəkar dəstək.">
   <meta property="og:url" content="https://bizbazar.az/sell.html">
   <meta property="og:image" content="https://bizbazar.az/favicon.svg">
   <meta property="og:site_name" content="BizBazar.az">
@@ -25,8 +25,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Biznesini sat — BizBazar.az">
-  <meta name="twitter:description" content="Bizneslərini satmaq üçün ən sürətli yol. Yoxlanmış alıcı bazası, peşəkar dəstək, məxfilik. Pulsuz başla.">
+  <meta name="twitter:title" content="Biznes satmaq — BizBazar.az">
+  <meta name="twitter:description" content="Biznesinizi açıq və ya məxfi formada satışa göndərin. Moderasiya, NDA sorğuları və peşəkar dəstək.">
   <meta name="twitter:image" content="https://bizbazar.az/favicon.svg">
 
   <!-- Canonical URL -->
@@ -78,84 +78,176 @@
 <section>
   <div class="container form-wrap">
     <div class="form-card">
-      <h2 style="margin:0 0 18px" data-i18n="form_title"></h2>
+      <h2 style="margin:0 0 6px" data-i18n="form_title"></h2>
       <div class="form-note" data-i18n="form_note"></div>
-      <!-- B) Form updated: web3forms action, hidden fields, JS fetch on submit -->
-      <form id="sell-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+
+      <!-- Step progress indicator -->
+      <div id="wizard-progress" style="display:flex;align-items:center;gap:6px;margin:18px 0 22px;">
+        <div class="wz-dot" data-wz-dot="1">
+          <span class="wz-dot-num">1</span>
+          <span class="wz-dot-label" data-i18n="wiz_step1"></span>
+        </div>
+        <div class="wz-line"></div>
+        <div class="wz-dot" data-wz-dot="2">
+          <span class="wz-dot-num">2</span>
+          <span class="wz-dot-label" data-i18n="wiz_step2"></span>
+        </div>
+        <div class="wz-line"></div>
+        <div class="wz-dot" data-wz-dot="3">
+          <span class="wz-dot-num">3</span>
+          <span class="wz-dot-label" data-i18n="wiz_step3"></span>
+        </div>
+      </div>
+
+      <form id="sell-form" novalidate>
         <input type="hidden" name="subject" value="New BizBazar.az listing submission">
-        <div class="form-row">
-          <div class="form-field full">
-            <label data-i18n="form_name"></label>
-            <input type="text" name="business_name" required>
+
+        <!-- STEP 1: Business basics -->
+        <div class="wz-panel" data-wz-panel="1">
+          <h3 style="margin:0 0 14px" data-i18n="wiz_step1_title"></h3>
+          <div class="form-row">
+            <div class="form-field full">
+              <label data-i18n="form_name"></label>
+              <input type="text" name="business_name" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label data-i18n="form_cat"></label>
+              <select id="form-cat" name="category" required></select>
+            </div>
+            <div class="form-field">
+              <label data-i18n="form_city"></label>
+              <input type="text" name="city" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label data-i18n="form_district"></label>
+              <input type="text" name="district">
+            </div>
+            <div class="form-field">
+              <label data-i18n="form_area"></label>
+              <input type="number" name="area_m2" min="0">
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label data-i18n="form_cat"></label>
-            <select id="form-cat" name="category" required></select>
+
+        <!-- STEP 2: Financials + reason for sale -->
+        <div class="wz-panel" data-wz-panel="2" style="display:none">
+          <h3 style="margin:0 0 14px" data-i18n="wiz_step2_title"></h3>
+          <div class="form-row">
+            <div class="form-field">
+              <label data-i18n="form_price"></label>
+              <input type="number" name="price_azn" min="0" required>
+            </div>
+            <div class="form-field">
+              <label data-i18n="form_revenue"></label>
+              <input type="number" name="monthly_revenue_azn" min="0">
+            </div>
           </div>
-          <div class="form-field">
-            <label data-i18n="form_city"></label>
-            <input type="text" name="city" required>
+          <div class="form-row">
+            <div class="form-field">
+              <label data-i18n="form_profit"></label>
+              <input type="number" name="monthly_profit_azn" min="0">
+            </div>
+            <div class="form-field">
+              <label data-i18n="form_staff"></label>
+              <input type="number" name="staff_count" min="0">
+            </div>
           </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label data-i18n="form_district"></label>
-            <input type="text" name="district">
+          <div class="form-row">
+            <div class="form-field">
+              <label data-i18n="form_years"></label>
+              <input type="number" name="operating_years" min="0">
+            </div>
+            <div class="form-field">
+              <label data-i18n="form_reason"></label>
+              <input type="text" name="reason_for_sale">
+            </div>
           </div>
-          <div class="form-field">
-            <label data-i18n="form_area"></label>
-            <input type="number" name="area_m2" min="0">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label data-i18n="form_price"></label>
-            <input type="number" name="price_azn" min="0" required>
-          </div>
-          <div class="form-field">
-            <label data-i18n="form_revenue"></label>
-            <input type="number" name="monthly_revenue_azn" min="0">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label data-i18n="form_staff"></label>
-            <input type="number" name="staff_count" min="0">
-          </div>
-          <div class="form-field">
-            <label data-i18n="form_years"></label>
-            <input type="number" name="operating_years" min="0">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-field full">
-            <label data-i18n="form_desc"></label>
-            <textarea name="description" required></textarea>
+          <div class="form-row">
+            <div class="form-field full">
+              <label data-i18n="form_desc"></label>
+              <textarea name="description" required></textarea>
+            </div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-field">
-            <label data-i18n="form_email"></label>
-            <input type="email" name="email" required>
+
+        <!-- STEP 3: Contact + consent -->
+        <div class="wz-panel" data-wz-panel="3" style="display:none">
+          <h3 style="margin:0 0 14px" data-i18n="wiz_step3_title"></h3>
+          <div class="form-row">
+            <div class="form-field full">
+              <label data-i18n="form_seller_name"></label>
+              <input type="text" name="seller_name" required>
+            </div>
           </div>
-          <div class="form-field">
-            <label data-i18n="form_phone"></label>
-            <input type="tel" name="phone" required>
+          <div class="form-row">
+            <div class="form-field">
+              <label data-i18n="form_email"></label>
+              <input type="email" name="email" required>
+            </div>
+            <div class="form-field">
+              <label data-i18n="form_phone"></label>
+              <input type="tel" name="phone" required>
+            </div>
           </div>
+          <div class="form-row">
+            <div class="form-field full">
+              <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;">
+                <input type="checkbox" name="seller_consent" value="yes" required style="margin-top:3px;flex:0 0 auto;">
+                <span data-i18n="wiz_consent"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field full">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+                <input type="checkbox" name="confidential_listing" value="yes">
+                <span data-i18n="form_confidential"></span>
+              </label>
+            </div>
+          </div>
+          <div class="form-note" data-i18n="wiz_confidential_note" style="margin-top:6px"></div>
         </div>
-        <button class="btn btn-primary btn-lg" type="submit" style="width:100%" data-i18n="form_submit"></button>
+
+        <!-- Per-step validation message -->
+        <div id="wizard-validation" class="contact-error" style="display:none;margin-top:12px"></div>
+
+        <!-- Navigation -->
+        <div style="display:flex;gap:10px;margin-top:20px;">
+          <button type="button" id="wz-back" class="btn btn-outline btn-lg" style="flex:1;display:none" data-i18n="wiz_back"></button>
+          <button type="button" id="wz-next" class="btn btn-primary btn-lg" style="flex:1" data-i18n="wiz_next"></button>
+          <button type="submit" id="wz-submit" class="btn btn-primary btn-lg" style="flex:1;display:none" data-i18n="form_submit"></button>
+        </div>
       </form>
       <div id="form-success" style="display:none; margin-top: 14px; padding: 14px; background: #ecfdf5; color: #065f46; border-radius: 8px; font-size: 14px;" data-i18n="form_sent"></div>
+      <div id="form-error" class="contact-error"></div>
     </div>
   </div>
 </section>
 
+<style>
+  #wizard-progress .wz-dot { display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; flex:0 0 auto; }
+  #wizard-progress .wz-dot-num {
+    width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:14px; background:var(--bg-soft); color:var(--text-muted, #888);
+    border:2px solid var(--border, #ddd); transition:.2s;
+  }
+  #wizard-progress .wz-dot-label { font-size:12px; color:var(--text-muted, #888); max-width:90px; }
+  #wizard-progress .wz-dot.active .wz-dot-num,
+  #wizard-progress .wz-dot.done .wz-dot-num { background:var(--primary, #2563eb); color:#fff; border-color:var(--primary, #2563eb); }
+  #wizard-progress .wz-dot.active .wz-dot-label { color:var(--text, #222); font-weight:600; }
+  #wizard-progress .wz-line { flex:1 1 auto; height:2px; background:var(--border, #ddd); min-width:14px; }
+  #sell-form .form-field input.wz-invalid,
+  #sell-form .form-field select.wz-invalid,
+  #sell-form .form-field textarea.wz-invalid { border-color:#dc2626; }
+</style>
+
 <div id="footer-mount"></div>
 
-<script src="js/app.js"></script>
+<script src="js/app.js?v=phase2"></script>
 <script>
 (async function(){
   mountLayout("sell");
@@ -194,37 +286,194 @@
     `;
   }).join("");
 
-  applyI18n();
+  // ---- Inline i18n extension for wizard-only strings (not in app.js) ----
+  // Reuses global t() for existing keys; falls back here for new keys.
+  const WIZARD_STRINGS = {
+    az: {
+      wiz_step1: "Biznes haqqında",
+      wiz_step2: "Maliyyə",
+      wiz_step3: "Əlaqə",
+      wiz_step1_title: "Addım 1 — Biznes haqqında əsas məlumat",
+      wiz_step2_title: "Addım 2 — Maliyyə və satış səbəbi",
+      wiz_step3_title: "Addım 3 — Əlaqə və razılıq",
+      wiz_back: "Geri",
+      wiz_next: "İrəli",
+      wiz_consent: "Təsdiq edirəm ki, bu biznesin sahibiyəm və ya onu təmsil etməyə səlahiyyətim var, və biznesin BizBazar.az-da elan edilməsinə razıyam.",
+      wiz_confidential_note: "Qeyd: məxfilik qorunması hələ qurulur. Hazırda həssas məlumatlarınız yalnız yoxlanılmış alıcılarla paylaşılır.",
+      wiz_required: "Zəhmət olmasa bütün məcburi sahələri doldurun.",
+      wiz_consent_required: "Davam etmək üçün razılıq xanasını işarələyin.",
+      wiz_email_invalid: "Düzgün e-poçt ünvanı daxil edin."
+    },
+    en: {
+      wiz_step1: "Business",
+      wiz_step2: "Financials",
+      wiz_step3: "Contact",
+      wiz_step1_title: "Step 1 — Business basics",
+      wiz_step2_title: "Step 2 — Financials & reason for sale",
+      wiz_step3_title: "Step 3 — Contact & consent",
+      wiz_back: "Back",
+      wiz_next: "Next",
+      wiz_consent: "I confirm that I own or am authorised to represent this business, and I agree to it being listed on BizBazar.az.",
+      wiz_confidential_note: "Note: confidentiality protections are still being built. For now, your sensitive details are only shared with screened buyers.",
+      wiz_required: "Please fill in all required fields.",
+      wiz_consent_required: "Please tick the consent box to continue.",
+      wiz_email_invalid: "Please enter a valid email address."
+    },
+    ru: {
+      wiz_step1: "Бизнес",
+      wiz_step2: "Финансы",
+      wiz_step3: "Контакты",
+      wiz_step1_title: "Шаг 1 — Основные данные о бизнесе",
+      wiz_step2_title: "Шаг 2 — Финансы и причина продажи",
+      wiz_step3_title: "Шаг 3 — Контакты и согласие",
+      wiz_back: "Назад",
+      wiz_next: "Далее",
+      wiz_consent: "Подтверждаю, что я владею этим бизнесом или уполномочен его представлять, и согласен на его размещение на BizBazar.az.",
+      wiz_confidential_note: "Примечание: механизмы конфиденциальности ещё разрабатываются. Сейчас ваши конфиденциальные данные передаются только проверенным покупателям.",
+      wiz_required: "Пожалуйста, заполните все обязательные поля.",
+      wiz_consent_required: "Пожалуйста, отметьте поле согласия, чтобы продолжить.",
+      wiz_email_invalid: "Введите корректный адрес электронной почты."
+    }
+  };
+  // Local translator: wizard strings first, otherwise global t()
+  function tt(key) {
+    const lang = getLang();
+    const pack = WIZARD_STRINGS[lang] || WIZARD_STRINGS.az;
+    if (pack[key] != null) return pack[key];
+    if (WIZARD_STRINGS.az[key] != null) return WIZARD_STRINGS.az[key];
+    return t(key);
+  }
+  // Fill any data-i18n nodes whose key is a wizard-only key (applyI18n already
+  // handled the global keys; this just patches the new ones).
+  function applyWizardI18n() {
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.dataset.i18n;
+      const lang = getLang();
+      const pack = WIZARD_STRINGS[lang] || WIZARD_STRINGS.az;
+      if (pack[key] != null || WIZARD_STRINGS.az[key] != null) {
+        el.textContent = tt(key);
+      }
+    });
+  }
 
-  // B) Form submit via fetch
+  applyI18n();
+  applyWizardI18n();
+
+  // ---- 3-step wizard navigation + validation ----
   const form = document.getElementById("sell-form");
+  const panels = Array.from(form.querySelectorAll("[data-wz-panel]"));
+  const dots = Array.from(document.querySelectorAll("#wizard-progress [data-wz-dot]"));
+  const backBtn = document.getElementById("wz-back");
+  const nextBtn = document.getElementById("wz-next");
+  const submitBtn = document.getElementById("wz-submit");
+  const validationEl = document.getElementById("wizard-validation");
+  const TOTAL_STEPS = panels.length;
+  let currentStep = 1;
+
+  function showStep(step) {
+    currentStep = step;
+    panels.forEach(p => {
+      p.style.display = String(p.dataset.wzPanel) === String(step) ? "" : "none";
+    });
+    dots.forEach(d => {
+      const n = Number(d.dataset.wzDot);
+      d.classList.toggle("active", n === step);
+      d.classList.toggle("done", n < step);
+    });
+    backBtn.style.display = step > 1 ? "" : "none";
+    nextBtn.style.display = step < TOTAL_STEPS ? "" : "none";
+    submitBtn.style.display = step === TOTAL_STEPS ? "" : "none";
+    validationEl.style.display = "none";
+    const card = document.querySelector(".form-card");
+    if (card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Validate only the fields inside the current step's panel.
+  function validateStep(step) {
+    const panel = panels.find(p => String(p.dataset.wzPanel) === String(step));
+    if (!panel) return { ok: true };
+    const fields = Array.from(panel.querySelectorAll("input, select, textarea"));
+    fields.forEach(f => f.classList.remove("wz-invalid"));
+    let firstBad = null;
+    let message = "";
+
+    for (const f of fields) {
+      if (f.type === "checkbox") {
+        if (f.required && !f.checked) {
+          f.classList.add("wz-invalid");
+          if (!firstBad) { firstBad = f; message = tt("wiz_consent_required"); }
+        }
+        continue;
+      }
+      if (f.required && !String(f.value).trim()) {
+        f.classList.add("wz-invalid");
+        if (!firstBad) { firstBad = f; message = tt("wiz_required"); }
+      } else if (f.type === "email" && String(f.value).trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value.trim())) {
+        f.classList.add("wz-invalid");
+        if (!firstBad) { firstBad = f; message = tt("wiz_email_invalid"); }
+      }
+    }
+    if (firstBad) {
+      validationEl.textContent = message;
+      validationEl.style.display = "block";
+      firstBad.focus();
+      return { ok: false };
+    }
+    validationEl.style.display = "none";
+    return { ok: true };
+  }
+
+  backBtn.addEventListener("click", () => {
+    if (currentStep > 1) showStep(currentStep - 1);
+  });
+  nextBtn.addEventListener("click", () => {
+    if (validateStep(currentStep).ok && currentStep < TOTAL_STEPS) {
+      showStep(currentStep + 1);
+    }
+  });
+
+  showStep(1);
+
+  // B) Backend-first MVP form submit with local/email fallback
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const submitBtn = form.querySelector('[type="submit"]');
+    // Final guard: validate all steps before submitting.
+    for (let s = 1; s <= TOTAL_STEPS; s++) {
+      if (!validateStep(s).ok) { showStep(s); return; }
+    }
+    const originalText = submitBtn.textContent;
+    const successEl = document.getElementById("form-success");
+    const errorEl = document.getElementById("form-error");
     submitBtn.disabled = true;
+    submitBtn.textContent = t("form_submitting");
+    successEl.style.display = "none";
+    errorEl.style.display = "none";
     try {
-      const data = new FormData(form);
-      const resp = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: data
-      });
-      const json = await resp.json();
-      if (json.success) {
-        form.style.display = "none";
-        const successEl = document.getElementById("form-success");
-        successEl.style.display = "block";
-        window.scrollTo({ top: successEl.offsetTop - 100, behavior: "smooth" });
-      } else {
-        submitBtn.disabled = false;
-        alert(getLang() === "az"
-          ? "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
-          : "An error occurred. Please try again.");
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.confidential_listing = form.querySelector('[name="confidential_listing"]').checked ? "yes" : "no";
+      data.seller_consent = form.querySelector('[name="seller_consent"]').checked ? "yes" : "no";
+      data.sourcePage = "sell.html";
+      const { submitSellerListing } = await import("./js/data-service.js");
+      const result = await submitSellerListing(data);
+      if (result.mode === "fallback") {
+        const body = Object.entries(data)
+          .filter(([, value]) => value)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join("\n");
+        window.location.href = leadMailto(data.subject, body);
       }
-    } catch(err) {
+      form.style.display = "none";
+      document.getElementById("wizard-progress").style.display = "none";
+      successEl.textContent = result.mode === "fallback"
+        ? `${t("form_sent")} ${t("form_backend_fallback")}`
+        : `${t("form_sent")} ${t("form_review_note")}`;
+      successEl.style.display = "block";
+      window.scrollTo({ top: successEl.offsetTop - 100, behavior: "smooth" });
+    } catch (_) {
+      errorEl.textContent = t("form_backend_error");
+      errorEl.style.display = "block";
       submitBtn.disabled = false;
-      alert(getLang() === "az"
-        ? "Şəbəkə xətası. Zəhmət olmasa yenidən cəhd edin."
-        : "Network error. Please try again.");
+      submitBtn.textContent = originalText;
     }
   });
 

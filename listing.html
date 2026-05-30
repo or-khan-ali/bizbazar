@@ -9,15 +9,15 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- SEO -->
-  <meta name="description" content="Yoxlanmış biznes elanı: tam maliyyə məlumatları, broker əlaqəsi, oxşar bizneslər.">
-  <meta name="keywords" content="biznes detalları, biznes maliyyəsi, biznes alqı">
+  <meta name="description" content="BizBazar.az biznes elanı: satış qiyməti, əsas göstəricilər, məxfi NDA sorğusu və due diligence dəstəyi.">
+  <meta name="keywords" content="biznes elanı, hazır biznes almaq, biznes satılır, NDA, due diligence">
   <meta name="author" content="BizBazar.az">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph (for social sharing) -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="Biznes elanı — BizBazar.az">
-  <meta property="og:description" content="Yoxlanmış biznes elanı: tam maliyyə məlumatları, broker əlaqəsi, oxşar bizneslər.">
+  <meta property="og:description" content="Biznes haqqında açıq məlumatlar, məxfi NDA sorğusu və due diligence dəstəyi.">
   <meta property="og:url" content="https://bizbazar.az/listing.html">
   <meta property="og:image" content="https://bizbazar.az/favicon.svg">
   <meta property="og:site_name" content="BizBazar.az">
@@ -26,7 +26,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Biznes elanı — BizBazar.az">
-  <meta name="twitter:description" content="Yoxlanmış biznes elanı: tam maliyyə məlumatları, broker əlaqəsi, oxşar bizneslər.">
+  <meta name="twitter:description" content="Biznes haqqında açıq məlumatlar, məxfi NDA sorğusu və due diligence dəstəyi.">
   <meta name="twitter:image" content="https://bizbazar.az/favicon.svg">
 
   <!-- Canonical URL -->
@@ -55,7 +55,7 @@
 
 <div id="footer-mount"></div>
 
-<script src="js/app.js"></script>
+<script src="js/app.js?v=phase2"></script>
 <script>
 (async function(){
   mountLayout("listings");
@@ -82,6 +82,12 @@
   const cat = catById[l.category];
   const icon = CATEGORY_ICONS[l.category] || "🏢";
   const sellerKey = l.seller_type === "owner" ? "detail_owner" : (l.seller_type === "broker" ? "detail_broker" : "detail_agency");
+  const listingTitle = locField(l, "title") || l.title_az || l.id;
+  document.title = `${listingTitle} — BizBazar.az`;
+  const metaDescription = `${listingTitle}. ${locCity(l.city)} üzrə biznes elanı. Tam maliyyə məlumatları NDA və komanda təsdiqindən sonra paylaşılır.`;
+  document.querySelector('meta[name="description"]')?.setAttribute("content", metaDescription);
+  document.querySelector('meta[property="og:title"]')?.setAttribute("content", `${listingTitle} — BizBazar.az`);
+  document.querySelector('meta[property="og:description"]')?.setAttribute("content", metaDescription);
 
   // A) Photo gallery
   const photos = getListingPhotos(l);
@@ -95,16 +101,11 @@
     </div>
   `;
 
-  // B) Extra KPIs: payback period & profit margin
-  const paybackMonths = l.monthly_profit_azn ? Math.round(l.price_azn / l.monthly_profit_azn) : null;
-  const margin = (l.monthly_profit_azn && l.monthly_revenue_azn)
-    ? Math.round(l.monthly_profit_azn / l.monthly_revenue_azn * 100) : null;
-
   const left = root.querySelector(".detail");
   left.innerHTML = `
     ${galleryHTML}
     <div class="listing-cat" style="margin-bottom:6px;">${catLabel(cat)}</div>
-    <h1>${locField(l, "title")}</h1>
+    <h1>${escHTML(listingTitle)}</h1>
     <div class="meta-row">
       <span>📍 ${locDistrict(l.district)}, ${locCity(l.city)}</span>
       <span>📅 <span data-i18n="detail_posted"></span>: ${fmtDate(l.posted_date)}</span>
@@ -114,45 +115,52 @@
     <h2 data-i18n="detail_specs"></h2>
     <div class="detail-kpis">
       <div class="kpi">
+        <div class="kpi-label" data-i18n="detail_ask_price"></div>
+        <div class="kpi-value">${fmtAZN(l.price_azn)}</div>
+      </div>
+      <div class="kpi">
         <div class="kpi-label" data-i18n="detail_revenue"></div>
-        <div class="kpi-value">${fmtAZN(l.monthly_revenue_azn)}</div>
+        <div class="kpi-value locked-value" data-i18n="detail_financial_locked"></div>
       </div>
       <div class="kpi">
         <div class="kpi-label" data-i18n="detail_profit"></div>
-        <div class="kpi-value">${fmtAZN(l.monthly_profit_azn)}</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-label" data-i18n="detail_rent"></div>
-        <div class="kpi-value">${fmtAZN(l.monthly_rent_azn)}</div>
+        <div class="kpi-value locked-value" data-i18n="detail_financial_locked"></div>
       </div>
       <div class="kpi">
         <div class="kpi-label" data-i18n="detail_staff"></div>
         <div class="kpi-value">${l.staff_count}</div>
       </div>
-      ${paybackMonths ? `<div class="kpi">
-        <div class="kpi-label" data-i18n="payback_label"></div>
-        <div class="kpi-value">${paybackMonths} <span style="font-size:13px;font-weight:400" data-i18n="payback_unit"></span></div>
-      </div>` : ""}
-      ${margin !== null ? `<div class="kpi">
-        <div class="kpi-label" data-i18n="margin_label"></div>
-        <div class="kpi-value">${margin}%</div>
-      </div>` : ""}
+    </div>
+
+    <div class="confidential-panel">
+      <h2 data-i18n="detail_confidential_title"></h2>
+      <p data-i18n="detail_confidential_text"></p>
     </div>
 
     <h2 data-i18n="detail_overview"></h2>
-    <p class="detail-description">${locField(l, "description")}</p>
+    <p class="detail-description">${escHTML(locField(l, "description"))}</p>
 
     <h2 data-i18n="detail_specs"></h2>
     <div class="detail-spec">
       <dl>
         <dt data-i18n="detail_area"></dt><dd>${fmtNum(l.area_m2)} m²</dd>
         <dt data-i18n="detail_years"></dt><dd>${l.operating_years}</dd>
-        <dt data-i18n="detail_reason"></dt><dd>${locField(l, "reason")}</dd>
+        <dt data-i18n="detail_reason"></dt><dd>${escHTML(locField(l, "reason"))}</dd>
         <dt data-i18n="detail_equipment"></dt><dd>${l.equipment_included ? t("detail_yes") : t("detail_no")}</dd>
         <dt data-i18n="detail_license"></dt><dd>${l.license_included ? t("detail_yes") : t("detail_no")}</dd>
-        <dt>AZN / m²</dt><dd>${fmtAZN(Math.round(l.price_azn / (l.area_m2 || 1)))}</dd>
+        <dt data-i18n="detail_rent"></dt><dd data-i18n="detail_financial_locked"></dd>
       </dl>
     </div>
+
+    <div class="verification-panel">
+      <h2 data-i18n="detail_verification_title"></h2>
+      <div class="verification-list">
+        <div class="verification-item"><span>•</span><div data-i18n="detail_verify_owner"></div></div>
+        <div class="verification-item"><span>•</span><div data-i18n="detail_verify_pending"></div></div>
+      </div>
+    </div>
+
+    <div class="disclaimer-panel" data-i18n="detail_disclaimer"></div>
   `;
 
   // D) Broker card — render after description if broker_id exists
@@ -160,21 +168,15 @@
     const broker = brokers.find(b => b.id === l.broker_id);
     if (broker) {
       const brokerBio = getLang() === "az" ? broker.bio_az : broker.bio_en;
-      const brokerPhone = broker.phone ? broker.phone.replace(/\D/g, "") : "";
       const brokerCard = document.createElement("div");
       brokerCard.className = "broker-card";
       brokerCard.innerHTML = `
         <div class="broker-card-inner">
           <img class="broker-avatar" src="${broker.avatar}" alt="${broker.name}" loading="lazy">
           <div class="broker-info">
-            <div class="broker-name">${broker.name} ${broker.verified ? `<span class="broker-verified-badge" data-i18n="broker_verified"></span>` : ""}</div>
-            <div class="broker-license">${broker.license_no}</div>
-            <div class="broker-stats">
-              <span>★ ${broker.rating} (${broker.reviews})</span>
-              <span>${broker.deals_closed} <span data-i18n="broker_deals"></span></span>
-            </div>
-            <p class="broker-bio">${brokerBio}</p>
-            <a class="wa-btn" href="https://wa.me/994502009088" target="_blank" rel="noopener">📱 WhatsApp</a>
+            <div class="broker-name">${broker.name}</div>
+              <p class="broker-bio">${brokerBio}</p>
+              <a class="wa-btn" href="https://wa.me/994502009088?text=${encodeURIComponent(listingTitle + ' üzrə broker dəstəyi istəyirəm.')}" target="_blank" rel="noopener">📱 WhatsApp</a>
             <a href="broker.html?id=${broker.id}" class="btn btn-outline btn-sm" style="margin-top:8px;" data-i18n="broker_profile_link"></a>
           </div>
         </div>
@@ -185,12 +187,7 @@
 
   // C) Build contact actions HTML
   let contactHTML = `<div class="contact-actions">`;
-  if (l.whatsapp) {
-    contactHTML += `<a class="wa-btn" href="https://wa.me/994502009088" target="_blank" rel="noopener">📱 WhatsApp</a>`;
-  }
-  if (l.telegram) {
-    contactHTML += `<a class="tg-btn" href="https://t.me/+994502009088" target="_blank" rel="noopener">✈ Telegram</a>`;
-  }
+  contactHTML += `<a class="wa-btn" href="https://wa.me/994502009088?text=${encodeURIComponent(listingTitle + ' (' + l.id + ') üzrə məxfi məlumat almaq istəyirəm.')}" target="_blank" rel="noopener">📱 WhatsApp</a>`;
   contactHTML += `</div>`;
 
   const right = root.querySelector(".detail-aside");
@@ -199,9 +196,11 @@
       <div class="seller-tag">👤 <span data-i18n="${sellerKey}"></span></div>
       <div class="price-main">${fmtAZN(l.price_azn)}</div>
       <div class="price-usd">${fmtUSD(l.price_azn)}</div>
+      <p style="font-size:13px;color:var(--text-muted);margin:10px 0 0;" data-i18n="detail_confidential_text"></p>
       <div class="divider"></div>
-      <button class="btn btn-primary btn-lg" data-i18n="detail_nda"></button>
-      <button class="btn btn-accent btn-lg" id="contact-seller-btn" style="width:100%;margin-top:8px" data-i18n="detail_contact"></button>
+      <button class="btn btn-primary btn-lg" id="nda-request-btn" data-i18n="detail_nda"></button>
+      <button class="btn btn-accent btn-lg" id="contact-seller-btn" style="width:100%;margin-top:8px" data-i18n="detail_inquiry"></button>
+      <div id="nda-status" class="form-note" style="display:none;margin-top:10px;margin-bottom:0;"></div>
       ${contactHTML}
     </div>
     <div class="services-hint">
@@ -213,33 +212,39 @@
 
   applyI18n();
 
-  // NDA button (demo)
-  right.querySelector("[data-i18n='detail_nda']").addEventListener("click", () => {
-    alert(getLang()==="az"
-      ? "NDA imzalamaq üçün hesabınıza daxil olun."
-      : getLang()==="en"
-      ? "Please sign in to sign the NDA."
-      : "Войдите в аккаунт, чтобы подписать NDA.");
-  });
-
-  // Contact seller — auth-gated
-  document.getElementById("contact-seller-btn").addEventListener("click", async () => {
+  right.querySelector("#nda-request-btn").addEventListener("click", async () => {
+    const btn = right.querySelector("#nda-request-btn");
+    const statusEl = right.querySelector("#nda-status");
     try {
-      const { auth, onAuthStateChanged, getOrCreateConversation, getProfile } = await import("./js/firebase.js");
-      const user = auth.currentUser;
-      if (!user) {
+      const { auth } = await import("./js/firebase.js");
+      if (!auth.currentUser) {
         location.href = "auth.html?returnTo=" + encodeURIComponent(location.href);
         return;
       }
-      // seller UID: use listing's seller_uid field if present, else use listingId as placeholder key
-      const sellerUid = l.seller_uid || ("seller_" + l.id);
-      const listingTitle = locField(l, "title") || l.title_az || l.id;
-      const convId = await getOrCreateConversation(user.uid, sellerUid, l.id, listingTitle);
-      location.href = "messages.html?conv=" + convId;
+      btn.disabled = true;
+      statusEl.style.display = "block";
+      statusEl.textContent = t("form_submitting");
+      const { submitNdaRequest } = await import("./js/data-service.js");
+      const result = await submitNdaRequest({
+        listingId: l.id,
+        listingTitle,
+        requesterName: auth.currentUser.displayName || "",
+        requesterEmail: auth.currentUser.email || "",
+        requesterPhone: auth.currentUser.phoneNumber || "",
+        sourcePage: "listing.html"
+      });
+      statusEl.textContent = result.mode === "fallback"
+        ? `${t("form_backend_fallback")} ${t("nda_manual_review_note")}`
+        : t("nda_manual_review_note");
     } catch(e) {
-      // Firebase not configured — redirect to auth
-      location.href = "auth.html?returnTo=" + encodeURIComponent(location.href);
+      statusEl.style.display = "block";
+      statusEl.textContent = t("form_backend_error");
+      btn.disabled = false;
     }
+  });
+
+  document.getElementById("contact-seller-btn").addEventListener("click", () => {
+    location.href = `contact.html?topic=listing&listing_id=${encodeURIComponent(l.id)}&listing_title=${encodeURIComponent(listingTitle)}`;
   });
 
   // E) Similar listings

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Məxfilik sazişi (NDA) — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="BizBazar.az məxfilik sazişi (NDA): sövdələşmə zamanı paylaşılan məxfi biznes məlumatları, qəbul edən tərəfin öhdəlikləri, icazə verilən istifadə, müddət və məlumatın geri qaytarılması.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bizbazar.az/nda.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>(function(){if(localStorage.getItem('bb_darkmode')==='1')document.documentElement.setAttribute('data-theme','dark')})()</script>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 id="page-title"></h1>
+    <p id="page-subtitle"></p>
+  </div>
+</div>
+
+<section>
+  <div class="container legal-doc">
+    <div class="legal-note" id="draft-banner" style="border-color:rgba(220,38,38,.45);background:#fef2f2;color:#7f1d1d;font-weight:700;"></div>
+    <div class="legal-note" id="legal-note"></div>
+    <div id="legal-body"></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<script src="js/app.js?v=phase2"></script>
+<script>
+const NDA_COPY = {
+  az: {
+    pageTitle: "Məxfilik sazişi (NDA)",
+    pageSubtitle: "Sövdələşmə zamanı paylaşılan məxfi biznes məlumatlarının qorunması.",
+    draft: "QARALAMA — hüquqi yoxlama gözlənilir. Hələ hüquqi cəhətdən bağlayıcı deyil.",
+    note: "Bu sadə dildə NDA mətnidir və hüquqi sənəd şablonu kimi qəbul edilməməlidir. Real NDA və elektron imza prosesi Azərbaycan qanunvericiliyini bilən hüquqşünas tərəfindən hazırlanmalı və təsdiqlənməlidir.",
+    sections: [
+      { h: "1. NDA nədir", paras: [
+        "Məxfilik sazişi (NDA) alıcının (məlumatı qəbul edən tərəfin) satıcı haqqında öyrənəcəyi məxfi biznes məlumatlarını qoruyacağına dair razılığıdır. Alıcı bu sazişi qəbul etmədən həssas məlumatlara giriş əldə etmir."
+      ]},
+      { h: "2. Məxfi məlumat nədir", list: [
+        "Dəqiq gəlir, mənfəət, rentabellik və maliyyə hesabatları;",
+        "Müştəri və təchizatçı bazası, müqavilələr, qiymət siyasəti;",
+        "Bank çıxarışları, vergi sənədləri, lisenziyalar və icazələr;",
+        "Satıcının birbaşa əlaqəsi, biznesin dəqiq ünvanı və daxili əməliyyat məlumatları;",
+        "Şifahi və ya yazılı, sənəd, fayl və ya söhbət vasitəsilə açıqlanan istənilən qeyri-açıq məlumat."
+      ]},
+      { h: "3. Qəbul edən tərəfin öhdəlikləri", list: [
+        "Məxfi məlumatı gizli saxlamaq və üçüncü şəxslərə açıqlamamaq;",
+        "Məlumatı yalnız sövdələşmənin qiymətləndirilməsi məqsədilə istifadə etmək;",
+        "Satıcının yazılı icazəsi olmadan işçilər, müştərilər və təchizatçılarla əlaqə saxlamamaq;",
+        "Məlumatı yalnız onu bilməsi zəruri olan məsləhətçilərlə (eyni öhdəliklər altında) paylaşmaq;",
+        "Məlumatı kopyalamamaq və ya öz mənfəəti üçün istifadə etməmək."
+      ]},
+      { h: "4. İcazə verilən istifadə", paras: [
+        "Məxfi məlumat yalnız biznesin alınması ilə bağlı qərarın qiymətləndirilməsi üçün istifadə oluna bilər. Hər hansı digər kommersiya, rəqabət və ya şəxsi məqsəd üçün istifadə qadağandır."
+      ]},
+      { h: "5. İstisnalar", list: [
+        "İctimaiyyətə açıq olan və ya qəbul edən tərəfin günahı olmadan açıq olmuş məlumat;",
+        "Sazişdən əvvəl qanuni şəkildə artıq məlum olan məlumat;",
+        "Üçüncü tərəfdən qanuni şəkildə, məxfilik öhdəliyi olmadan əldə edilən məlumat;",
+        "Qanun və ya səlahiyyətli orqan tərəfindən açıqlanması tələb olunan məlumat (mümkün olduqda satıcıya əvvəlcədən bildirməklə)."
+      ]},
+      { h: "6. Müddət", paras: [
+        "Məxfilik öhdəliyi NDA-nın qəbul edildiyi tarixdən etibarən qüvvədə qalır və sövdələşmənin baş tutub-tutmamasından asılı olmayaraq müəyyən müddət (məsələn, 2–3 il, hüquqi yoxlama ilə dəqiqləşdiriləcək) ərzində davam edir."
+      ]},
+      { h: "7. Məlumatın geri qaytarılması və ya məhv edilməsi", paras: [
+        "Sövdələşmə baş tutmadıqda və ya satıcının tələbi ilə, qəbul edən tərəf bütün məxfi məlumatları (kopyalar daxil) geri qaytarmalı və ya məhv etməli, rəqəmsal nüsxələri silməlidir."
+      ]},
+      { h: "8. BizBazar platformasında necə işləyir", paras: [
+        "Alıcı maraqlandığı elana NDA sorğusu göndərir; satıcı və ya BizBazar admini sorğunu nəzərdən keçirir və yalnız təsdiqdən sonra həssas məlumatlar açılır. Sorğunun göndərilməsi avtomatik giriş hüququ vermir.",
+        "Gələcəkdə sistem NDA versiyası, tarix, istifadəçi və elan ID-si ilə giriş jurnalı saxlamalıdır."
+      ]}
+    ]
+  },
+  en: {
+    pageTitle: "Non-Disclosure Agreement (NDA)",
+    pageSubtitle: "Protecting confidential business information shared during a deal.",
+    draft: "DRAFT — pending legal review. Not yet legally binding.",
+    note: "This is a plain-language NDA text and should not be treated as a legal document template. The actual NDA and e-signature process must be prepared and approved by a lawyer familiar with Azerbaijani law.",
+    sections: [
+      { h: "1. What an NDA is", paras: [
+        "A Non-Disclosure Agreement (NDA) is the buyer's (the receiving party's) commitment to protect the confidential business information they will learn about the seller. The buyer does not gain access to sensitive information without accepting this agreement."
+      ]},
+      { h: "2. What counts as confidential information", list: [
+        "Exact revenue, profit, profitability, and financial statements;",
+        "Customer and supplier base, contracts, pricing policy;",
+        "Bank statements, tax documents, licenses, and permits;",
+        "Seller's direct contact, the business's exact address, and internal operating data;",
+        "Any non-public information disclosed orally or in writing, by document, file, or conversation."
+      ]},
+      { h: "3. Obligations of the receiving party", list: [
+        "Keep confidential information secret and not disclose it to third parties;",
+        "Use the information only to evaluate the deal;",
+        "Not contact employees, customers, or suppliers without the seller's written permission;",
+        "Share the information only with advisors who need to know it (under the same obligations);",
+        "Not copy the information or use it for the receiving party's own benefit."
+      ]},
+      { h: "4. Permitted use", paras: [
+        "Confidential information may be used only to evaluate the decision to acquire the business. Use for any other commercial, competitive, or personal purpose is prohibited."
+      ]},
+      { h: "5. Exceptions", list: [
+        "Information that is public or becomes public without fault of the receiving party;",
+        "Information lawfully already known before the agreement;",
+        "Information lawfully obtained from a third party without a confidentiality obligation;",
+        "Information required to be disclosed by law or a competent authority (with prior notice to the seller where possible)."
+      ]},
+      { h: "6. Duration", paras: [
+        "The confidentiality obligation takes effect from the date the NDA is accepted and continues for a set period (for example, 2–3 years, to be confirmed by legal review), regardless of whether the deal closes."
+      ]},
+      { h: "7. Return or destruction of information", paras: [
+        "If the deal does not close or upon the seller's request, the receiving party must return or destroy all confidential information (including copies) and delete digital copies."
+      ]},
+      { h: "8. How it works on the BizBazar platform", paras: [
+        "The buyer sends an NDA request on a listing of interest; the seller or a BizBazar admin reviews the request, and sensitive information is revealed only after approval. Submitting a request does not grant automatic access.",
+        "In the future the system should keep an access log with the NDA version, date, and user and listing IDs."
+      ]}
+    ]
+  },
+  ru: {
+    pageTitle: "Соглашение о неразглашении (NDA)",
+    pageSubtitle: "Защита конфиденциальной бизнес-информации, передаваемой во время сделки.",
+    draft: "ЧЕРНОВИК — ожидает юридической проверки. Пока не имеет юридической силы.",
+    note: "Это текст NDA простым языком, и он не должен рассматриваться как шаблон юридического документа. Фактический NDA и процесс электронной подписи должны быть подготовлены и утверждены юристом, знающим законодательство Азербайджана.",
+    sections: [
+      { h: "1. Что такое NDA", paras: [
+        "Соглашение о неразглашении (NDA) — это обязательство покупателя (принимающей стороны) защищать конфиденциальную бизнес-информацию, которую он узнает о продавце. Покупатель не получает доступ к чувствительной информации без принятия этого соглашения."
+      ]},
+      { h: "2. Что считается конфиденциальной информацией", list: [
+        "Точная выручка, прибыль, рентабельность и финансовая отчётность;",
+        "База клиентов и поставщиков, договоры, ценовая политика;",
+        "Банковские выписки, налоговые документы, лицензии и разрешения;",
+        "Прямые контакты продавца, точный адрес бизнеса и внутренние операционные данные;",
+        "Любая непубличная информация, раскрытая устно или письменно, документом, файлом или в разговоре."
+      ]},
+      { h: "3. Обязательства принимающей стороны", list: [
+        "Сохранять конфиденциальную информацию в тайне и не раскрывать её третьим лицам;",
+        "Использовать информацию только для оценки сделки;",
+        "Не связываться с сотрудниками, клиентами или поставщиками без письменного разрешения продавца;",
+        "Делиться информацией только с консультантами, которым она необходима (на тех же условиях);",
+        "Не копировать информацию и не использовать её в собственных интересах."
+      ]},
+      { h: "4. Разрешённое использование", paras: [
+        "Конфиденциальная информация может использоваться только для оценки решения о приобретении бизнеса. Использование в любых других коммерческих, конкурентных или личных целях запрещено."
+      ]},
+      { h: "5. Исключения", list: [
+        "Информация, которая является публичной или стала публичной не по вине принимающей стороны;",
+        "Информация, законно известная до заключения соглашения;",
+        "Информация, законно полученная от третьего лица без обязательства о конфиденциальности;",
+        "Информация, которую требуется раскрыть по закону или по требованию компетентного органа (с предварительным уведомлением продавца, где это возможно)."
+      ]},
+      { h: "6. Срок", paras: [
+        "Обязательство о конфиденциальности вступает в силу с даты принятия NDA и продолжается в течение установленного периода (например, 2–3 года, уточняется при юридической проверке), независимо от того, состоится ли сделка."
+      ]},
+      { h: "7. Возврат или уничтожение информации", paras: [
+        "Если сделка не состоится или по требованию продавца, принимающая сторона должна вернуть или уничтожить всю конфиденциальную информацию (включая копии) и удалить цифровые копии."
+      ]},
+      { h: "8. Как это работает на платформе BizBazar", paras: [
+        "Покупатель отправляет NDA-запрос по интересующему объявлению; продавец или администратор BizBazar рассматривает запрос, и чувствительная информация раскрывается только после одобрения. Отправка запроса не предоставляет автоматический доступ.",
+        "В будущем система должна вести журнал доступа с версией NDA, датой, ID пользователя и объявления."
+      ]}
+    ]
+  }
+};
+
+function renderLegal(COPY) {
+  const c = COPY[getLang()] || COPY.az;
+  document.title = c.pageTitle + " — BizBazar.az";
+  document.getElementById("page-title").textContent = c.pageTitle;
+  document.getElementById("page-subtitle").textContent = c.pageSubtitle;
+  document.getElementById("draft-banner").textContent = c.draft;
+  document.getElementById("legal-note").textContent = c.note;
+  document.getElementById("legal-body").innerHTML = c.sections.map(s => {
+    let html = "<h2>" + s.h + "</h2>";
+    if (s.paras) html += s.paras.map(p => "<p>" + p + "</p>").join("");
+    if (s.list) html += "<ul>" + s.list.map(li => "<li>" + li + "</li>").join("") + "</ul>";
+    return html;
+  }).join("");
+}
+
+(function(){
+  mountLayout("nda");
+  renderLegal(NDA_COPY);
+  window.addEventListener("langchange", () => { renderLegal(NDA_COPY); });
+})();
+</script>
+</body>
+</html>

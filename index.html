@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BizBazar.az — Biznes alış-satışı</title>
+  <title>BizBazar.az — Azərbaycanda hazır biznes almaq və satmaq</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- SEO -->
-  <meta name="description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış elanlar, qiymətləndirmə, hüquqi və vergi xidmətləri. 28+ aktiv elan, 12 kateqoriya.">
-  <meta name="keywords" content="biznes satışı, biznes almaq, biznes bazarı, Azərbaycan, Bakı, restoran satılır, kafe satılır">
+  <meta name="description" content="Azərbaycanda hazır biznes almaq, satmaq və qiymətləndirmək üçün məxfilik yönümlü marketplace. Moderasiya olunmuş elanlar, NDA sorğusu və due diligence dəstəyi.">
+  <meta name="keywords" content="biznes almaq, biznes satmaq, hazır bizneslər, Azərbaycanda hazır biznes, Bakı biznes satılır, biznes qiymətləndirmə, due diligence">
   <meta name="author" content="BizBazar.az">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph (for social sharing) -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="BizBazar.az — Biznes alış-satışı">
-  <meta property="og:description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış elanlar, qiymətləndirmə, hüquqi və vergi xidmətləri. 28+ aktiv elan, 12 kateqoriya.">
+  <meta property="og:title" content="BizBazar.az — Azərbaycanda hazır biznes almaq və satmaq">
+  <meta property="og:description" content="Hazır biznes elanları, məxfi alıcı sorğuları, qiymətləndirmə və due diligence dəstəyi.">
   <meta property="og:url" content="https://bizbazar.az/">
   <meta property="og:image" content="https://bizbazar.az/favicon.svg">
   <meta property="og:site_name" content="BizBazar.az">
@@ -25,8 +25,8 @@
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="BizBazar.az — Biznes alış-satışı">
-  <meta name="twitter:description" content="Azərbaycanın ilk peşəkar biznes bazarı. Yoxlanmış elanlar, qiymətləndirmə, hüquqi və vergi xidmətləri. 28+ aktiv elan, 12 kateqoriya.">
+  <meta name="twitter:title" content="BizBazar.az — Azərbaycanda hazır biznes almaq və satmaq">
+  <meta name="twitter:description" content="Hazır biznes elanları, məxfi alıcı sorğuları, qiymətləndirmə və due diligence dəstəyi.">
   <meta name="twitter:image" content="https://bizbazar.az/favicon.svg">
 
   <!-- Canonical URL -->
@@ -40,37 +40,30 @@
 
 <section class="hero">
   <div class="container">
-    <h1 data-i18n="hero_title"></h1>
-    <p class="lead" data-i18n="hero_sub"></p>
+    <span class="hero-eyebrow" data-i18n="home_hero_eyebrow"></span>
+    <h1 data-i18n="home_hero_title"></h1>
+    <p class="lead" data-i18n="home_hero_sub"></p>
 
-    <form class="hero-search" action="listings.html" method="get">
-      <select name="category" id="hero-category">
-        <option value="" data-i18n="search_cat"></option>
-      </select>
-      <select name="city" id="hero-city">
-        <option value="" data-i18n="search_city"></option>
-      </select>
-      <input type="number" name="max_price" data-i18n-placeholder="search_price" min="0" step="1000">
-      <button type="submit" class="btn btn-primary btn-lg" data-i18n="hero_find"></button>
-    </form>
+    <div class="hero-cta" style="display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 8px;">
+      <a href="sell.html" class="btn btn-accent btn-lg" data-i18n="home_hero_cta_primary"></a>
+      <a href="valuation.html" class="btn btn-outline btn-lg" data-i18n="home_hero_cta_secondary"></a>
+    </div>
 
-    <div class="hero-stats">
-      <div>
-        <div class="hero-stat-num" id="stat-listings">—</div>
-        <div class="hero-stat-label" data-i18n="stat_listings"></div>
-      </div>
-      <div>
-        <div class="hero-stat-num" id="stat-cities">—</div>
-        <div class="hero-stat-label" data-i18n="stat_cities"></div>
-      </div>
-      <div>
-        <div class="hero-stat-num">12</div>
-        <div class="hero-stat-label" data-i18n="stat_pros"></div>
-      </div>
-      <div>
-        <div class="hero-stat-num">40+</div>
-        <div class="hero-stat-label" data-i18n="stat_closed"></div>
-      </div>
+    <p class="hero-confidential-note" data-i18n="home_hero_confidential_note" style="margin-top:8px;font-size:0.9rem;opacity:0.8;"></p>
+
+    <div class="hero-buyer-search" style="margin-top:28px;">
+      <p class="hero-buyer-label" data-i18n="home_hero_buyer_label" style="margin-bottom:10px;font-weight:600;"></p>
+      <form class="hero-search" action="listings.html" method="get">
+        <select name="category" id="hero-category">
+          <option value="" data-i18n="search_cat"></option>
+        </select>
+        <select name="city" id="hero-city">
+          <option value="" data-i18n="search_city"></option>
+        </select>
+        <input type="search" name="q" data-i18n-placeholder="search_keyword">
+        <input type="number" name="max_price" data-i18n-placeholder="search_price" min="0" step="1000">
+        <button type="submit" class="btn btn-primary btn-lg" data-i18n="hero_find"></button>
+      </form>
     </div>
   </div>
 </section>
@@ -123,12 +116,36 @@
   </div>
 </section>
 
-<!-- B) Testimonials section -->
 <section style="background:var(--bg-soft)">
   <div class="container">
-    <div class="section-head"><div><h2 data-i18n="testimonials_title"></h2></div></div>
-    <div class="deals-band" id="deals-band"></div>
-    <div class="testimonial-grid" id="testimonial-grid"></div>
+    <div class="section-head">
+      <div>
+        <h2 data-i18n="trust_title"></h2>
+        <p class="section-sub" data-i18n="trust_sub"></p>
+      </div>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-icon">1</div>
+        <h3 data-i18n="trust_1_t"></h3>
+        <p data-i18n="trust_1_d"></p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">2</div>
+        <h3 data-i18n="trust_2_t"></h3>
+        <p data-i18n="trust_2_d"></p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">3</div>
+        <h3 data-i18n="trust_3_t"></h3>
+        <p data-i18n="trust_3_d"></p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">4</div>
+        <h3 data-i18n="trust_4_t"></h3>
+        <p data-i18n="trust_4_d"></p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -184,7 +201,7 @@
     <div class="cta-band">
       <div>
         <h2 data-i18n="calc_title"></h2>
-        <p data-i18n="hero_sub"></p>
+        <p data-i18n="home_valuation_band_sub"></p>
       </div>
       <a href="valuation.html" class="btn btn-accent btn-lg" data-i18n="valuation_title"></a>
     </div>
@@ -205,13 +222,46 @@
 
 <div id="footer-mount"></div>
 
-<script src="js/app.js"></script>
+<script src="js/app.js?v=phase2"></script>
 <script>
+// Seller-first home hero copy (AZ/RU/EN). Inline so app.js stays untouched.
+// Honest, pre-launch wording: no traction numbers, no fabricated social proof.
+Object.assign(STRINGS.az, {
+  home_hero_eyebrow: "Biznes sahibləri üçün",
+  home_hero_title: "Biznesinizi Azərbaycanda məxfi şəkildə satın",
+  home_hero_sub: "BizBazar.az biznesinizi yalnız ciddi, yoxlanılmış alıcılara təqdim etməyə kömək edir. Elanınızı moderasiya edirik, həssas maliyyə və əlaqə məlumatlarını qoruyuruq və onları yalnız sorğu göndərən, seçilmiş alıcılarla paylaşırıq.",
+  home_hero_cta_primary: "Biznesinizi siyahıya əlavə edin",
+  home_hero_cta_secondary: "Pulsuz qiymətləndirmə alın",
+  home_hero_confidential_note: "Açıq və ya məxfi elan seçin. Həssas detallar saytda göstərilmir — onları yalnız komandamız yoxladıqdan sonra sizə sorğu göndərən alıcılarla paylaşırıq.",
+  home_hero_buyer_label: "Biznes almaq istəyirsiniz? Mövcud imkanları nəzərdən keçirin:",
+  home_valuation_band_sub: "Satışdan əvvəl biznesinizin təxmini dəyərini öyrənin — sadə, pulsuz qiymətləndirmə alətimizlə."
+});
+Object.assign(STRINGS.en, {
+  home_hero_eyebrow: "For business owners",
+  home_hero_title: "Sell your business in Azerbaijan, confidentially",
+  home_hero_sub: "BizBazar.az helps you present your business only to serious, screened buyers. We moderate your listing, protect your sensitive financial and contact details, and share them only with buyers who request access.",
+  home_hero_cta_primary: "List your business",
+  home_hero_cta_secondary: "Get a free valuation",
+  home_hero_confidential_note: "Choose a public or confidential listing. Sensitive details are not shown on the site — we share them only with buyers who request access, after our team reviews the request.",
+  home_hero_buyer_label: "Looking to buy a business? Browse available opportunities:",
+  home_valuation_band_sub: "Find out what your business could be worth before you sell — with our simple, free valuation tool."
+});
+Object.assign(STRINGS.ru, {
+  home_hero_eyebrow: "Для владельцев бизнеса",
+  home_hero_title: "Продайте свой бизнес в Азербайджане конфиденциально",
+  home_hero_sub: "BizBazar.az помогает показать ваш бизнес только серьёзным, проверенным покупателям. Мы модерируем объявление, защищаем чувствительные финансовые и контактные данные и передаём их только покупателям, запросившим доступ.",
+  home_hero_cta_primary: "Разместить бизнес",
+  home_hero_cta_secondary: "Получить бесплатную оценку",
+  home_hero_confidential_note: "Выберите открытое или конфиденциальное объявление. Чувствительные данные не показываются на сайте — мы передаём их только покупателям, запросившим доступ, после проверки запроса нашей командой.",
+  home_hero_buyer_label: "Хотите купить бизнес? Посмотрите доступные предложения:",
+  home_valuation_band_sub: "Узнайте примерную стоимость вашего бизнеса перед продажей — с помощью нашего простого бесплатного инструмента оценки."
+});
+
 (async function(){
   mountLayout("home");
 
-  const [listings, categories, services, testimonials] = await Promise.all([
-    loadListings(), loadCategories(), loadServices(), loadTestimonials()
+  const [listings, categories, services] = await Promise.all([
+    loadListings(), loadCategories(), loadServices()
   ]);
   const catById = Object.fromEntries(categories.map(c => [c.id, c]));
   const catCount = {};
@@ -231,10 +281,6 @@
     o.value = city; o.textContent = city;
     heroCity.appendChild(o);
   });
-
-  // stats
-  document.getElementById("stat-listings").textContent = listings.length;
-  document.getElementById("stat-cities").textContent = new Set(listings.map(l => l.city)).size;
 
   // category cards
   const catGrid = document.getElementById("cat-grid");
@@ -302,46 +348,6 @@
       `).join("");
     }
   }
-
-  // B) Testimonials + deals band
-  const stats = testimonials.stats;
-  document.getElementById("deals-band").innerHTML = `
-    <div class="deals-stat">
-      <div class="deals-stat-num">${stats.deals_closed}</div>
-      <div class="deals-stat-label" data-i18n="deals_closed_label"></div>
-    </div>
-    <div class="deals-stat">
-      <div class="deals-stat-num">${fmtAZN(stats.total_volume_azn)}</div>
-      <div class="deals-stat-label" data-i18n="total_volume_label"></div>
-    </div>
-    <div class="deals-stat">
-      <div class="deals-stat-num">${stats.avg_close_days} <span data-i18n="avg_close_days_unit"></span></div>
-      <div class="deals-stat-label" data-i18n="avg_close_days_label"></div>
-    </div>
-    <div class="deals-stat">
-      <div class="deals-stat-num">${stats.buyer_satisfaction}<span data-i18n="buyer_satisfaction_unit"></span></div>
-      <div class="deals-stat-label" data-i18n="buyer_satisfaction_label"></div>
-    </div>
-  `;
-
-  document.getElementById("testimonial-grid").innerHTML = testimonials.items.map(item => {
-    const stars = "★".repeat(item.rating) + "☆".repeat(5 - item.rating);
-    const quote = getLang() === "az" ? item.quote_az : item.quote_en;
-    const role  = getLang() === "az" ? item.role_az : item.role_en;
-    return `
-      <div class="testimonial-card">
-        <div class="testimonial-stars">${stars}</div>
-        <p class="testimonial-quote">"${quote}"</p>
-        <div class="testimonial-author">
-          <img class="testimonial-avatar" src="${item.avatar}" alt="${item.name}" loading="lazy">
-          <div>
-            <div class="testimonial-name">${item.name}</div>
-            <div class="testimonial-role">${role}</div>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join("");
 
   // services preview
   const sp = document.getElementById("services-preview");
