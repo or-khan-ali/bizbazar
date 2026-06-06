@@ -54,8 +54,8 @@
 
 <div class="page-header">
   <div class="container">
-    <h1>Büdcəmə uyğun bizneslər</h1>
-    <p>Büdcənizi daxil edin — uyğun elanları tapaq</p>
+    <h1 id="aff-h1"></h1>
+    <p id="aff-sub-text"></p>
   </div>
 </div>
 
@@ -64,23 +64,23 @@
     <div class="afford-form">
       <div class="form-row">
         <div class="form-group">
-          <label>Büdcə (AZN)</label>
-          <input type="number" id="aff-budget" min="0" step="1000" placeholder="məs. 50000">
+          <label id="aff-lbl-budget"></label>
+          <input type="number" id="aff-budget" min="0" step="1000">
         </div>
         <div class="form-group">
-          <label>Kateqoriya (istəyə görə)</label>
+          <label id="aff-lbl-cat"></label>
           <select id="aff-category">
-            <option value="">Hamısı</option>
+            <option value="" id="aff-opt-all-cats"></option>
           </select>
         </div>
         <div class="form-group">
-          <label>Şəhər (istəyə görə)</label>
+          <label id="aff-lbl-city"></label>
           <select id="aff-city">
-            <option value="">Hamısı</option>
+            <option value="" id="aff-opt-all-cities"></option>
           </select>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" id="aff-submit" style="padding:10px 28px;white-space:nowrap;">Axtar</button>
+          <button class="btn btn-primary" id="aff-submit" style="padding:10px 28px;white-space:nowrap;"></button>
         </div>
       </div>
       <div id="aff-error" style="display:none;color:#ef4444;margin-top:10px;font-size:14px;"></div>
@@ -88,15 +88,15 @@
 
     <div id="aff-summary" style="display:none;" class="afford-summary">
       <div class="s-item">
-        <div class="s-lbl">Tapılan elan</div>
+        <div class="s-lbl" id="aff-s-lbl-count"></div>
         <div class="s-val" id="aff-count">0</div>
       </div>
       <div class="s-item">
-        <div class="s-lbl">Ortalama aylıq gəlir</div>
+        <div class="s-lbl" id="aff-s-lbl-rev"></div>
         <div class="s-val" id="aff-avg-revenue">—</div>
       </div>
       <div class="s-item">
-        <div class="s-lbl">Ortalama aylıq mənfəət</div>
+        <div class="s-lbl" id="aff-s-lbl-profit"></div>
         <div class="s-val" id="aff-avg-profit">—</div>
       </div>
     </div>
@@ -105,9 +105,9 @@
 
     <div id="aff-empty" style="display:none;" class="afford-empty">
       <div class="icon">🔍</div>
-      <h3>Heç bir elan tapılmadı</h3>
-      <p>Seçdiyiniz büdcə və filtrlərlə uyğun elan yoxdur.<br>Büdcəni artırmağa və ya filtrləri dəyişməyə cəhd edin.</p>
-      <a href="listings.html" class="btn btn-primary" style="margin-top:16px">Bütün elanlara bax</a>
+      <h3 id="aff-empty-h3"></h3>
+      <p id="aff-empty-p"></p>
+      <a href="listings.html" class="btn btn-primary" style="margin-top:16px" id="aff-empty-btn"></a>
     </div>
   </div>
 </section>
@@ -117,6 +117,59 @@
 <script>
 (async function(){
   mountLayout("listings");
+
+  const AFF_COPY = {
+    az: {
+      doc_title: "Büdcəmə uyğun biznes — BizBazar.az",
+      h1: "Büdcəmə uyğun bizneslər",
+      sub: "Büdcənizi daxil edin — uyğun elanları tapaq",
+      lbl_budget: "Büdcə (AZN)", budget_ph: "məs. 50000",
+      lbl_cat: "Kateqoriya (istəyə görə)",
+      lbl_city: "Şəhər (istəyə görə)",
+      all: "Hamısı",
+      search: "Axtar",
+      err_budget: "Zəhmət olmasa büdcəni daxil edin.",
+      s_count: "Tapılan elan", s_rev: "Ortalama aylıq gəlir", s_profit: "Ortalama aylıq mənfəət",
+      count_suffix: "elan",
+      empty_h3: "Heç bir elan tapılmadı",
+      empty_p: "Seçdiyiniz büdcə və filtrlərlə uyğun elan yoxdur.<br>Büdcəni artırmağa və ya filtrləri dəyişməyə cəhd edin.",
+      empty_btn: "Bütün elanlara bax"
+    },
+    en: {
+      doc_title: "Within your budget — BizBazar.az",
+      h1: "Businesses within your budget",
+      sub: "Enter your budget — we'll find matching listings",
+      lbl_budget: "Budget (AZN)", budget_ph: "e.g. 50000",
+      lbl_cat: "Category (optional)",
+      lbl_city: "City (optional)",
+      all: "All",
+      search: "Search",
+      err_budget: "Please enter a budget.",
+      s_count: "Listings found", s_rev: "Average monthly revenue", s_profit: "Average monthly profit",
+      count_suffix: "listings",
+      empty_h3: "No listings found",
+      empty_p: "No listings match your budget and filters.<br>Try increasing the budget or changing filters.",
+      empty_btn: "Browse all listings"
+    },
+    ru: {
+      doc_title: "По вашему бюджету — BizBazar.az",
+      h1: "Бизнесы по вашему бюджету",
+      sub: "Введите бюджет — мы найдём подходящие объявления",
+      lbl_budget: "Бюджет (AZN)", budget_ph: "напр. 50000",
+      lbl_cat: "Категория (необязательно)",
+      lbl_city: "Город (необязательно)",
+      all: "Все",
+      search: "Найти",
+      err_budget: "Пожалуйста, введите бюджет.",
+      s_count: "Найдено объявлений", s_rev: "Средний месячный доход", s_profit: "Средняя месячная прибыль",
+      count_suffix: "объявлений",
+      empty_h3: "Объявлений не найдено",
+      empty_p: "Под ваш бюджет и фильтры объявлений нет.<br>Увеличьте бюджет или измените фильтры.",
+      empty_btn: "Все объявления"
+    }
+  };
+  const aff = () => AFF_COPY[getLang()] || AFF_COPY.az;
+
   const [listings, categories] = await Promise.all([loadListings(), loadCategories()]);
   const catById = Object.fromEntries(categories.map(c => [c.id, c]));
 
@@ -137,6 +190,27 @@
     citySel.appendChild(opt);
   });
 
+  function applyCopy() {
+    const c = aff();
+    document.title = c.doc_title;
+    document.getElementById("aff-h1").textContent = c.h1;
+    document.getElementById("aff-sub-text").textContent = c.sub;
+    document.getElementById("aff-lbl-budget").textContent = c.lbl_budget;
+    document.getElementById("aff-budget").placeholder = c.budget_ph;
+    document.getElementById("aff-lbl-cat").textContent = c.lbl_cat;
+    document.getElementById("aff-lbl-city").textContent = c.lbl_city;
+    document.getElementById("aff-opt-all-cats").textContent = c.all;
+    document.getElementById("aff-opt-all-cities").textContent = c.all;
+    document.getElementById("aff-submit").textContent = c.search;
+    document.getElementById("aff-s-lbl-count").textContent = c.s_count;
+    document.getElementById("aff-s-lbl-rev").textContent = c.s_rev;
+    document.getElementById("aff-s-lbl-profit").textContent = c.s_profit;
+    document.getElementById("aff-empty-h3").textContent = c.empty_h3;
+    document.getElementById("aff-empty-p").innerHTML = c.empty_p;
+    document.getElementById("aff-empty-btn").textContent = c.empty_btn;
+  }
+  applyCopy();
+
   // Read URL params for quick pre-fill
   const params = new URLSearchParams(location.search);
   if (params.get("budget")) document.getElementById("aff-budget").value = params.get("budget");
@@ -144,13 +218,14 @@
   if (params.get("city")) citySel.value = params.get("city");
 
   function doSearch() {
+    const c = aff();
     const budget = parseFloat(document.getElementById("aff-budget").value);
     const catFilter = catSel.value;
     const cityFilter = citySel.value;
     const errEl = document.getElementById("aff-error");
 
     if (!budget || budget <= 0) {
-      errEl.textContent = "Zəhmət olmasa büdcəni daxil edin.";
+      errEl.textContent = c.err_budget;
       errEl.style.display = "block";
       return;
     }
@@ -178,7 +253,7 @@
 
       const avgRev = Math.round(results.reduce((s, l) => s + (l.monthly_revenue_azn || 0), 0) / results.length);
       const avgProfit = Math.round(results.reduce((s, l) => s + (l.monthly_profit_azn || 0), 0) / results.length);
-      document.getElementById("aff-count").textContent = results.length + " elan";
+      document.getElementById("aff-count").textContent = results.length + " " + c.count_suffix;
       document.getElementById("aff-avg-revenue").textContent = fmtAZN(avgRev);
       document.getElementById("aff-avg-profit").textContent = fmtAZN(avgProfit);
 
@@ -194,7 +269,7 @@
   if (params.get("budget")) doSearch();
 
   applyI18n();
-  window.addEventListener("langchange", () => location.reload());
+  window.addEventListener("langchange", () => { applyCopy(); if (parseFloat(document.getElementById("aff-budget").value) > 0) doSearch(); });
 })();
 </script>
 </body>

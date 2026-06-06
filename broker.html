@@ -243,6 +243,82 @@ if ('serviceWorker' in navigator) {
 <script>
 (async function(){
   mountLayout("brokers");
+
+  const BP_COPY = {
+    az: {
+      not_found_h2: "Broker tapılmadı",
+      not_found_p: "Axtardığınız broker mövcud deyil və ya silinib.",
+      back_to_brokers: "← Bütün brokerlərə qayıt",
+      browse_all: "Bütün brokerlərə bax",
+      browse_listings: "Bütün elanlara bax",
+      verified: "✓ Yoxlanmış",
+      premium: "★ Premium",
+      reviews: "rəy",
+      stat_deals: "Sövdələşmə", stat_deals_sub: "bağlanıb",
+      stat_volume: "Ümumi həcm", stat_volume_sub: "satılmış biznes",
+      stat_response: "Cavab vaxtı", stat_response_sub: "orta hesabla",
+      stat_member: "Üzvlük", stat_member_sub: "tarixindən",
+      hours: "saat",
+      type_broker: "Fərdi broker", type_agency: "Agentlik",
+      about_broker: "Broker haqqında", about_agency: "Agentlik haqqında",
+      specialties: "İxtisaslaşmalar",
+      listings_broker: "Brokerin elanları", listings_agency: "Agentliyin elanları",
+      no_listings: "Bu brokerin hazırda aktiv elanı yoxdur.",
+      contact: "Əlaqə",
+      email_send: "✉️ E-mail göndər",
+      city: "Şəhər", response: "Cavab vaxtı", langs: "Dillər",
+      locale: "az-AZ"
+    },
+    en: {
+      not_found_h2: "Broker not found",
+      not_found_p: "The broker you're looking for doesn't exist or has been removed.",
+      back_to_brokers: "← Back to all brokers",
+      browse_all: "Browse all brokers",
+      browse_listings: "Browse all listings",
+      verified: "✓ Verified",
+      premium: "★ Premium",
+      reviews: "reviews",
+      stat_deals: "Deals", stat_deals_sub: "closed",
+      stat_volume: "Total volume", stat_volume_sub: "businesses sold",
+      stat_response: "Response time", stat_response_sub: "on average",
+      stat_member: "Member", stat_member_sub: "since",
+      hours: "hrs",
+      type_broker: "Individual broker", type_agency: "Agency",
+      about_broker: "About the broker", about_agency: "About the agency",
+      specialties: "Specialties",
+      listings_broker: "Broker's listings", listings_agency: "Agency's listings",
+      no_listings: "This broker has no active listings right now.",
+      contact: "Contact",
+      email_send: "✉️ Send email",
+      city: "City", response: "Response time", langs: "Languages",
+      locale: "en-GB"
+    },
+    ru: {
+      not_found_h2: "Брокер не найден",
+      not_found_p: "Брокер, которого вы ищете, не существует или был удалён.",
+      back_to_brokers: "← Назад ко всем брокерам",
+      browse_all: "Смотреть всех брокеров",
+      browse_listings: "Все объявления",
+      verified: "✓ Проверен",
+      premium: "★ Премиум",
+      reviews: "отзывов",
+      stat_deals: "Сделок", stat_deals_sub: "закрыто",
+      stat_volume: "Общий объём", stat_volume_sub: "проданных бизнесов",
+      stat_response: "Время ответа", stat_response_sub: "в среднем",
+      stat_member: "Участник", stat_member_sub: "с",
+      hours: "ч",
+      type_broker: "Частный брокер", type_agency: "Агентство",
+      about_broker: "О брокере", about_agency: "Об агентстве",
+      specialties: "Специализации",
+      listings_broker: "Объявления брокера", listings_agency: "Объявления агентства",
+      no_listings: "У этого брокера пока нет активных объявлений.",
+      contact: "Контакт",
+      email_send: "✉️ Написать email",
+      city: "Город", response: "Время ответа", langs: "Языки",
+      locale: "ru-RU"
+    }
+  };
+
   const brokerId = new URLSearchParams(location.search).get("id");
   const [brokers, listings, categories] = await Promise.all([
     loadJSON("data/brokers.json"),
@@ -259,41 +335,6 @@ if ('serviceWorker' in navigator) {
   }
 
   const broker = brokers.find(b => b.id === brokerId);
-  if (!broker) {
-    root.innerHTML = `
-      <section style="padding: 60px 0;">
-        <div class="container">
-          <div class="bp-not-found">
-            <h2>Broker tapılmadı</h2>
-            <p style="color:var(--text-muted);margin:0 0 18px">Axtardığınız broker mövcud deyil və ya silinib.</p>
-            <a href="brokers.html" class="bp-btn bp-btn-phone" style="display:inline-flex;text-decoration:none;padding:12px 24px;">Bütün brokerlərə bax</a>
-          </div>
-        </div>
-      </section>`;
-    return;
-  }
-
-  const lang = (typeof getLang === "function") ? getLang() : "az";
-  const name = lang === "ru" && broker.name_ru ? broker.name_ru : broker.name;
-  const bio = lang === "en" ? broker.bio_en : lang === "ru" ? broker.bio_ru : broker.bio_az;
-  document.title = name + " — BizBazar.az";
-
-  const brokerListings = listings.filter(l => l.broker_id === broker.id);
-  const stars = "★".repeat(Math.floor(broker.rating)) + "☆".repeat(5 - Math.floor(broker.rating));
-  const memberSince = new Date(broker.member_since + "-01")
-    .toLocaleDateString("az-AZ", { month: "long", year: "numeric" });
-
-  const typeLabels = { broker: "Fərdi broker", agency: "Agentlik" };
-  const typeLabel = typeLabels[broker.type] || broker.type;
-
-  const specialtiesHTML = broker.specialties.map(s => {
-    const cat = catById[s];
-    const icon = CATEGORY_ICONS[s] || "🏢";
-    return `<span class="bp-specialty-pill">${icon} ${catLabel(cat)}</span>`;
-  }).join("");
-
-  const langsHTML = broker.languages.map(l => `<span class="bp-lang">${l}</span>`).join("");
-  const waPhone = broker.phone.replace(/[^+\d]/g, "");
 
   function fmtVolume(v) {
     if (!v) return "—";
@@ -302,101 +343,144 @@ if ('serviceWorker' in navigator) {
     return fmtAZN(v);
   }
 
-  root.innerHTML = `
-    <section class="bp-hero">
-      <div class="container">
-        <a href="brokers.html" class="bp-back-link">← Bütün brokerlərə qayıt</a>
+  function render() {
+    const c = BP_COPY[getLang()] || BP_COPY.az;
 
-        <div class="bp-hero-card">
-          <img src="${broker.avatar}" alt="${name}" class="bp-avatar">
-          <div class="bp-hero-info">
-            <div class="bp-badges">
-              <span class="bp-badge ${broker.type === 'agency' ? 'type-agency' : 'type-broker'}">${broker.type === 'agency' ? '🏢 ' : '👤 '}${typeLabel}</span>
-              ${broker.verified ? `<span class="bp-badge verified">✓ Yoxlanmış</span>` : ""}
-              ${broker.featured ? `<span class="bp-badge featured">★ Premium</span>` : ""}
-              ${broker.license_no ? `<span class="bp-badge license">🪪 ${broker.license_no}</span>` : ""}
-            </div>
-            <h1 class="bp-name">${name}</h1>
-            <div class="bp-meta-row">
-              <span>📍 ${broker.city}</span>
-              <span class="dot">·</span>
-              <span><span class="bp-rating-stars">${stars}</span> <span class="bp-rating-num">${broker.rating.toFixed(1)}</span> <span style="color:var(--text-muted)">(${broker.reviews} rəy)</span></span>
+    if (!broker) {
+      root.innerHTML = `
+        <section style="padding: 60px 0;">
+          <div class="container">
+            <div class="bp-not-found">
+              <h2>${c.not_found_h2}</h2>
+              <p style="color:var(--text-muted);margin:0 0 18px">${c.not_found_p}</p>
+              <a href="brokers.html" class="bp-btn bp-btn-phone" style="display:inline-flex;text-decoration:none;padding:12px 24px;">${c.browse_all}</a>
             </div>
           </div>
-        </div>
+        </section>`;
+      return;
+    }
 
-        <div class="bp-stats-grid">
-          <div class="bp-stat">
-            <div class="lbl">Sövdələşmə</div>
-            <div class="val">${broker.deals_closed}</div>
-            <div class="sub">bağlanıb</div>
-          </div>
-          <div class="bp-stat">
-            <div class="lbl">Ümumi həcm</div>
-            <div class="val">${fmtVolume(broker.total_volume_azn)}</div>
-            <div class="sub">satılmış biznes</div>
-          </div>
-          <div class="bp-stat">
-            <div class="lbl">Cavab vaxtı</div>
-            <div class="val">⚡ ${broker.response_time_hours} saat</div>
-            <div class="sub">orta hesabla</div>
-          </div>
-          <div class="bp-stat">
-            <div class="lbl">Üzvlük</div>
-            <div class="val small">${memberSince}</div>
-            <div class="sub">tarixindən</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    const lang = getLang();
+    const name = lang === "ru" && broker.name_ru ? broker.name_ru : broker.name;
+    const bio = lang === "en" ? broker.bio_en : lang === "ru" ? broker.bio_ru : broker.bio_az;
+    document.title = name + " — BizBazar.az";
 
-    <section class="bp-body">
-      <div class="container">
-        <div class="bp-body-grid">
-          <div class="bp-main">
-            <div class="bp-section">
-              <h2>${broker.type === 'agency' ? 'Agentlik haqqında' : 'Broker haqqında'}</h2>
-              <p class="bp-bio">${bio}</p>
-            </div>
+    const brokerListings = listings.filter(l => l.broker_id === broker.id);
+    const stars = "★".repeat(Math.floor(broker.rating)) + "☆".repeat(5 - Math.floor(broker.rating));
+    const memberSince = new Date(broker.member_since + "-01")
+      .toLocaleDateString(c.locale, { month: "long", year: "numeric" });
 
-            <div class="bp-section">
-              <h2>İxtisaslaşmalar</h2>
-              <div class="bp-specialty-pills">${specialtiesHTML}</div>
-            </div>
+    const typeLabel = broker.type === "agency" ? c.type_agency : c.type_broker;
+    const aboutHeading = broker.type === "agency" ? c.about_agency : c.about_broker;
+    const listingsHeading = broker.type === "agency" ? c.listings_agency : c.listings_broker;
 
-            <div class="bp-listings-section">
-              <h2>${broker.type === 'agency' ? 'Agentliyin elanları' : 'Brokerin elanları'} (${brokerListings.length})</h2>
-              ${brokerListings.length
-                ? `<div class="listing-grid">${brokerListings.map(l => listingCardHTML(l, catById)).join("")}</div>`
-                : `<div class="bp-empty-listings">
-                    <p style="margin:0 0 12px">Bu brokerin hazırda aktiv elanı yoxdur.</p>
-                    <a href="listings.html" class="bp-btn bp-btn-phone" style="display:inline-flex;text-decoration:none;padding:10px 20px;">Bütün elanlara bax</a>
-                   </div>`
-              }
-            </div>
-          </div>
+    const specialtiesHTML = broker.specialties.map(s => {
+      const cat = catById[s];
+      const icon = CATEGORY_ICONS[s] || "🏢";
+      return `<span class="bp-specialty-pill">${icon} ${catLabel(cat)}</span>`;
+    }).join("");
 
-          <aside class="bp-sidebar">
-            <div class="bp-contact-card">
-              <div class="bp-contact-title">Əlaqə</div>
-              <div class="bp-contact-btns">
-                <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener" class="bp-btn bp-btn-wa">💬 WhatsApp</a>
-                <a href="tel:${broker.phone}" class="bp-btn bp-btn-phone">📞 ${broker.phone}</a>
-                ${broker.email ? `<a href="mailto:${broker.email}" class="bp-btn bp-btn-email">✉️ E-mail göndər</a>` : ""}
+    const langsHTML = broker.languages.map(l => `<span class="bp-lang">${l}</span>`).join("");
+    const waPhone = broker.phone.replace(/[^+\d]/g, "");
+
+    root.innerHTML = `
+      <section class="bp-hero">
+        <div class="container">
+          <a href="brokers.html" class="bp-back-link">${c.back_to_brokers}</a>
+
+          <div class="bp-hero-card">
+            <img src="${broker.avatar}" alt="${name}" class="bp-avatar">
+            <div class="bp-hero-info">
+              <div class="bp-badges">
+                <span class="bp-badge ${broker.type === 'agency' ? 'type-agency' : 'type-broker'}">${broker.type === 'agency' ? '🏢 ' : '👤 '}${typeLabel}</span>
+                ${broker.verified ? `<span class="bp-badge verified">${c.verified}</span>` : ""}
+                ${broker.featured ? `<span class="bp-badge featured">${c.premium}</span>` : ""}
+                ${broker.license_no ? `<span class="bp-badge license">🪪 ${broker.license_no}</span>` : ""}
               </div>
-              <div class="bp-contact-info">
-                <div class="row"><span class="lbl">Şəhər</span><span class="val">${broker.city}</span></div>
-                <div class="row"><span class="lbl">Cavab vaxtı</span><span class="val">${broker.response_time_hours} saat</span></div>
-                <div class="row" style="align-items:flex-start"><span class="lbl">Dillər</span><span class="val"><div class="bp-langs">${langsHTML}</div></span></div>
+              <h1 class="bp-name">${name}</h1>
+              <div class="bp-meta-row">
+                <span>📍 ${broker.city}</span>
+                <span class="dot">·</span>
+                <span><span class="bp-rating-stars">${stars}</span> <span class="bp-rating-num">${broker.rating.toFixed(1)}</span> <span style="color:var(--text-muted)">(${broker.reviews} ${c.reviews})</span></span>
               </div>
             </div>
-          </aside>
-        </div>
-      </div>
-    </section>`;
+          </div>
 
-  applyI18n();
-  window.addEventListener("langchange", () => location.reload());
+          <div class="bp-stats-grid">
+            <div class="bp-stat">
+              <div class="lbl">${c.stat_deals}</div>
+              <div class="val">${broker.deals_closed}</div>
+              <div class="sub">${c.stat_deals_sub}</div>
+            </div>
+            <div class="bp-stat">
+              <div class="lbl">${c.stat_volume}</div>
+              <div class="val">${fmtVolume(broker.total_volume_azn)}</div>
+              <div class="sub">${c.stat_volume_sub}</div>
+            </div>
+            <div class="bp-stat">
+              <div class="lbl">${c.stat_response}</div>
+              <div class="val">⚡ ${broker.response_time_hours} ${c.hours}</div>
+              <div class="sub">${c.stat_response_sub}</div>
+            </div>
+            <div class="bp-stat">
+              <div class="lbl">${c.stat_member}</div>
+              <div class="val small">${memberSince}</div>
+              <div class="sub">${c.stat_member_sub}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bp-body">
+        <div class="container">
+          <div class="bp-body-grid">
+            <div class="bp-main">
+              <div class="bp-section">
+                <h2>${aboutHeading}</h2>
+                <p class="bp-bio">${bio}</p>
+              </div>
+
+              <div class="bp-section">
+                <h2>${c.specialties}</h2>
+                <div class="bp-specialty-pills">${specialtiesHTML}</div>
+              </div>
+
+              <div class="bp-listings-section">
+                <h2>${listingsHeading} (${brokerListings.length})</h2>
+                ${brokerListings.length
+                  ? `<div class="listing-grid">${brokerListings.map(l => listingCardHTML(l, catById)).join("")}</div>`
+                  : `<div class="bp-empty-listings">
+                      <p style="margin:0 0 12px">${c.no_listings}</p>
+                      <a href="listings.html" class="bp-btn bp-btn-phone" style="display:inline-flex;text-decoration:none;padding:10px 20px;">${c.browse_listings}</a>
+                     </div>`
+                }
+              </div>
+            </div>
+
+            <aside class="bp-sidebar">
+              <div class="bp-contact-card">
+                <div class="bp-contact-title">${c.contact}</div>
+                <div class="bp-contact-btns">
+                  <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener" class="bp-btn bp-btn-wa">💬 WhatsApp</a>
+                  <a href="tel:${broker.phone}" class="bp-btn bp-btn-phone">📞 ${broker.phone}</a>
+                  ${broker.email ? `<a href="mailto:${broker.email}" class="bp-btn bp-btn-email">${c.email_send}</a>` : ""}
+                </div>
+                <div class="bp-contact-info">
+                  <div class="row"><span class="lbl">${c.city}</span><span class="val">${broker.city}</span></div>
+                  <div class="row"><span class="lbl">${c.response}</span><span class="val">${broker.response_time_hours} ${c.hours}</span></div>
+                  <div class="row" style="align-items:flex-start"><span class="lbl">${c.langs}</span><span class="val"><div class="bp-langs">${langsHTML}</div></span></div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>`;
+
+    applyI18n();
+  }
+
+  render();
+  window.addEventListener("langchange", render);
 })();
 </script>
 </body>

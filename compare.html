@@ -61,8 +61,8 @@
 
 <div class="page-header">
   <div class="container">
-    <h1>Elanları müqayisə et</h1>
-    <p>Yan-yana əsas göstəriciləri qiymətləndir</p>
+    <h1 id="cmp-h1"></h1>
+    <p id="cmp-sub"></p>
   </div>
 </div>
 
@@ -77,6 +77,68 @@
 <script>
 (async function(){
   mountLayout("listings");
+
+  const CMP_COPY = {
+    az: {
+      doc_title: "Biznesləri müqayisə et — BizBazar.az",
+      h1: "Elanları müqayisə et",
+      sub: "Yan-yana əsas göstəriciləri qiymətləndir",
+      empty_h2: "Müqayisə üçün ən azı 2 elan seçin",
+      empty_p: 'Elan səhifəsindən "Müqayisəyə əlavə et" düyməsini istifadə edin<br>və ya aşağıdan elanları seçin.',
+      browse_btn: "Elanlara bax →",
+      add_btn: "+ Elan əlavə et",
+      compare_count: (n) => `${n} elan müqayisə edilir`,
+      indicator: "Göstərici",
+      featured: "SEÇİLMİŞ",
+      remove: "✕ Sil",
+      r_price: "Qiymət", r_revenue: "Aylıq gəlir", r_profit: "Aylıq mənfəət",
+      r_margin: "Mənfəət marjası %", r_payback: "Geri ödəmə (ay)",
+      r_area: "Sahə (m²)", r_staff: "İşçi sayı", r_years: "Fəaliyyət ili",
+      r_equipment: "Avadanlıq", r_license: "Lisenziya", r_location: "Şəhər / Rayon",
+      yes: "✅ Bəli", no: "❌ Xeyr",
+      months: "ay", years: "il"
+    },
+    en: {
+      doc_title: "Compare businesses — BizBazar.az",
+      h1: "Compare listings",
+      sub: "Evaluate key metrics side by side",
+      empty_h2: "Pick at least 2 listings to compare",
+      empty_p: 'Use the "Add to compare" button on a listing page<br>or pick listings from below.',
+      browse_btn: "Browse listings →",
+      add_btn: "+ Add listing",
+      compare_count: (n) => `${n} listings compared`,
+      indicator: "Metric",
+      featured: "FEATURED",
+      remove: "✕ Remove",
+      r_price: "Price", r_revenue: "Monthly revenue", r_profit: "Monthly profit",
+      r_margin: "Profit margin %", r_payback: "Payback (months)",
+      r_area: "Area (m²)", r_staff: "Staff count", r_years: "Years in operation",
+      r_equipment: "Equipment", r_license: "License", r_location: "City / District",
+      yes: "✅ Yes", no: "❌ No",
+      months: "mo", years: "yrs"
+    },
+    ru: {
+      doc_title: "Сравнить бизнесы — BizBazar.az",
+      h1: "Сравнить объявления",
+      sub: "Сравните ключевые показатели рядом",
+      empty_h2: "Выберите минимум 2 объявления для сравнения",
+      empty_p: 'Нажмите "Добавить к сравнению" на странице объявления<br>или выберите объявления ниже.',
+      browse_btn: "К объявлениям →",
+      add_btn: "+ Добавить объявление",
+      compare_count: (n) => `Сравнивается объявлений: ${n}`,
+      indicator: "Показатель",
+      featured: "РЕКОМЕНДУЕМОЕ",
+      remove: "✕ Убрать",
+      r_price: "Цена", r_revenue: "Доход в месяц", r_profit: "Прибыль в месяц",
+      r_margin: "Маржа прибыли %", r_payback: "Окупаемость (мес.)",
+      r_area: "Площадь (м²)", r_staff: "Сотрудников", r_years: "Лет работы",
+      r_equipment: "Оборудование", r_license: "Лицензия", r_location: "Город / Район",
+      yes: "✅ Да", no: "❌ Нет",
+      months: "мес.", years: "лет"
+    }
+  };
+  const cmp = () => CMP_COPY[getLang()] || CMP_COPY.az;
+
   const params = new URLSearchParams(location.search);
   const idsParam = params.get("ids") || "";
   let ids = idsParam ? idsParam.split(",").map(s => s.trim()).filter(Boolean) : [];
@@ -86,6 +148,11 @@
   const listingById = Object.fromEntries(listings.map(l => [l.id, l]));
 
   function render() {
+    const c = cmp();
+    document.title = c.doc_title;
+    document.getElementById("cmp-h1").textContent = c.h1;
+    document.getElementById("cmp-sub").textContent = c.sub;
+
     const root = document.getElementById("compare-root");
     const selected = ids.map(id => listingById[id]).filter(Boolean);
 
@@ -93,32 +160,32 @@
       root.innerHTML = `
         <div class="compare-empty">
           <div class="icon">⚖️</div>
-          <h2>Müqayisə üçün ən azı 2 elan seçin</h2>
-          <p>Elan səhifəsindən "Müqayisəyə əlavə et" düyməsini istifadə edin<br>və ya aşağıdan elanları seçin.</p>
-          <a href="listings.html" class="btn btn-primary" style="margin-top:20px">Elanlara bax →</a>
+          <h2>${c.empty_h2}</h2>
+          <p>${c.empty_p}</p>
+          <a href="listings.html" class="btn btn-primary" style="margin-top:20px">${c.browse_btn}</a>
         </div>`;
       applyI18n();
       return;
     }
 
     const rows = [
-      { label: "Qiymət", key: l => `<span class="col-price">${fmtAZN(l.price_azn)}</span><br><small style="color:#64748b">${fmtUSD(l.price_azn)}</small>` },
-      { label: "Aylıq gəlir", key: l => fmtAZN(l.monthly_revenue_azn) },
-      { label: "Aylıq mənfəət", key: l => fmtAZN(l.monthly_profit_azn) },
-      { label: "Mənfəət marjası %", key: l => {
+      { label: c.r_price, key: l => `<span class="col-price">${fmtAZN(l.price_azn)}</span><br><small style="color:#64748b">${fmtUSD(l.price_azn)}</small>` },
+      { label: c.r_revenue, key: l => fmtAZN(l.monthly_revenue_azn) },
+      { label: c.r_profit, key: l => fmtAZN(l.monthly_profit_azn) },
+      { label: c.r_margin, key: l => {
         if (!l.monthly_revenue_azn || !l.monthly_profit_azn) return "—";
         return ((l.monthly_profit_azn / l.monthly_revenue_azn) * 100).toFixed(1) + "%";
       }},
-      { label: "Geri ödəmə (ay)", key: l => {
+      { label: c.r_payback, key: l => {
         if (!l.monthly_profit_azn || l.monthly_profit_azn <= 0) return "—";
-        return Math.round(l.price_azn / l.monthly_profit_azn) + " ay";
+        return Math.round(l.price_azn / l.monthly_profit_azn) + " " + c.months;
       }},
-      { label: "Sahə (m²)", key: l => fmtNum(l.area_m2) + " m²" },
-      { label: "İşçi sayı", key: l => l.staff_count },
-      { label: "Fəaliyyət ili", key: l => l.operating_years + " il" },
-      { label: "Avadanlıq", key: l => l.equipment_included ? "✅ Bəli" : "❌ Xeyr" },
-      { label: "Lisenziya", key: l => l.license_included ? "✅ Bəli" : "❌ Xeyr" },
-      { label: "Şəhər / Rayon", key: l => l.district + ", " + l.city },
+      { label: c.r_area, key: l => fmtNum(l.area_m2) + " m²" },
+      { label: c.r_staff, key: l => l.staff_count },
+      { label: c.r_years, key: l => l.operating_years + " " + c.years },
+      { label: c.r_equipment, key: l => l.equipment_included ? c.yes : c.no },
+      { label: c.r_license, key: l => l.license_included ? c.yes : c.no },
+      { label: c.r_location, key: l => l.district + ", " + l.city },
     ];
 
     const headerCols = selected.map(l => {
@@ -128,9 +195,9 @@
         <span class="listing-icon">${icon}</span>
         <span class="col-cat">${catLabel(cat)}</span>
         <a class="col-title" href="listing.html?id=${l.id}" style="color:#fff;text-decoration:underline;">${locField(l, "title")}</a>
-        ${l.featured ? `<span class="featured-tag">SEÇİLMİŞ</span>` : ""}
+        ${l.featured ? `<span class="featured-tag">${c.featured}</span>` : ""}
         <br>
-        <button class="remove-btn" data-id="${l.id}">✕ Sil</button>
+        <button class="remove-btn" data-id="${l.id}">${c.remove}</button>
       </th>`;
     }).join("");
 
@@ -141,14 +208,14 @@
 
     root.innerHTML = `
       <div class="add-more-bar">
-        <a href="listings.html" class="btn btn-ghost" style="font-size:14px">+ Elan əlavə et</a>
-        <span style="color:#64748b;font-size:14px">${selected.length} elan müqayisə edilir</span>
+        <a href="listings.html" class="btn btn-ghost" style="font-size:14px">${c.add_btn}</a>
+        <span style="color:#64748b;font-size:14px">${c.compare_count(selected.length)}</span>
       </div>
       <div class="compare-table-wrap">
         <table class="compare-table">
           <thead>
             <tr>
-              <th style="min-width:160px">Göstərici</th>
+              <th style="min-width:160px">${c.indicator}</th>
               ${headerCols}
             </tr>
           </thead>
@@ -171,7 +238,7 @@
   }
 
   render();
-  window.addEventListener("langchange", () => location.reload());
+  window.addEventListener("langchange", render);
 })();
 </script>
 </body>

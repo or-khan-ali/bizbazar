@@ -383,45 +383,45 @@
 <!-- HERO -->
 <section class="br-hero">
   <div class="container">
-    <span class="br-hero-eyebrow">🤝 Yoxlanmış peşəkar broker şəbəkəsi</span>
-    <h1>Biznes sövdələşmənizi <span>peşəkarla</span> aparın</h1>
-    <p class="br-hero-lead">Azərbaycanda fəaliyyət göstərən sertifikatlı biznes brokerləri və M&A agentlikləri. Lisenziya yoxlanılıb, sövdələşmə tarixçəsi ictimaidir, müştəri rəyləri real. Birbaşa əlaqə qurun və biznesinizi peşəkar idarəyə həvalə edin.</p>
+    <span class="br-hero-eyebrow" id="brs-eyebrow"></span>
+    <h1 id="brs-h1"></h1>
+    <p class="br-hero-lead" id="brs-lead"></p>
 
     <div class="br-stats-grid">
       <div class="br-stat">
         <div class="br-stat-num" id="stat-brokers">—</div>
-        <div class="br-stat-label">Aktiv broker</div>
+        <div class="br-stat-label" id="brs-stat-brokers-lbl"></div>
       </div>
       <div class="br-stat">
         <div class="br-stat-num" id="stat-deals">—</div>
-        <div class="br-stat-label">Bağlanmış sövdələşmə</div>
+        <div class="br-stat-label" id="brs-stat-deals-lbl"></div>
       </div>
       <div class="br-stat">
         <div class="br-stat-num" id="stat-volume">—</div>
-        <div class="br-stat-label">AZN ümumi həcm</div>
+        <div class="br-stat-label" id="brs-stat-volume-lbl"></div>
       </div>
       <div class="br-stat">
         <div class="br-stat-num" id="stat-rating">—</div>
-        <div class="br-stat-label">Orta reytinq</div>
+        <div class="br-stat-label" id="brs-stat-rating-lbl"></div>
       </div>
     </div>
 
     <div class="br-trust-strip">
       <div class="br-trust-item">
         <span class="br-trust-icon">🛡️</span>
-        <span>Lisenziyası yoxlanmış brokerlər</span>
+        <span id="brs-trust-1"></span>
       </div>
       <div class="br-trust-item">
         <span class="br-trust-icon">📊</span>
-        <span>Real sövdələşmə tarixçəsi</span>
+        <span id="brs-trust-2"></span>
       </div>
       <div class="br-trust-item">
         <span class="br-trust-icon">⚡</span>
-        <span>Orta cavab vaxtı &lt; 4 saat</span>
+        <span id="brs-trust-3"></span>
       </div>
       <div class="br-trust-item">
         <span class="br-trust-icon">🎯</span>
-        <span>Sektor üzrə ixtisas</span>
+        <span id="brs-trust-4"></span>
       </div>
     </div>
   </div>
@@ -431,40 +431,40 @@
 <section style="padding-top: 40px;">
   <div class="container">
     <div class="br-search-bar">
-      <input type="search" id="search-input" class="br-search-input" placeholder="🔍 Broker adı və ya agentlik axtar...">
+      <input type="search" id="search-input" class="br-search-input">
     </div>
 
     <div class="br-filter-bar">
       <select id="filter-type">
-        <option value="">Bütün növlər</option>
-        <option value="broker">Fərdi broker</option>
-        <option value="agency">Agentlik</option>
+        <option value="" id="brs-ft-all"></option>
+        <option value="broker" id="brs-ft-broker"></option>
+        <option value="agency" id="brs-ft-agency"></option>
       </select>
       <select id="filter-specialty">
-        <option value="">Bütün ixtisaslar</option>
+        <option value="" id="brs-fs-all"></option>
       </select>
       <select id="filter-city">
-        <option value="">Bütün şəhərlər</option>
+        <option value="" id="brs-fc-all"></option>
       </select>
       <select id="filter-language">
-        <option value="">Bütün dillər</option>
-        <option value="AZ">Azərbaycan dili</option>
-        <option value="EN">İngilis dili</option>
-        <option value="RU">Rus dili</option>
-        <option value="TR">Türk dili</option>
+        <option value="" id="brs-fl-all"></option>
+        <option value="AZ" id="brs-fl-az"></option>
+        <option value="EN" id="brs-fl-en"></option>
+        <option value="RU" id="brs-fl-ru"></option>
+        <option value="TR" id="brs-fl-tr"></option>
       </select>
       <select id="filter-sort">
-        <option value="featured">Seçilmiş brokerlər</option>
-        <option value="rating">Reytinqə görə</option>
-        <option value="deals">Sövdələşmə sayı</option>
-        <option value="volume">Sövdələşmə həcmi</option>
-        <option value="response">Cavab vaxtı</option>
+        <option value="featured" id="brs-fo-featured"></option>
+        <option value="rating" id="brs-fo-rating"></option>
+        <option value="deals" id="brs-fo-deals"></option>
+        <option value="volume" id="brs-fo-volume"></option>
+        <option value="response" id="brs-fo-response"></option>
       </select>
     </div>
 
     <div class="br-results-bar">
       <div class="br-count-text">
-        <strong id="results-count">—</strong> broker tapıldı
+        <strong id="results-count">—</strong> <span id="brs-count-suffix"></span>
       </div>
     </div>
 
@@ -472,8 +472,8 @@
 
     <div id="empty-state" class="br-empty" style="display:none;">
       <div class="br-empty-icon">🔍</div>
-      <h3 class="br-empty-title">Heç bir broker tapılmadı</h3>
-      <p class="br-empty-text">Filtrləri dəyişdirib yenidən cəhd edin.</p>
+      <h3 class="br-empty-title" id="brs-empty-h3"></h3>
+      <p class="br-empty-text" id="brs-empty-p"></p>
     </div>
   </div>
 </section>
@@ -484,26 +484,26 @@
     <div class="br-cta-section">
       <div class="br-cta-grid">
         <div>
-          <h2>Peşəkar broker kimi qoşulun</h2>
-          <p>Lisenziyanız varsa, BizBazar şəbəkəsinə qoşulun və müştərilər birbaşa sizinlə əlaqə qursun. Pulsuz qeydiyyat, yoxlanmış profil, geniş audit izi.</p>
+          <h2 id="brs-cta-h2"></h2>
+          <p id="brs-cta-p"></p>
           <div class="br-cta-benefits">
             <div class="br-cta-benefit">
               <span class="br-cta-benefit-check">✓</span>
-              <span>Yoxlanmış peşəkar profil və lisenziya nümayişi</span>
+              <span id="brs-cta-b1"></span>
             </div>
             <div class="br-cta-benefit">
               <span class="br-cta-benefit-check">✓</span>
-              <span>Müştəri rəyləri və sövdələşmə tarixçəsi</span>
+              <span id="brs-cta-b2"></span>
             </div>
             <div class="br-cta-benefit">
               <span class="br-cta-benefit-check">✓</span>
-              <span>İlk 6 ay komissiyasız fəaliyyət</span>
+              <span id="brs-cta-b3"></span>
             </div>
           </div>
         </div>
         <div class="br-cta-actions">
-          <a href="contact.html" class="btn btn-lg">Broker olaraq qoşul</a>
-          <a href="https://wa.me/994502009088" target="_blank" rel="noopener" class="btn btn-lg btn-secondary">WhatsApp ilə əlaqə</a>
+          <a href="contact.html" class="btn btn-lg" id="brs-cta-join"></a>
+          <a href="https://wa.me/994502009088" target="_blank" rel="noopener" class="btn btn-lg btn-secondary" id="brs-cta-wa"></a>
         </div>
       </div>
     </div>
@@ -521,6 +521,139 @@ if ('serviceWorker' in navigator) {
 <script>
 (async function(){
   mountLayout("brokers");
+
+  const BRS_COPY = {
+    az: {
+      doc_title: "Brokerlər — BizBazar.az",
+      eyebrow: "🤝 Yoxlanmış peşəkar broker şəbəkəsi",
+      h1_pre: "Biznes sövdələşmənizi ", h1_em: "peşəkarla", h1_post: " aparın",
+      lead: "Azərbaycanda fəaliyyət göstərən sertifikatlı biznes brokerləri və M&A agentlikləri. Lisenziya yoxlanılıb, sövdələşmə tarixçəsi ictimaidir, müştəri rəyləri real. Birbaşa əlaqə qurun və biznesinizi peşəkar idarəyə həvalə edin.",
+      stat_brokers_lbl: "Aktiv broker", stat_deals_lbl: "Bağlanmış sövdələşmə",
+      stat_volume_lbl: "AZN ümumi həcm", stat_rating_lbl: "Orta reytinq",
+      trust_1: "Lisenziyası yoxlanmış brokerlər",
+      trust_2: "Real sövdələşmə tarixçəsi",
+      trust_3: "Orta cavab vaxtı < 4 saat",
+      trust_4: "Sektor üzrə ixtisas",
+      search_ph: "🔍 Broker adı və ya agentlik axtar...",
+      ft_all: "Bütün növlər", ft_broker: "Fərdi broker", ft_agency: "Agentlik",
+      fs_all: "Bütün ixtisaslar",
+      fc_all: "Bütün şəhərlər",
+      fl_all: "Bütün dillər", fl_az: "Azərbaycan dili", fl_en: "İngilis dili", fl_ru: "Rus dili", fl_tr: "Türk dili",
+      fo_featured: "Seçilmiş brokerlər", fo_rating: "Reytinqə görə", fo_deals: "Sövdələşmə sayı", fo_volume: "Sövdələşmə həcmi", fo_response: "Cavab vaxtı",
+      count_suffix: "broker tapıldı",
+      empty_h3: "Heç bir broker tapılmadı", empty_p: "Filtrləri dəyişdirib yenidən cəhd edin.",
+      cta_h2: "Peşəkar broker kimi qoşulun",
+      cta_p: "Lisenziyanız varsa, BizBazar şəbəkəsinə qoşulun və müştərilər birbaşa sizinlə əlaqə qursun. Pulsuz qeydiyyat, yoxlanmış profil, geniş audit izi.",
+      cta_b1: "Yoxlanmış peşəkar profil və lisenziya nümayişi",
+      cta_b2: "Müştəri rəyləri və sövdələşmə tarixçəsi",
+      cta_b3: "İlk 6 ay komissiyasız fəaliyyət",
+      cta_join: "Broker olaraq qoşul", cta_wa: "WhatsApp ilə əlaqə",
+      verified: "✓ Yoxlanmış", rating_lbl: "Reytinq", deals_lbl: "Sövdələşmə", closed: "bağlanıb",
+      vol_lbl: "Həcm", specialties: "İxtisaslaşmalar", response_lbl: "Cavab vaxtı", langs_lbl: "Dillər",
+      hours: "saat", view_profile: "Profili gör →", call: "Zəng et"
+    },
+    en: {
+      doc_title: "Brokers — BizBazar.az",
+      eyebrow: "🤝 Verified professional broker network",
+      h1_pre: "Run your business deal ", h1_em: "with a pro", h1_post: "",
+      lead: "Certified business brokers and M&A agencies operating in Azerbaijan. Licenses verified, deal history public, customer reviews real. Reach out directly and put your business in expert hands.",
+      stat_brokers_lbl: "Active brokers", stat_deals_lbl: "Deals closed",
+      stat_volume_lbl: "AZN total volume", stat_rating_lbl: "Avg. rating",
+      trust_1: "License-verified brokers",
+      trust_2: "Real deal history",
+      trust_3: "Avg. response time < 4 hrs",
+      trust_4: "Sector specialization",
+      search_ph: "🔍 Search broker or agency name...",
+      ft_all: "All types", ft_broker: "Individual broker", ft_agency: "Agency",
+      fs_all: "All specialties",
+      fc_all: "All cities",
+      fl_all: "All languages", fl_az: "Azerbaijani", fl_en: "English", fl_ru: "Russian", fl_tr: "Turkish",
+      fo_featured: "Featured brokers", fo_rating: "By rating", fo_deals: "Deal count", fo_volume: "Deal volume", fo_response: "Response time",
+      count_suffix: "brokers found",
+      empty_h3: "No brokers found", empty_p: "Try changing the filters.",
+      cta_h2: "Join as a pro broker",
+      cta_p: "If you're licensed, join the BizBazar network and let clients reach you directly. Free registration, verified profile, full audit trail.",
+      cta_b1: "Verified pro profile with license display",
+      cta_b2: "Customer reviews and deal history",
+      cta_b3: "First 6 months commission-free",
+      cta_join: "Join as a broker", cta_wa: "Contact via WhatsApp",
+      verified: "✓ Verified", rating_lbl: "Rating", deals_lbl: "Deals", closed: "closed",
+      vol_lbl: "Volume", specialties: "Specialties", response_lbl: "Response time", langs_lbl: "Languages",
+      hours: "hrs", view_profile: "View profile →", call: "Call"
+    },
+    ru: {
+      doc_title: "Брокеры — BizBazar.az",
+      eyebrow: "🤝 Сеть проверенных профессиональных брокеров",
+      h1_pre: "Проведите сделку ", h1_em: "с профессионалом", h1_post: "",
+      lead: "Сертифицированные бизнес-брокеры и M&A-агентства в Азербайджане. Лицензии проверены, история сделок открыта, отзывы клиентов реальные. Свяжитесь напрямую и доверьте бизнес профи.",
+      stat_brokers_lbl: "Активных брокеров", stat_deals_lbl: "Сделок закрыто",
+      stat_volume_lbl: "AZN общий объём", stat_rating_lbl: "Средний рейтинг",
+      trust_1: "Брокеры с проверенной лицензией",
+      trust_2: "Реальная история сделок",
+      trust_3: "Среднее время ответа < 4 ч",
+      trust_4: "Отраслевая специализация",
+      search_ph: "🔍 Поиск брокера или агентства...",
+      ft_all: "Все типы", ft_broker: "Частный брокер", ft_agency: "Агентство",
+      fs_all: "Все специализации",
+      fc_all: "Все города",
+      fl_all: "Все языки", fl_az: "Азербайджанский", fl_en: "Английский", fl_ru: "Русский", fl_tr: "Турецкий",
+      fo_featured: "Рекомендуемые брокеры", fo_rating: "По рейтингу", fo_deals: "По числу сделок", fo_volume: "По объёму сделок", fo_response: "По времени ответа",
+      count_suffix: "брокеров найдено",
+      empty_h3: "Брокеров не найдено", empty_p: "Попробуйте изменить фильтры.",
+      cta_h2: "Вступайте как профессиональный брокер",
+      cta_p: "Если у вас есть лицензия, присоединяйтесь к сети BizBazar — клиенты будут связываться с вами напрямую. Бесплатная регистрация, проверенный профиль, полный аудит.",
+      cta_b1: "Проверенный проф. профиль и отображение лицензии",
+      cta_b2: "Отзывы клиентов и история сделок",
+      cta_b3: "Первые 6 месяцев без комиссии",
+      cta_join: "Присоединиться как брокер", cta_wa: "Связаться в WhatsApp",
+      verified: "✓ Проверен", rating_lbl: "Рейтинг", deals_lbl: "Сделок", closed: "закрыто",
+      vol_lbl: "Объём", specialties: "Специализации", response_lbl: "Время ответа", langs_lbl: "Языки",
+      hours: "ч", view_profile: "Профиль →", call: "Позвонить"
+    }
+  };
+
+  function applyBrsCopy() {
+    const c = BRS_COPY[getLang()] || BRS_COPY.az;
+    document.title = c.doc_title;
+    document.getElementById("brs-eyebrow").textContent = c.eyebrow;
+    document.getElementById("brs-h1").innerHTML = `${c.h1_pre}<span>${c.h1_em}</span>${c.h1_post}`;
+    document.getElementById("brs-lead").textContent = c.lead;
+    document.getElementById("brs-stat-brokers-lbl").textContent = c.stat_brokers_lbl;
+    document.getElementById("brs-stat-deals-lbl").textContent = c.stat_deals_lbl;
+    document.getElementById("brs-stat-volume-lbl").textContent = c.stat_volume_lbl;
+    document.getElementById("brs-stat-rating-lbl").textContent = c.stat_rating_lbl;
+    document.getElementById("brs-trust-1").textContent = c.trust_1;
+    document.getElementById("brs-trust-2").textContent = c.trust_2;
+    document.getElementById("brs-trust-3").textContent = c.trust_3;
+    document.getElementById("brs-trust-4").textContent = c.trust_4;
+    document.getElementById("search-input").placeholder = c.search_ph;
+    document.getElementById("brs-ft-all").textContent = c.ft_all;
+    document.getElementById("brs-ft-broker").textContent = c.ft_broker;
+    document.getElementById("brs-ft-agency").textContent = c.ft_agency;
+    document.getElementById("brs-fs-all").textContent = c.fs_all;
+    document.getElementById("brs-fc-all").textContent = c.fc_all;
+    document.getElementById("brs-fl-all").textContent = c.fl_all;
+    document.getElementById("brs-fl-az").textContent = c.fl_az;
+    document.getElementById("brs-fl-en").textContent = c.fl_en;
+    document.getElementById("brs-fl-ru").textContent = c.fl_ru;
+    document.getElementById("brs-fl-tr").textContent = c.fl_tr;
+    document.getElementById("brs-fo-featured").textContent = c.fo_featured;
+    document.getElementById("brs-fo-rating").textContent = c.fo_rating;
+    document.getElementById("brs-fo-deals").textContent = c.fo_deals;
+    document.getElementById("brs-fo-volume").textContent = c.fo_volume;
+    document.getElementById("brs-fo-response").textContent = c.fo_response;
+    document.getElementById("brs-count-suffix").textContent = c.count_suffix;
+    document.getElementById("brs-empty-h3").textContent = c.empty_h3;
+    document.getElementById("brs-empty-p").textContent = c.empty_p;
+    document.getElementById("brs-cta-h2").textContent = c.cta_h2;
+    document.getElementById("brs-cta-p").textContent = c.cta_p;
+    document.getElementById("brs-cta-b1").textContent = c.cta_b1;
+    document.getElementById("brs-cta-b2").textContent = c.cta_b2;
+    document.getElementById("brs-cta-b3").textContent = c.cta_b3;
+    document.getElementById("brs-cta-join").textContent = c.cta_join;
+    document.getElementById("brs-cta-wa").textContent = c.cta_wa;
+  }
+  applyBrsCopy();
 
   const [brokers, categories] = await Promise.all([
     loadJSON("data/brokers.json"),
@@ -596,6 +729,7 @@ if ('serviceWorker' in navigator) {
     const langTags = b.languages.map(l => `<span class="br-lang-tag">${l}</span>`).join("");
     const waPhone = b.phone.replace(/[^+\d]/g, "");
 
+    const cc = BRS_COPY[lang] || BRS_COPY.az;
     return `
     <article class="br-card${b.featured ? " featured" : ""}">
       <div class="br-card-head">
@@ -604,7 +738,7 @@ if ('serviceWorker' in navigator) {
           <h3 class="br-name">${name}</h3>
           <div class="br-name-meta">
             <span>📍 ${b.city}</span>
-            ${b.verified ? `<span class="br-verified-icon">✓ Yoxlanmış</span>` : ""}
+            ${b.verified ? `<span class="br-verified-icon">${cc.verified}</span>` : ""}
           </div>
         </div>
       </div>
@@ -616,24 +750,24 @@ if ('serviceWorker' in navigator) {
 
       <div class="br-rating-block">
         <div class="br-rating-cell">
-          <div class="lbl">Reytinq</div>
+          <div class="lbl">${cc.rating_lbl}</div>
           <div class="val">${b.rating.toFixed(1)}</div>
           <div class="stars-mini">${stars}</div>
         </div>
         <div class="br-rating-cell">
-          <div class="lbl">Sövdələşmə</div>
+          <div class="lbl">${cc.deals_lbl}</div>
           <div class="val">${b.deals_closed}</div>
-          <div class="stars-mini" style="color:var(--text-muted);font-size:11px">bağlanıb</div>
+          <div class="stars-mini" style="color:var(--text-muted);font-size:11px">${cc.closed}</div>
         </div>
         <div class="br-rating-cell">
-          <div class="lbl">Həcm</div>
+          <div class="lbl">${cc.vol_lbl}</div>
           <div class="val">${fmtVolume(b.total_volume_azn || 0)}</div>
           <div class="stars-mini" style="color:var(--text-muted);font-size:11px">AZN</div>
         </div>
       </div>
 
       <div>
-        <div class="br-section-label">İxtisaslaşmalar</div>
+        <div class="br-section-label">${cc.specialties}</div>
         <div class="br-specialty-pills">${specialtyPills}</div>
       </div>
 
@@ -641,19 +775,19 @@ if ('serviceWorker' in navigator) {
 
       <div class="br-meta-row">
         <div class="br-meta-cell">
-          <span class="br-meta-cell-label">Cavab vaxtı</span>
-          <span class="br-meta-cell-value">⚡ ${b.response_time_hours} saat</span>
+          <span class="br-meta-cell-label">${cc.response_lbl}</span>
+          <span class="br-meta-cell-value">⚡ ${b.response_time_hours} ${cc.hours}</span>
         </div>
         <div class="br-meta-cell">
-          <span class="br-meta-cell-label">Dillər</span>
+          <span class="br-meta-cell-label">${cc.langs_lbl}</span>
           <span class="br-meta-cell-value"><div class="br-langs">${langTags}</div></span>
         </div>
       </div>
 
       <div class="br-actions">
-        <a href="broker.html?id=${b.id}" class="btn-primary">Profili gör →</a>
+        <a href="broker.html?id=${b.id}" class="btn-primary">${cc.view_profile}</a>
         <a href="https://wa.me/${waPhone}" target="_blank" rel="noopener" class="br-icon-btn wa" title="WhatsApp">💬</a>
-        <a href="tel:${b.phone}" class="br-icon-btn" title="Zəng et">📞</a>
+        <a href="tel:${b.phone}" class="br-icon-btn" title="${cc.call}">📞</a>
       </div>
     </article>`;
   }
@@ -708,7 +842,7 @@ if ('serviceWorker' in navigator) {
 
   render();
   applyI18n();
-  window.addEventListener("langchange", () => location.reload());
+  window.addEventListener("langchange", () => { applyBrsCopy(); render(); });
 })();
 </script>
 </body>

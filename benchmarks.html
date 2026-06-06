@@ -63,8 +63,8 @@
 
 <div class="page-header">
   <div class="container">
-    <h1>Bazar Göstəriciləri / Market Benchmarks</h1>
-    <p>Kateqoriya üzrə ortalama qiymət, gəlir, mənfəət və tələb indeksi</p>
+    <h1 id="bm-h1"></h1>
+    <p id="bm-sub"></p>
   </div>
 </div>
 
@@ -72,7 +72,7 @@
   <div class="container">
     <div class="bm-grid" id="bm-grid"></div>
     <div class="chart-section">
-      <h2>Kateqoriya üzrə ortalama satış qiyməti (AZN)</h2>
+      <h2 id="bm-chart-h2"></h2>
       <div class="chart-container">
         <canvas id="bm-chart"></canvas>
       </div>
@@ -85,113 +85,157 @@
 <script>
 (async function(){
   mountLayout("benchmarks");
+
+  const BM_COPY = {
+    az: {
+      doc_title: "Bazar göstəriciləri — BizBazar.az",
+      h1: "Bazar göstəriciləri",
+      sub: "Kateqoriya üzrə ortalama qiymət, gəlir, mənfəət və tələb indeksi",
+      chart_h2: "Kateqoriya üzrə ortalama satış qiyməti (AZN)",
+      chart_label: "Ort. qiymət (AZN)",
+      m_price: "Ort. qiymət", m_revenue: "Ort. gəlir/ay",
+      m_profit: "Ort. mənfəət/ay", m_payback: "Geri ödəmə",
+      months: "ay",
+      demand: "Tələb indeksi",
+      trend_up: "Artan tələb", trend_down: "Azalan tələb", trend_stable: "Sabit tələb"
+    },
+    en: {
+      doc_title: "Market benchmarks — BizBazar.az",
+      h1: "Market benchmarks",
+      sub: "Average price, revenue, profit and demand index by category",
+      chart_h2: "Average sale price by category (AZN)",
+      chart_label: "Avg. price (AZN)",
+      m_price: "Avg. price", m_revenue: "Avg. revenue/mo",
+      m_profit: "Avg. profit/mo", m_payback: "Payback",
+      months: "mo",
+      demand: "Demand index",
+      trend_up: "Rising demand", trend_down: "Falling demand", trend_stable: "Stable demand"
+    },
+    ru: {
+      doc_title: "Рыночные показатели — BizBazar.az",
+      h1: "Рыночные показатели",
+      sub: "Средняя цена, доход, прибыль и индекс спроса по категориям",
+      chart_h2: "Средняя цена продажи по категориям (AZN)",
+      chart_label: "Ср. цена (AZN)",
+      m_price: "Ср. цена", m_revenue: "Ср. доход/мес",
+      m_profit: "Ср. прибыль/мес", m_payback: "Окупаемость",
+      months: "мес.",
+      demand: "Индекс спроса",
+      trend_up: "Растущий спрос", trend_down: "Падающий спрос", trend_stable: "Стабильный спрос"
+    }
+  };
+  const bm = () => BM_COPY[getLang()] || BM_COPY.az;
+
   const [benchmarksData, categories] = await Promise.all([
     loadJSON("data/benchmarks.json"),
     loadCategories()
   ]);
   const benchmarks = benchmarksData.by_category;
   const catById = Object.fromEntries(categories.map(c => [c.id, c]));
+  let chartInstance = null;
 
   function trendArrow(trend) {
-    if (trend === "up") return `<span class="bm-trend trend-up" title="Artan tələb">↑</span>`;
-    if (trend === "down") return `<span class="bm-trend trend-down" title="Azalan tələb">↓</span>`;
-    return `<span class="bm-trend trend-stable" title="Sabit tələb">→</span>`;
+    const c = bm();
+    if (trend === "up") return `<span class="bm-trend trend-up" title="${c.trend_up}">↑</span>`;
+    if (trend === "down") return `<span class="bm-trend trend-down" title="${c.trend_down}">↓</span>`;
+    return `<span class="bm-trend trend-stable" title="${c.trend_stable}">→</span>`;
   }
 
-  const grid = document.getElementById("bm-grid");
-  grid.innerHTML = benchmarks.map(b => {
-    const cat = catById[b.id];
-    const icon = CATEGORY_ICONS[b.id] || "🏢";
-    const name = catLabel(cat) || b.id;
-    return `
-    <div class="bm-card">
-      <div class="bm-card-head">
-        <div class="bm-icon">${icon}</div>
-        <div class="bm-name">${name}</div>
-        ${trendArrow(b.trend)}
-      </div>
-      <div class="bm-metrics">
-        <div class="bm-metric">
-          <div class="mlbl">Ort. qiymət</div>
-          <div class="mval">${fmtAZN(b.avg_price_azn)}</div>
-        </div>
-        <div class="bm-metric">
-          <div class="mlbl">Ort. gəlir/ay</div>
-          <div class="mval">${fmtAZN(b.avg_revenue_azn)}</div>
-        </div>
-        <div class="bm-metric">
-          <div class="mlbl">Ort. mənfəət/ay</div>
-          <div class="mval">${fmtAZN(b.avg_profit_azn)}</div>
-        </div>
-        <div class="bm-metric">
-          <div class="mlbl">Geri ödəmə</div>
-          <div class="mval">${b.avg_payback_months} ay</div>
-        </div>
-      </div>
-      <div class="demand-bar-wrap">
-        <div class="demand-label">
-          <span>Tələb indeksi</span>
-          <span>${b.demand_index}/100</span>
-        </div>
-        <div class="demand-bar">
-          <div class="demand-bar-fill" style="width:${b.demand_index}%"></div>
-        </div>
-      </div>
-    </div>`;
-  }).join("");
+  function renderAll() {
+    const c = bm();
+    document.title = c.doc_title;
+    document.getElementById("bm-h1").textContent = c.h1;
+    document.getElementById("bm-sub").textContent = c.sub;
+    document.getElementById("bm-chart-h2").textContent = c.chart_h2;
 
-  // Chart.js horizontal bar chart
-  const labels = benchmarks.map(b => {
-    const cat = catById[b.id];
-    return catLabel(cat) || b.id;
-  });
-  const prices = benchmarks.map(b => b.avg_price_azn);
-  const colors = benchmarks.map(b => {
-    if (b.trend === "up") return "rgba(37, 99, 235, 0.82)";
-    if (b.trend === "down") return "rgba(220, 38, 38, 0.7)";
-    return "rgba(100, 116, 139, 0.7)";
-  });
+    const grid = document.getElementById("bm-grid");
+    grid.innerHTML = benchmarks.map(b => {
+      const cat = catById[b.id];
+      const icon = CATEGORY_ICONS[b.id] || "🏢";
+      const name = catLabel(cat) || b.id;
+      return `
+      <div class="bm-card">
+        <div class="bm-card-head">
+          <div class="bm-icon">${icon}</div>
+          <div class="bm-name">${name}</div>
+          ${trendArrow(b.trend)}
+        </div>
+        <div class="bm-metrics">
+          <div class="bm-metric">
+            <div class="mlbl">${c.m_price}</div>
+            <div class="mval">${fmtAZN(b.avg_price_azn)}</div>
+          </div>
+          <div class="bm-metric">
+            <div class="mlbl">${c.m_revenue}</div>
+            <div class="mval">${fmtAZN(b.avg_revenue_azn)}</div>
+          </div>
+          <div class="bm-metric">
+            <div class="mlbl">${c.m_profit}</div>
+            <div class="mval">${fmtAZN(b.avg_profit_azn)}</div>
+          </div>
+          <div class="bm-metric">
+            <div class="mlbl">${c.m_payback}</div>
+            <div class="mval">${b.avg_payback_months} ${c.months}</div>
+          </div>
+        </div>
+        <div class="demand-bar-wrap">
+          <div class="demand-label">
+            <span>${c.demand}</span>
+            <span>${b.demand_index}/100</span>
+          </div>
+          <div class="demand-bar">
+            <div class="demand-bar-fill" style="width:${b.demand_index}%"></div>
+          </div>
+        </div>
+      </div>`;
+    }).join("");
 
-  new Chart(document.getElementById("bm-chart"), {
-    type: "bar",
-    data: {
-      labels,
-      datasets: [{
-        label: "Ort. qiymət (AZN)",
-        data: prices,
-        backgroundColor: colors,
-        borderRadius: 6,
-        borderSkipped: false
-      }]
-    },
-    options: {
-      indexAxis: "y",
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => " " + fmtAZN(ctx.parsed.x)
-          }
-        }
+    const labels = benchmarks.map(b => {
+      const cat = catById[b.id];
+      return catLabel(cat) || b.id;
+    });
+    const prices = benchmarks.map(b => b.avg_price_azn);
+    const colors = benchmarks.map(b => {
+      if (b.trend === "up") return "rgba(37, 99, 235, 0.82)";
+      if (b.trend === "down") return "rgba(220, 38, 38, 0.7)";
+      return "rgba(100, 116, 139, 0.7)";
+    });
+
+    if (chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(document.getElementById("bm-chart"), {
+      type: "bar",
+      data: {
+        labels,
+        datasets: [{
+          label: c.chart_label,
+          data: prices,
+          backgroundColor: colors,
+          borderRadius: 6,
+          borderSkipped: false
+        }]
       },
-      scales: {
-        x: {
-          grid: { color: "#f1f5f9" },
-          ticks: {
-            callback: v => fmtAZN(v)
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: { label: ctx => " " + fmtAZN(ctx.parsed.x) }
           }
         },
-        y: {
-          grid: { display: false }
+        scales: {
+          x: { grid: { color: "#f1f5f9" }, ticks: { callback: v => fmtAZN(v) } },
+          y: { grid: { display: false } }
         }
       }
-    }
-  });
+    });
 
-  applyI18n();
-  window.addEventListener("langchange", () => location.reload());
+    applyI18n();
+  }
+
+  renderAll();
+  window.addEventListener("langchange", renderAll);
 })();
 </script>
 </body>

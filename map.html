@@ -70,8 +70,8 @@
 
 <div class="page-header" style="padding:20px 0;">
   <div class="container">
-    <h1>Xəritədə elanlar</h1>
-    <p>Bakı və ətrafında satışda olan bizneslər</p>
+    <h1 id="mp-h1"></h1>
+    <p id="mp-sub"></p>
   </div>
 </div>
 
@@ -79,24 +79,24 @@
   <div id="map"></div>
   <div class="map-sidebar">
     <div class="map-sidebar-head">
-      <h3>Elanlar</h3>
-      <div class="map-count-badge" id="map-count-badge">Yüklənir...</div>
+      <h3 id="mp-list-h3"></h3>
+      <div class="map-count-badge" id="map-count-badge"></div>
     </div>
     <div class="map-filters">
       <select id="map-type-filter" style="margin-bottom:8px">
-        <option value="all">Bütün elanlar</option>
-        <option value="business">Biznes elanları</option>
-        <option value="investor">İnvestor elanları</option>
+        <option value="all" id="mp-opt-all"></option>
+        <option value="business" id="mp-opt-business"></option>
+        <option value="investor" id="mp-opt-investor"></option>
       </select>
       <select id="map-cat-filter">
-        <option value="">Bütün kateqoriyalar</option>
+        <option value="" id="mp-opt-all-cats"></option>
       </select>
     </div>
     <div class="map-listing-list" id="map-listing-list"></div>
     <div class="map-legend">
-      <span><span class="legend-dot" style="background:#e53e3e"></span>Seçilmiş</span>
-      <span><span class="legend-dot" style="background:#3b82f6"></span>Biznes</span>
-      <span><span class="legend-dot" style="background:#7c3aed"></span>İnvestor</span>
+      <span><span class="legend-dot" style="background:#e53e3e"></span><span id="mp-lg-featured"></span></span>
+      <span><span class="legend-dot" style="background:#3b82f6"></span><span id="mp-lg-business"></span></span>
+      <span><span class="legend-dot" style="background:#7c3aed"></span><span id="mp-lg-investor"></span></span>
     </div>
   </div>
 </div>
@@ -118,6 +118,87 @@ if (typeof loadInvestors !== 'function') {
 <script>
 (async function(){
   mountLayout("listings");
+
+  const MP_COPY = {
+    az: {
+      doc_title: "Bizneslərin xəritəsi — BizBazar.az",
+      h1: "Xəritədə elanlar",
+      sub: "Bakı və ətrafında satışda olan bizneslər",
+      list_h3: "Elanlar",
+      loading: "Yüklənir...",
+      opt_all: "Bütün elanlar",
+      opt_business: "Biznes elanları",
+      opt_investor: "İnvestor elanları",
+      opt_all_cats: "Bütün kateqoriyalar",
+      lg_featured: "Seçilmiş",
+      lg_business: "Biznes",
+      lg_investor: "İnvestor",
+      count_suffix: "elan xəritədə",
+      intent_buy: "Almaq istəyir",
+      intent_partner: "Ortaqlıq axtarır",
+      investor_link: "İnvestorlara bax →",
+      listing_link: "Elana bax →",
+      investor_label: "İnvestor"
+    },
+    en: {
+      doc_title: "Business map — BizBazar.az",
+      h1: "Listings on the map",
+      sub: "Businesses for sale in Baku and around Azerbaijan",
+      list_h3: "Listings",
+      loading: "Loading...",
+      opt_all: "All listings",
+      opt_business: "Business listings",
+      opt_investor: "Investor listings",
+      opt_all_cats: "All categories",
+      lg_featured: "Featured",
+      lg_business: "Business",
+      lg_investor: "Investor",
+      count_suffix: "listings on map",
+      intent_buy: "Looking to buy",
+      intent_partner: "Seeking partnership",
+      investor_link: "See investors →",
+      listing_link: "View listing →",
+      investor_label: "Investor"
+    },
+    ru: {
+      doc_title: "Карта бизнесов — BizBazar.az",
+      h1: "Объявления на карте",
+      sub: "Бизнесы на продажу в Баку и по Азербайджану",
+      list_h3: "Объявления",
+      loading: "Загрузка...",
+      opt_all: "Все объявления",
+      opt_business: "Объявления о бизнесе",
+      opt_investor: "Объявления инвесторов",
+      opt_all_cats: "Все категории",
+      lg_featured: "Рекомендуемые",
+      lg_business: "Бизнес",
+      lg_investor: "Инвестор",
+      count_suffix: "объявлений на карте",
+      intent_buy: "Хочет купить",
+      intent_partner: "Ищет партнёрство",
+      investor_link: "К инвесторам →",
+      listing_link: "Смотреть →",
+      investor_label: "Инвестор"
+    }
+  };
+  const mp = () => MP_COPY[getLang()] || MP_COPY.az;
+
+  function applyMpCopy() {
+    const c = mp();
+    document.title = c.doc_title;
+    document.getElementById("mp-h1").textContent = c.h1;
+    document.getElementById("mp-sub").textContent = c.sub;
+    document.getElementById("mp-list-h3").textContent = c.list_h3;
+    document.getElementById("map-count-badge").textContent = c.loading;
+    document.getElementById("mp-opt-all").textContent = c.opt_all;
+    document.getElementById("mp-opt-business").textContent = c.opt_business;
+    document.getElementById("mp-opt-investor").textContent = c.opt_investor;
+    document.getElementById("mp-opt-all-cats").textContent = c.opt_all_cats;
+    document.getElementById("mp-lg-featured").textContent = c.lg_featured;
+    document.getElementById("mp-lg-business").textContent = c.lg_business;
+    document.getElementById("mp-lg-investor").textContent = c.lg_investor;
+  }
+  applyMpCopy();
 
   // City -> approximate coordinates (for investors without lat/lng)
   const CITY_COORDS = {
@@ -209,18 +290,17 @@ if (typeof loadInvestors !== 'function') {
       });
 
       let popupHtml;
+      const c = mp();
       if (p._kind === "investor") {
         const lang = (typeof getLang === "function" ? getLang() : "az");
         const alias = lang === "az" ? p.alias : (p.alias_en || p.alias);
-        const intentText = p.transaction_type === "buy"
-          ? (lang === "az" ? "Almaq istəyir" : lang === "ru" ? "Хочет купить" : "Looking to buy")
-          : (lang === "az" ? "Ortaqlıq axtarır" : lang === "ru" ? "Ищет партнёрство" : "Seeking partnership");
+        const intentText = p.transaction_type === "buy" ? c.intent_buy : c.intent_partner;
         popupHtml = `
           <div style="min-width:200px">
             <div class="popup-title">💼 ${alias}</div>
             <div style="font-size:12px;color:#64748b;margin-bottom:4px">${intentText} · 📍 ${p.location}</div>
             <div class="popup-price">${fmtBudget(p.budget_min_azn, p.budget_max_azn)}</div>
-            <a href="investors.html" class="popup-link" style="background:#7c3aed">İnvestorlara bax →</a>
+            <a href="investors.html" class="popup-link" style="background:#7c3aed">${c.investor_link}</a>
           </div>`;
       } else {
         const title = locField(p, "title");
@@ -230,7 +310,7 @@ if (typeof loadInvestors !== 'function') {
             <div class="popup-title">${title}</div>
             <div style="font-size:12px;color:#64748b;margin-bottom:4px">${catLabel(cat)} · ${locDistrict(p.district)}, ${locCity(p.city)}</div>
             <div class="popup-price">${fmtAZN(p.price_azn)}</div>
-            <a href="listing.html?id=${p.id}" class="popup-link">Elana bax →</a>
+            <a href="listing.html?id=${p.id}" class="popup-link">${c.listing_link}</a>
           </div>`;
       }
       marker.bindPopup(popupHtml, { maxWidth: 240 });
@@ -241,8 +321,9 @@ if (typeof loadInvestors !== 'function') {
   }
 
   function renderList(subset) {
+    const c = mp();
     const list = document.getElementById("map-listing-list");
-    document.getElementById("map-count-badge").textContent = subset.length + " elan xəritədə";
+    document.getElementById("map-count-badge").textContent = subset.length + " " + c.count_suffix;
     list.innerHTML = subset.map(p => {
       if (p._kind === "investor") {
         const lang = (typeof getLang === "function" ? getLang() : "az");
@@ -251,7 +332,7 @@ if (typeof loadInvestors !== 'function') {
           <div class="map-item-icon" style="background:#ede9fe;color:#7c3aed">💼</div>
           <div class="map-item-body">
             <div class="map-item-title">${alias}</div>
-            <div class="map-item-loc">📍 ${p.location} · İnvestor</div>
+            <div class="map-item-loc">📍 ${p.location} · ${c.investor_label}</div>
             <div class="map-item-price">${fmtBudget(p.budget_min_azn, p.budget_max_azn)}</div>
           </div>
         </a>`;
@@ -304,7 +385,7 @@ if (typeof loadInvestors !== 'function') {
   catFilter.addEventListener("change", applyFilter);
   applyFilter();
 
-  window.addEventListener("langchange", () => location.reload());
+  window.addEventListener("langchange", () => { applyMpCopy(); applyFilter(); });
 })();
 </script>
 </body>
