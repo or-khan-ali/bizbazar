@@ -77,6 +77,32 @@
 
 <section>
   <div class="container form-wrap">
+    <!-- Tap.az import widget (bookmarklet) -->
+    <div class="form-card" style="margin-bottom:16px; border:1px dashed var(--border, #d1d5db); background:var(--bg-soft, #f9fafb);">
+      <h2 style="margin:0 0 8px; font-size:18px;" data-i18n="import_title"></h2>
+      <p style="margin:0 0 12px; color:var(--muted, #6b7280); font-size:14px;" data-i18n="import_sub"></p>
+
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px;">
+        <!-- The bookmarklet link — user drags this to their bookmarks bar -->
+        <a id="bb-bookmarklet" href="#" class="btn btn-primary" style="font-weight:600; cursor:grab;" title="Drag to bookmarks bar">
+          ★ <span data-i18n="import_bm_label"></span>
+        </a>
+        <button type="button" id="bb-bookmarklet-copy" class="btn btn-outline" data-i18n="import_bm_copy"></button>
+        <button type="button" id="bb-bookmarklet-help" class="btn btn-ghost" style="background:transparent; text-decoration:underline;" data-i18n="import_bm_how"></button>
+      </div>
+
+      <details id="bb-bookmarklet-help-panel" style="margin-top:6px;">
+        <summary style="cursor:pointer; font-size:13px; color:var(--muted, #6b7280);" data-i18n="import_bm_steps_title"></summary>
+        <ol style="margin:10px 0 0 18px; font-size:13px; line-height:1.6;">
+          <li data-i18n="import_bm_step1"></li>
+          <li data-i18n="import_bm_step2"></li>
+          <li data-i18n="import_bm_step3"></li>
+        </ol>
+      </details>
+
+      <div id="tapaz-msg" style="margin-top:10px; font-size:13px; display:none;"></div>
+    </div>
+
     <div class="form-card">
       <h2 style="margin:0 0 18px" data-i18n="form_title"></h2>
       <div class="form-note" data-i18n="form_note"></div>
@@ -227,6 +253,86 @@
         : "Network error. Please try again.");
     }
   });
+
+  // ===== Tap.az import via bookmarklet =====
+  const tapMsg = document.getElementById("tapaz-msg");
+  function showMsg(text, type) {
+    tapMsg.style.display = "block";
+    tapMsg.textContent = text;
+    tapMsg.style.color = type === "err" ? "#b91c1c" : (type === "ok" ? "#065f46" : "#374151");
+  }
+
+  // Bookmarklet payload — runs in tap.az page context.
+  // Primary parsing source: document.title — tap.az format is
+  // "{title}: {price} AZN — {city}, Azərbaycan | {id} — Tap.Az"
+  const bookmarkletSrc = `(function(){
+    var d=document;
+    var ttl='',price='',city='';
+    var m=d.title.match(/^(.+?):\\s*([\\d\\s.,]+)\\s*AZN\\s*[—–\\-]+\\s*(.+?),\\s*Azərbaycan/i);
+    if(m){ttl=m[1].trim();price=parseInt(m[2].replace(/[\\s.,]/g,''),10)||'';city=m[3].trim();}
+    if(!ttl){var h=d.querySelector('h1.product-title')||d.querySelector('h1');ttl=h?h.textContent.trim():'';}
+    if(!price){var pEl=d.querySelector('.product-price')||d.querySelector('[class*="price"]');var pt=pEl?pEl.textContent:'';var pm=pt.match(/(\\d[\\d\\s.,]{0,12})\\s*(?:AZN|man|₼)/i);price=pm?parseInt(pm[1].replace(/[\\s.,]/g,''),10):'';}
+    var dEl=d.querySelector('.product-description-container')||d.querySelector('[class*="description"]');
+    var desc=dEl?dEl.textContent.trim().slice(0,800):'';
+    var data={t:ttl,p:price,c:city,d:desc,s:location.href};
+    var enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    window.open('https://bizbazar.az/sell.html?bb_import='+enc,'_blank');
+  })();`;
+  const bookmarkletHref = "javascript:" + encodeURIComponent(bookmarkletSrc.replace(/\s+/g, " "));
+
+  const bmLink = document.getElementById("bb-bookmarklet");
+  bmLink.setAttribute("href", bookmarkletHref);
+  bmLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    showMsg(t("import_bm_drag_hint") || "Drag this button to your bookmarks bar", "info");
+  });
+
+  const bmCopy = document.getElementById("bb-bookmarklet-copy");
+  bmCopy.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(bookmarkletHref);
+      showMsg(t("import_bm_copied") || "Copied!", "ok");
+    } catch (err) {
+      // Fallback: select-via-prompt
+      window.prompt(t("import_bm_copy_manual") || "Copy this:", bookmarkletHref);
+    }
+  });
+
+  const bmHelp = document.getElementById("bb-bookmarklet-help");
+  bmHelp.addEventListener("click", () => {
+    const panel = document.getElementById("bb-bookmarklet-help-panel");
+    panel.open = !panel.open;
+    if (panel.open) panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+
+  // Prefill the form if landed from bookmarklet (?bb_import=BASE64)
+  function fillForm(data) {
+    const f = document.getElementById("sell-form");
+    if (data.t) f.elements.business_name.value = data.t;
+    if (data.p) f.elements.price_azn.value = data.p;
+    if (data.c) f.elements.city.value = data.c;
+    if (data.d) f.elements.description.value = data.d;
+    if (data.s) {
+      // Append source link as note in description
+      const note = "\n\n[" + (t("import_source_label") || "Source") + ": " + data.s + "]";
+      if (data.d && !f.elements.description.value.includes(data.s)) {
+        f.elements.description.value += note;
+      }
+    }
+  }
+  try {
+    const params = new URLSearchParams(location.search);
+    const enc = params.get("bb_import");
+    if (enc) {
+      const json = decodeURIComponent(escape(atob(enc)));
+      const data = JSON.parse(json);
+      fillForm(data);
+      showMsg(t("import_success") || "Filled.", "ok");
+      document.querySelector("#sell-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  } catch (e) {
+    // bad/missing param — ignore silently
+  }
 
   // Scroll to form when a plan CTA is clicked
   document.querySelectorAll(".plan-cta").forEach(btn => {
