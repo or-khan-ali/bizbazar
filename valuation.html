@@ -272,13 +272,13 @@
 <!-- HERO -->
 <section class="val-hero">
   <div class="container">
-    <span class="val-eyebrow">📊 Peşəkar Valuasiya Modeli</span>
-    <h1>Biznesinizin real bazar dəyərini hesablayın</h1>
-    <p>Beynəlxalq M&A təcrübəsində istifadə olunan üç metodu birləşdirən professional kalkulyator. 15+ keyfiyyət faktoru avtomatik nəzərə alınır və ±30% diapazonunda dəqiq qiymət çıxarılır.</p>
+    <span class="val-eyebrow" id="vp-eyebrow"></span>
+    <h1 id="vp-h1"></h1>
+    <p id="vp-lead"></p>
     <div class="val-method-tags">
-      <span class="val-method-tag"><span class="dot" style="background:#6366f1"></span>SDE Multiple metodu</span>
-      <span class="val-method-tag"><span class="dot" style="background:#10b981"></span>Gəlir Multiple metodu</span>
-      <span class="val-method-tag"><span class="dot" style="background:#f59e0b"></span>Aktiv əsaslı qiymətləndirmə</span>
+      <span class="val-method-tag"><span class="dot" style="background:#6366f1"></span><span id="vp-tag-sde"></span></span>
+      <span class="val-method-tag"><span class="dot" style="background:#10b981"></span><span id="vp-tag-rev"></span></span>
+      <span class="val-method-tag"><span class="dot" style="background:#f59e0b"></span><span id="vp-tag-asset"></span></span>
     </div>
   </div>
 </section>
@@ -286,244 +286,244 @@
 <section style="padding: 36px 0 60px;">
   <div class="container">
     <div class="val-progress">
-      <div class="val-progress-step active" data-prog="1"><span class="num">1</span>Biznes</div>
-      <div class="val-progress-step" data-prog="2"><span class="num">2</span>Maliyyə</div>
-      <div class="val-progress-step" data-prog="3"><span class="num">3</span>Aktivlər</div>
-      <div class="val-progress-step" data-prog="4"><span class="num">4</span>Keyfiyyət</div>
+      <div class="val-progress-step active" data-prog="1"><span class="num">1</span><span id="vp-prog-1"></span></div>
+      <div class="val-progress-step" data-prog="2"><span class="num">2</span><span id="vp-prog-2"></span></div>
+      <div class="val-progress-step" data-prog="3"><span class="num">3</span><span id="vp-prog-3"></span></div>
+      <div class="val-progress-step" data-prog="4"><span class="num">4</span><span id="vp-prog-4"></span></div>
     </div>
 
     <div class="val-form-wrap" id="val-form">
       <!-- STEP 1: Business basics -->
       <div class="val-step active" data-step="1">
-        <h2>1. Biznes haqqında əsas məlumatlar</h2>
-        <p class="step-sub">Bu məlumatlar sənaye benchmarkı və lokasiya düzəlişləri üçün istifadə olunur.</p>
+        <h2 id="vp-s1-h2"></h2>
+        <p class="step-sub" id="vp-s1-sub"></p>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>Biznes kateqoriyası *</label>
+            <label id="vp-lbl-cat"></label>
             <select id="i-category">
-              <option value="">Seçin...</option>
+              <option value="" id="vp-opt-pick"></option>
             </select>
           </div>
           <div class="val-field">
-            <label>Lokasiya keyfiyyəti *</label>
+            <label id="vp-lbl-loc"></label>
             <select id="i-location">
-              <option value="prime">Premium (Bakı mərkəz, magistral yol)</option>
-              <option value="good" selected>Yaxşı (rayonun yaxşı yeri)</option>
-              <option value="average">Orta (yaşayış massivi)</option>
-              <option value="poor">Zəif (uzaq, kənar yer)</option>
+              <option value="prime" id="vp-loc-prime"></option>
+              <option value="good" selected id="vp-loc-good"></option>
+              <option value="average" id="vp-loc-avg"></option>
+              <option value="poor" id="vp-loc-poor"></option>
             </select>
           </div>
         </div>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>Fəaliyyət müddəti (il) *</label>
-            <input type="number" id="i-years" min="0" max="50" step="1" placeholder="məs. 5">
-            <div class="help">Biznesin neçə ildir fəaliyyətdə olduğu</div>
+            <label id="vp-lbl-years"></label>
+            <input type="number" id="i-years" min="0" max="50" step="1">
+            <div class="help" id="vp-help-years"></div>
           </div>
           <div class="val-field">
-            <label>Aktiv müştəri / abunəçi sayı</label>
-            <input type="number" id="i-customers" min="0" step="10" placeholder="məs. 800">
-            <div class="help">Aylıq aktiv müştəri və ya abunəçi sayı</div>
+            <label id="vp-lbl-customers"></label>
+            <input type="number" id="i-customers" min="0" step="10">
+            <div class="help" id="vp-help-customers"></div>
           </div>
         </div>
 
         <div class="val-step-nav">
           <span></span>
-          <button class="val-btn-next" data-go="2">Növbəti →</button>
+          <button class="val-btn-next vp-next-btn" data-go="2"></button>
         </div>
       </div>
 
       <!-- STEP 2: Financials -->
       <div class="val-step" data-step="2">
-        <h2>2. Maliyyə göstəriciləri (son 12 ay)</h2>
-        <p class="step-sub">Doğru qiymət üçün dəqiq rəqəmlər vacibdir. Bütün məbləğlər illik ifadədə (AZN).</p>
+        <h2 id="vp-s2-h2"></h2>
+        <p class="step-sub" id="vp-s2-sub"></p>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>İllik gəlir / dövriyyə (AZN) *</label>
-            <input type="number" id="i-revenue" min="0" step="1000" placeholder="məs. 240000">
-            <div class="help">Son 12 ay üzrə ümumi satış gəliri</div>
+            <label id="vp-lbl-revenue"></label>
+            <input type="number" id="i-revenue" min="0" step="1000">
+            <div class="help" id="vp-help-revenue"></div>
           </div>
           <div class="val-field">
-            <label>İllik xalis mənfəət (AZN) *</label>
-            <input type="number" id="i-profit" min="0" step="500" placeholder="məs. 60000">
-            <div class="help">Bütün xərclər və vergi sonrası qalan mənfəət</div>
+            <label id="vp-lbl-profit"></label>
+            <input type="number" id="i-profit" min="0" step="500">
+            <div class="help" id="vp-help-profit"></div>
           </div>
         </div>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>Sahibin illik maaşı (AZN)</label>
-            <input type="number" id="i-owner-salary" min="0" step="500" placeholder="məs. 18000">
-            <div class="help">SDE üçün geri qatılır — sahibin özünə ödədiyi maaş</div>
+            <label id="vp-lbl-owner-salary"></label>
+            <input type="number" id="i-owner-salary" min="0" step="500">
+            <div class="help" id="vp-help-owner-salary"></div>
           </div>
           <div class="val-field">
-            <label>Birdəfəlik / qeyri-müntəzəm xərclər (AZN)</label>
-            <input type="number" id="i-addbacks" min="0" step="500" placeholder="məs. 5000">
-            <div class="help">Bir dəfəlik təmir, məhkəmə, köçmə xərcləri</div>
+            <label id="vp-lbl-addbacks"></label>
+            <input type="number" id="i-addbacks" min="0" step="500">
+            <div class="help" id="vp-help-addbacks"></div>
           </div>
         </div>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>Gəlir artımı (son il, %) *</label>
-            <input type="number" id="i-growth" min="-100" max="500" step="1" placeholder="məs. 12">
-            <div class="help">Bu il əvvəlki ilə görə artım/azalma faizi</div>
+            <label id="vp-lbl-growth"></label>
+            <input type="number" id="i-growth" min="-100" max="500" step="1">
+            <div class="help" id="vp-help-growth"></div>
           </div>
           <div class="val-field">
-            <label>Təkrarlanan gəlir (%)</label>
-            <input type="number" id="i-recurring" min="0" max="100" step="5" placeholder="məs. 30">
-            <div class="help">Abunəlik / uzunmüddətli müqavilə əsaslı sabit gəlir payı</div>
+            <label id="vp-lbl-recurring"></label>
+            <input type="number" id="i-recurring" min="0" max="100" step="5">
+            <div class="help" id="vp-help-recurring"></div>
           </div>
         </div>
 
         <div class="val-step-nav">
-          <button class="val-btn-back" data-go="1">← Geri</button>
-          <button class="val-btn-next" data-go="3">Növbəti →</button>
+          <button class="val-btn-back vp-back-btn" data-go="1"></button>
+          <button class="val-btn-next vp-next-btn" data-go="3"></button>
         </div>
       </div>
 
       <!-- STEP 3: Assets -->
       <div class="val-step" data-step="3">
-        <h2>3. Aktivlər və icarə vəziyyəti</h2>
-        <p class="step-sub">Maddi aktivlər qiymətin minimum hədəfini (asset floor) müəyyənləşdirir.</p>
+        <h2 id="vp-s3-h2"></h2>
+        <p class="step-sub" id="vp-s3-sub"></p>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>Avadanlıq dəyəri (AZN)</label>
-            <input type="number" id="i-equipment" min="0" step="1000" placeholder="məs. 40000">
-            <div class="help">Hazırkı bazar qiyməti (köhnəlmə nəzərə alınmaqla)</div>
+            <label id="vp-lbl-equipment"></label>
+            <input type="number" id="i-equipment" min="0" step="1000">
+            <div class="help" id="vp-help-equipment"></div>
           </div>
           <div class="val-field">
-            <label>Mal qalığı dəyəri (AZN)</label>
-            <input type="number" id="i-inventory" min="0" step="500" placeholder="məs. 15000">
-            <div class="help">Mağaza/restoran üçün hazırki ehtiyat dəyəri</div>
+            <label id="vp-lbl-inventory"></label>
+            <input type="number" id="i-inventory" min="0" step="500">
+            <div class="help" id="vp-help-inventory"></div>
           </div>
         </div>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>Daşınmaz əmlak vəziyyəti *</label>
+            <label id="vp-lbl-real-estate"></label>
             <select id="i-real-estate">
-              <option value="rent" selected>İcarədir</option>
-              <option value="own">Şəxsi mülkiyyət (qiymətə daxil deyil)</option>
-              <option value="own-included">Şəxsi mülkiyyət (qiymətə daxildir)</option>
+              <option value="rent" selected id="vp-re-rent"></option>
+              <option value="own" id="vp-re-own"></option>
+              <option value="own-included" id="vp-re-own-inc"></option>
             </select>
           </div>
           <div class="val-field" id="rent-field">
-            <label>Aylıq icarə (AZN)</label>
-            <input type="number" id="i-rent" min="0" step="100" placeholder="məs. 2500">
-            <div class="help">Yalnız icarə zamanı doldurun</div>
+            <label id="vp-lbl-rent"></label>
+            <input type="number" id="i-rent" min="0" step="100">
+            <div class="help" id="vp-help-rent"></div>
           </div>
         </div>
 
         <div class="val-grid-2" id="lease-grid">
           <div class="val-field">
-            <label>İcarə müqaviləsinin qalan müddəti (il)</label>
-            <input type="number" id="i-lease-years" min="0" max="20" step="1" placeholder="məs. 3">
-            <div class="help">Yenilənmə zəmanəti varsa, tam müddəti yazın</div>
+            <label id="vp-lbl-lease-years"></label>
+            <input type="number" id="i-lease-years" min="0" max="20" step="1">
+            <div class="help" id="vp-help-lease-years"></div>
           </div>
           <div class="val-field">
-            <label>Daxil edilən daşınmaz əmlak dəyəri (AZN)</label>
-            <input type="number" id="i-property-value" min="0" step="1000" placeholder="məs. 0">
-            <div class="help">Yalnız "qiymətə daxildir" seçiminə görə doldurun</div>
+            <label id="vp-lbl-property-value"></label>
+            <input type="number" id="i-property-value" min="0" step="1000">
+            <div class="help" id="vp-help-property-value"></div>
           </div>
         </div>
 
         <div class="val-grid-2">
           <div class="val-field">
-            <label>İşçi sayı *</label>
-            <input type="number" id="i-staff" min="0" step="1" placeholder="məs. 8">
+            <label id="vp-lbl-staff"></label>
+            <input type="number" id="i-staff" min="0" step="1">
           </div>
           <div class="val-field">
-            <label>Lisenziya / icazə durumu</label>
+            <label id="vp-lbl-license"></label>
             <select id="i-license">
-              <option value="full" selected>Bütün lisenziyalar var</option>
-              <option value="partial">Qismən tamamlanıb</option>
-              <option value="none">Lisenziya yoxdur</option>
-              <option value="not-required">Tələb olunmur</option>
+              <option value="full" selected id="vp-lic-full"></option>
+              <option value="partial" id="vp-lic-partial"></option>
+              <option value="none" id="vp-lic-none"></option>
+              <option value="not-required" id="vp-lic-nr"></option>
             </select>
           </div>
         </div>
 
         <div class="val-step-nav">
-          <button class="val-btn-back" data-go="2">← Geri</button>
-          <button class="val-btn-next" data-go="4">Növbəti →</button>
+          <button class="val-btn-back vp-back-btn" data-go="2"></button>
+          <button class="val-btn-next vp-next-btn" data-go="4"></button>
         </div>
       </div>
 
       <!-- STEP 4: Quality factors -->
       <div class="val-step" data-step="4">
-        <h2>4. Keyfiyyət və risk faktorları</h2>
-        <p class="step-sub">Bu amillər çoxşaylının yuxarı və ya aşağı düzəlişinə təsir edir (ümumi ±%50-ə qədər).</p>
+        <h2 id="vp-s4-h2"></h2>
+        <p class="step-sub" id="vp-s4-sub"></p>
 
         <div class="val-field">
-          <label>Müştəri konsentrasiyası</label>
+          <label id="vp-lbl-concentration"></label>
           <div class="val-radio-group">
             <label class="val-radio-card selected"><input type="radio" name="concentration" value="low" checked>
-              <div class="title">Aşağı (yaxşı)</div><div class="desc">Top 1 müştəri &lt;%20 gəlir</div></label>
+              <div class="title" id="vp-con-low-t"></div><div class="desc" id="vp-con-low-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="concentration" value="medium">
-              <div class="title">Orta</div><div class="desc">Top 1 müştəri %20–40</div></label>
+              <div class="title" id="vp-con-med-t"></div><div class="desc" id="vp-con-med-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="concentration" value="high">
-              <div class="title">Yüksək (risk)</div><div class="desc">Top 1 müştəri &gt;%40</div></label>
+              <div class="title" id="vp-con-high-t"></div><div class="desc" id="vp-con-high-d"></div></label>
           </div>
         </div>
 
         <div class="val-field">
-          <label>Sahibə bağlılıq (key person risk)</label>
+          <label id="vp-lbl-owner-dep"></label>
           <div class="val-radio-group">
             <label class="val-radio-card"><input type="radio" name="owner-dep" value="low">
-              <div class="title">Aşağı</div><div class="desc">Sahib olmadan da işləyir</div></label>
+              <div class="title" id="vp-od-low-t"></div><div class="desc" id="vp-od-low-d"></div></label>
             <label class="val-radio-card selected"><input type="radio" name="owner-dep" value="medium" checked>
-              <div class="title">Orta</div><div class="desc">Sahib qismən cəlb olunur</div></label>
+              <div class="title" id="vp-od-med-t"></div><div class="desc" id="vp-od-med-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="owner-dep" value="high">
-              <div class="title">Yüksək</div><div class="desc">Sahib hər gün lazımdır</div></label>
+              <div class="title" id="vp-od-high-t"></div><div class="desc" id="vp-od-high-d"></div></label>
           </div>
         </div>
 
         <div class="val-field">
-          <label>Maliyyə sənədlərinin keyfiyyəti</label>
+          <label id="vp-lbl-docs"></label>
           <div class="val-radio-group">
             <label class="val-radio-card"><input type="radio" name="docs" value="audit">
-              <div class="title">Audit edilmiş</div><div class="desc">Müstəqil audit hesabatı</div></label>
+              <div class="title" id="vp-dc-audit-t"></div><div class="desc" id="vp-dc-audit-d"></div></label>
             <label class="val-radio-card selected"><input type="radio" name="docs" value="accounting" checked>
-              <div class="title">Mühasibatlıq</div><div class="desc">Mühasib aparır</div></label>
+              <div class="title" id="vp-dc-acc-t"></div><div class="desc" id="vp-dc-acc-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="docs" value="basic">
-              <div class="title">Sadə qeyd</div><div class="desc">Daxili qeydlər</div></label>
+              <div class="title" id="vp-dc-basic-t"></div><div class="desc" id="vp-dc-basic-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="docs" value="none">
-              <div class="title">Yoxdur</div><div class="desc">Sənəd təşkil olunmayıb</div></label>
+              <div class="title" id="vp-dc-none-t"></div><div class="desc" id="vp-dc-none-d"></div></label>
           </div>
         </div>
 
         <div class="val-field">
-          <label>Brend və online reputasiya</label>
+          <label id="vp-lbl-brand"></label>
           <div class="val-radio-group">
             <label class="val-radio-card"><input type="radio" name="brand" value="strong">
-              <div class="title">Güclü</div><div class="desc">Tanınan brend, 4.5+ reytinq</div></label>
+              <div class="title" id="vp-br-strong-t"></div><div class="desc" id="vp-br-strong-d"></div></label>
             <label class="val-radio-card selected"><input type="radio" name="brand" value="moderate" checked>
-              <div class="title">Orta</div><div class="desc">Yaxşı reputasiya, 4.0+</div></label>
+              <div class="title" id="vp-br-mod-t"></div><div class="desc" id="vp-br-mod-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="brand" value="weak">
-              <div class="title">Zəif</div><div class="desc">Az tanınır, az online iz</div></label>
+              <div class="title" id="vp-br-weak-t"></div><div class="desc" id="vp-br-weak-d"></div></label>
           </div>
         </div>
 
         <div class="val-field">
-          <label>İşçi heyətinin sabitliyi</label>
+          <label id="vp-lbl-staff-stab"></label>
           <div class="val-radio-group">
             <label class="val-radio-card"><input type="radio" name="staff-stability" value="high">
-              <div class="title">Yüksək</div><div class="desc">2+ il qalan əsas heyət</div></label>
+              <div class="title" id="vp-ss-high-t"></div><div class="desc" id="vp-ss-high-d"></div></label>
             <label class="val-radio-card selected"><input type="radio" name="staff-stability" value="medium" checked>
-              <div class="title">Orta</div><div class="desc">Müəyyən axıcılıq var</div></label>
+              <div class="title" id="vp-ss-med-t"></div><div class="desc" id="vp-ss-med-d"></div></label>
             <label class="val-radio-card"><input type="radio" name="staff-stability" value="low">
-              <div class="title">Aşağı</div><div class="desc">Tez-tez yenilənir</div></label>
+              <div class="title" id="vp-ss-low-t"></div><div class="desc" id="vp-ss-low-d"></div></label>
           </div>
         </div>
 
         <div class="val-step-nav">
-          <button class="val-btn-back" data-go="3">← Geri</button>
-          <button class="val-btn-next" id="val-calculate">📊 Qiyməti hesabla</button>
+          <button class="val-btn-back vp-back-btn" data-go="3"></button>
+          <button class="val-btn-next" id="val-calculate"></button>
         </div>
       </div>
     </div>
@@ -531,52 +531,52 @@
     <!-- RESULT -->
     <div class="val-result-section" id="val-result">
       <div class="val-result-hero">
-        <div class="val-result-eyebrow">Tövsiyə olunan bazar qiyməti</div>
+        <div class="val-result-eyebrow" id="vp-res-eyebrow"></div>
         <div class="val-result-range" id="r-range">— AZN</div>
-        <div class="val-result-mid">Mərkəzi qiymət: <strong id="r-mid">—</strong> · Diapazon ±%15</div>
+        <div class="val-result-mid"><span id="vp-res-mid-lbl"></span> <strong id="r-mid">—</strong> · <span id="vp-res-range-lbl"></span></div>
       </div>
 
       <div class="val-methods">
         <div class="val-method-card primary">
-          <div class="label">📐 Birinci metod — SDE Multiple</div>
+          <div class="label" id="vp-m1-lbl"></div>
           <div class="value" id="r-method-sde">—</div>
-          <div class="formula"><span id="r-sde-detail">SDE × düzəlişli çoxşaylı</span></div>
+          <div class="formula"><span id="r-sde-detail"></span></div>
         </div>
         <div class="val-method-card">
-          <div class="label">📈 İkinci metod — Gəlir Multiple</div>
+          <div class="label" id="vp-m2-lbl"></div>
           <div class="value" id="r-method-rev">—</div>
-          <div class="formula"><span id="r-rev-detail">İllik gəlir × sənaye norması</span></div>
+          <div class="formula"><span id="r-rev-detail"></span></div>
         </div>
         <div class="val-method-card">
-          <div class="label">🏗️ Üçüncü metod — Aktiv Floor</div>
+          <div class="label" id="vp-m3-lbl"></div>
           <div class="value" id="r-method-asset">—</div>
-          <div class="formula">Avadanlıq + mal qalığı + əmlak</div>
+          <div class="formula" id="vp-m3-formula"></div>
         </div>
       </div>
 
       <div class="val-breakdown">
-        <h3>📐 Hesablama detalları və düzəlişlər</h3>
+        <h3 id="vp-breakdown-h3"></h3>
         <div id="r-breakdown"></div>
       </div>
 
       <div class="val-insights">
         <div class="val-insight-card strengths">
-          <h4>✅ Güclü tərəflər</h4>
+          <h4 id="vp-strengths-h4"></h4>
           <ul id="r-strengths"></ul>
         </div>
         <div class="val-insight-card risks">
-          <h4>⚠️ Risk amilləri</h4>
+          <h4 id="vp-risks-h4"></h4>
           <ul id="r-risks"></ul>
         </div>
       </div>
 
       <div class="val-cta-pro">
-        <h3>Sertifikatlı peşəkar qiymətləndirmə istəyirsiniz?</h3>
-        <p>Bu kalkulyator təxmini dəyər verir. Bank krediti, satış sövdələşməsi və ya hüquqi sənəd üçün sertifikatlı qiymətləndirici tərəfindən imzalanmış rəsmi hesabat sifariş edin.</p>
-        <a href="services.html">Peşəkar qiymətləndirmə →</a>
+        <h3 id="vp-cta-h3"></h3>
+        <p id="vp-cta-p"></p>
+        <a href="services.html" id="vp-cta-a"></a>
       </div>
 
-      <p class="val-disclaimer">⚠️ Diqqət: Bu hesablama avtomatik modeldir və yalnız təxmini istinad nöqtəsi kimi qəbul edilməlidir. Faktiki bazar qiyməti alıcı-satıcı danışıqlarına, lokal şəraitə və konkret biznesin xüsusiyyətlərinə görə dəyişə bilər.</p>
+      <p class="val-disclaimer" id="vp-disclaimer"></p>
     </div>
   </div>
 </section>
@@ -591,6 +591,525 @@ if ('serviceWorker' in navigator) {
 <script>
 (async function(){
   mountLayout("valuation");
+
+  const VAL_COPY = {
+    az: {
+      doc_title: "Peşəkar Biznes Qiymətləndirməsi — BizBazar.az",
+      eyebrow: "📊 Peşəkar Valuasiya Modeli",
+      h1: "Biznesinizin real bazar dəyərini hesablayın",
+      lead: "Beynəlxalq M&A təcrübəsində istifadə olunan üç metodu birləşdirən professional kalkulyator. 15+ keyfiyyət faktoru avtomatik nəzərə alınır və ±30% diapazonunda dəqiq qiymət çıxarılır.",
+      tag_sde: "SDE Multiple metodu", tag_rev: "Gəlir Multiple metodu", tag_asset: "Aktiv əsaslı qiymətləndirmə",
+      prog_1: "Biznes", prog_2: "Maliyyə", prog_3: "Aktivlər", prog_4: "Keyfiyyət",
+      next: "Növbəti →", back: "← Geri", calculate: "📊 Qiyməti hesabla",
+      s1_h2: "1. Biznes haqqında əsas məlumatlar",
+      s1_sub: "Bu məlumatlar sənaye benchmarkı və lokasiya düzəlişləri üçün istifadə olunur.",
+      lbl_cat: "Biznes kateqoriyası *", opt_pick: "Seçin...",
+      lbl_loc: "Lokasiya keyfiyyəti *",
+      loc_prime: "Premium (Bakı mərkəz, magistral yol)",
+      loc_good: "Yaxşı (rayonun yaxşı yeri)",
+      loc_avg: "Orta (yaşayış massivi)",
+      loc_poor: "Zəif (uzaq, kənar yer)",
+      lbl_years: "Fəaliyyət müddəti (il) *", ph_years: "məs. 5", help_years: "Biznesin neçə ildir fəaliyyətdə olduğu",
+      lbl_customers: "Aktiv müştəri / abunəçi sayı", ph_customers: "məs. 800", help_customers: "Aylıq aktiv müştəri və ya abunəçi sayı",
+
+      s2_h2: "2. Maliyyə göstəriciləri (son 12 ay)",
+      s2_sub: "Doğru qiymət üçün dəqiq rəqəmlər vacibdir. Bütün məbləğlər illik ifadədə (AZN).",
+      lbl_revenue: "İllik gəlir / dövriyyə (AZN) *", ph_revenue: "məs. 240000", help_revenue: "Son 12 ay üzrə ümumi satış gəliri",
+      lbl_profit: "İllik xalis mənfəət (AZN) *", ph_profit: "məs. 60000", help_profit: "Bütün xərclər və vergi sonrası qalan mənfəət",
+      lbl_owner_salary: "Sahibin illik maaşı (AZN)", ph_owner_salary: "məs. 18000", help_owner_salary: "SDE üçün geri qatılır — sahibin özünə ödədiyi maaş",
+      lbl_addbacks: "Birdəfəlik / qeyri-müntəzəm xərclər (AZN)", ph_addbacks: "məs. 5000", help_addbacks: "Bir dəfəlik təmir, məhkəmə, köçmə xərcləri",
+      lbl_growth: "Gəlir artımı (son il, %) *", ph_growth: "məs. 12", help_growth: "Bu il əvvəlki ilə görə artım/azalma faizi",
+      lbl_recurring: "Təkrarlanan gəlir (%)", ph_recurring: "məs. 30", help_recurring: "Abunəlik / uzunmüddətli müqavilə əsaslı sabit gəlir payı",
+
+      s3_h2: "3. Aktivlər və icarə vəziyyəti",
+      s3_sub: "Maddi aktivlər qiymətin minimum hədəfini (asset floor) müəyyənləşdirir.",
+      lbl_equipment: "Avadanlıq dəyəri (AZN)", ph_equipment: "məs. 40000", help_equipment: "Hazırkı bazar qiyməti (köhnəlmə nəzərə alınmaqla)",
+      lbl_inventory: "Mal qalığı dəyəri (AZN)", ph_inventory: "məs. 15000", help_inventory: "Mağaza/restoran üçün hazırki ehtiyat dəyəri",
+      lbl_real_estate: "Daşınmaz əmlak vəziyyəti *",
+      re_rent: "İcarədir", re_own: "Şəxsi mülkiyyət (qiymətə daxil deyil)", re_own_inc: "Şəxsi mülkiyyət (qiymətə daxildir)",
+      lbl_rent: "Aylıq icarə (AZN)", ph_rent: "məs. 2500", help_rent: "Yalnız icarə zamanı doldurun",
+      lbl_lease_years: "İcarə müqaviləsinin qalan müddəti (il)", ph_lease_years: "məs. 3", help_lease_years: "Yenilənmə zəmanəti varsa, tam müddəti yazın",
+      lbl_property_value: "Daxil edilən daşınmaz əmlak dəyəri (AZN)", ph_property_value: "məs. 0", help_property_value: 'Yalnız "qiymətə daxildir" seçiminə görə doldurun',
+      lbl_staff: "İşçi sayı *", ph_staff: "məs. 8",
+      lbl_license: "Lisenziya / icazə durumu",
+      lic_full: "Bütün lisenziyalar var", lic_partial: "Qismən tamamlanıb", lic_none: "Lisenziya yoxdur", lic_nr: "Tələb olunmur",
+
+      s4_h2: "4. Keyfiyyət və risk faktorları",
+      s4_sub: "Bu amillər çoxşaylının yuxarı və ya aşağı düzəlişinə təsir edir (ümumi ±%50-ə qədər).",
+      lbl_concentration: "Müştəri konsentrasiyası",
+      con_low_t: "Aşağı (yaxşı)", con_low_d: "Top 1 müştəri <%20 gəlir",
+      con_med_t: "Orta", con_med_d: "Top 1 müştəri %20–40",
+      con_high_t: "Yüksək (risk)", con_high_d: "Top 1 müştəri >%40",
+      lbl_owner_dep: "Sahibə bağlılıq (key person risk)",
+      od_low_t: "Aşağı", od_low_d: "Sahib olmadan da işləyir",
+      od_med_t: "Orta", od_med_d: "Sahib qismən cəlb olunur",
+      od_high_t: "Yüksək", od_high_d: "Sahib hər gün lazımdır",
+      lbl_docs: "Maliyyə sənədlərinin keyfiyyəti",
+      dc_audit_t: "Audit edilmiş", dc_audit_d: "Müstəqil audit hesabatı",
+      dc_acc_t: "Mühasibatlıq", dc_acc_d: "Mühasib aparır",
+      dc_basic_t: "Sadə qeyd", dc_basic_d: "Daxili qeydlər",
+      dc_none_t: "Yoxdur", dc_none_d: "Sənəd təşkil olunmayıb",
+      lbl_brand: "Brend və online reputasiya",
+      br_strong_t: "Güclü", br_strong_d: "Tanınan brend, 4.5+ reytinq",
+      br_mod_t: "Orta", br_mod_d: "Yaxşı reputasiya, 4.0+",
+      br_weak_t: "Zəif", br_weak_d: "Az tanınır, az online iz",
+      lbl_staff_stab: "İşçi heyətinin sabitliyi",
+      ss_high_t: "Yüksək", ss_high_d: "2+ il qalan əsas heyət",
+      ss_med_t: "Orta", ss_med_d: "Müəyyən axıcılıq var",
+      ss_low_t: "Aşağı", ss_low_d: "Tez-tez yenilənir",
+
+      res_eyebrow: "Tövsiyə olunan bazar qiyməti",
+      res_mid_lbl: "Mərkəzi qiymət:", res_range_lbl: "Diapazon ±%15",
+      m1_lbl: "📐 Birinci metod — SDE Multiple", m1_default: "SDE × düzəlişli çoxşaylı",
+      m2_lbl: "📈 İkinci metod — Gəlir Multiple", m2_default: "İllik gəlir × sənaye norması",
+      m3_lbl: "🏗️ Üçüncü metod — Aktiv Floor", m3_formula: "Avadanlıq + mal qalığı + əmlak",
+      breakdown_h3: "📐 Hesablama detalları və düzəlişlər",
+      strengths_h4: "✅ Güclü tərəflər", risks_h4: "⚠️ Risk amilləri",
+      cta_h3: "Sertifikatlı peşəkar qiymətləndirmə istəyirsiniz?",
+      cta_p: "Bu kalkulyator təxmini dəyər verir. Bank krediti, satış sövdələşməsi və ya hüquqi sənəd üçün sertifikatlı qiymətləndirici tərəfindən imzalanmış rəsmi hesabat sifariş edin.",
+      cta_a: "Peşəkar qiymətləndirmə →",
+      disclaimer: "⚠️ Diqqət: Bu hesablama avtomatik modeldir və yalnız təxmini istinad nöqtəsi kimi qəbul edilməlidir. Faktiki bazar qiyməti alıcı-satıcı danışıqlarına, lokal şəraitə və konkret biznesin xüsusiyyətlərinə görə dəyişə bilər.",
+
+      // Engine-side labels & messages
+      adj_op_years: (y) => `Fəaliyyət müddəti (${y} il)`,
+      adj_growth: (g) => `Gəlir artımı (${g}%)`,
+      adj_recurring: (r) => `Təkrarlanan gəlir (${r}%)`,
+      adj_concentration: "Müştəri konsentrasiyası",
+      adj_owner_dep: "Sahibə bağlılıq",
+      adj_docs: "Sənəd keyfiyyəti",
+      adj_brand: "Brend və reputasiya",
+      adj_staff: "Heyətin sabitliyi",
+      adj_location: "Lokasiya keyfiyyəti",
+      adj_lease: (y) => `İcarə müddəti (${y} il qalıb)`,
+      adj_license: "Lisenziya durumu",
+      adj_margin: (m, i) => `Mənfəət marjası (${m}% vs sənaye ${i}%)`,
+      sde_row: "SDE (Sahibə Sərbəst Gəlir) = mənfəət + maaş + birdəfəlik",
+      industry_base: (cat) => `Sənaye baza çoxşaylısı (${cat})`,
+      adj_factors_title: "Düzəliş faktorları",
+      total_adj: "Ümumi düzəliş",
+      adjusted_mult: "Düzəlişli SDE çoxşaylı",
+      weighted_rec: "Çəkili tövsiyə (65% SDE + 25% Gəlir + 10% Aktiv)",
+      v_cat: "Kateqoriya seçin", v_profit: "İllik xalis mənfəəti daxil edin",
+      v_revenue: "İllik gəliri daxil edin", v_margin: "Mənfəət gəlirdən böyük ola bilməz",
+      str_years: (y) => `${y} ildir fəaliyyətdə — sabit tarixçə`,
+      rsk_new: "Yeni biznes (2 ildən az) — qiymət iddiası məhduddur",
+      str_growth: (g) => `Güclü gəlir artımı (+${g}%) qiyməti yuxarı çəkir`,
+      rsk_growth: (g) => `Mənfi artım (${g}%) — qiyməti azaldır`,
+      str_margin: (m) => `Sənaye ortasından yuxarı mənfəət marjası (${m}%)`,
+      rsk_margin: (m) => `Aşağı mənfəət marjası (${m}%) — operativ səmərəsizlik`,
+      str_recurring: (r) => `Yüksək təkrarlanan gəlir (${r}%) — sabitlik`,
+      str_conc_low: "Müştəri bazası diversifikasiyalı",
+      rsk_conc_high: "Yüksək müştəri konsentrasiyası — bir neçə müştəri itkisi böhran yaradır",
+      str_owner_low: "Sahibsiz işləyən struktur — passiv mülkiyyət üçün uyğun",
+      rsk_owner_high: "Sahibə yüksək bağlılıq — alıcının operativ qoşulması tələb olunur",
+      str_docs_audit: "Audit edilmiş hesabatlar — investor etibarı yüksək",
+      rsk_docs_none: "Maliyyə sənədləri yoxdur — alıcının yoxlama imkanı zəifdir",
+      str_brand_strong: "Güclü brend tanınması",
+      rsk_brand_weak: "Zəif brend — marketinq investisiyası tələb olunacaq",
+      str_loc_prime: "Premium lokasiya — sabit müştəri axını",
+      rsk_loc_poor: "Zəif lokasiya — alıcı sayı məhduddur",
+      rsk_lease_short: "İcarə müqaviləsi 2 ildən az qalıb — yenidən danışıq riski",
+      str_re_inc: "Daşınmaz əmlak qiymətə daxildir",
+      rsk_staff_low: "İşçi axıcılığı yüksəkdir — bilik itkisi riski",
+      str_staff_high: "Sabit heyət — əməliyyatların davamlılığı",
+      rsk_license_none: "Lisenziya yoxdur — fəaliyyətin legallaşdırılması xərcləri",
+      str_assets_high: "Yüksək maddi aktivlər — qiymətin əsası möhkəmdir",
+      str_empty: "Müəyyən edilmiş güclü tərəflər yoxdur",
+      rsk_empty: "Əhəmiyyətli risk amilləri tapılmadı"
+    },
+    en: {
+      doc_title: "Professional Business Valuation — BizBazar.az",
+      eyebrow: "📊 Professional Valuation Model",
+      h1: "Estimate your business's real market value",
+      lead: "A pro-grade calculator that blends three internationally used M&A methods. 15+ quality factors are weighed automatically and the price comes out within a ±30% band.",
+      tag_sde: "SDE Multiple method", tag_rev: "Revenue Multiple method", tag_asset: "Asset-based valuation",
+      prog_1: "Business", prog_2: "Financials", prog_3: "Assets", prog_4: "Quality",
+      next: "Next →", back: "← Back", calculate: "📊 Calculate value",
+      s1_h2: "1. Business basics",
+      s1_sub: "These inputs feed the industry benchmark and location adjustments.",
+      lbl_cat: "Business category *", opt_pick: "Pick...",
+      lbl_loc: "Location quality *",
+      loc_prime: "Premium (Baku center, main road)",
+      loc_good: "Good (solid spot in the district)",
+      loc_avg: "Average (residential area)",
+      loc_poor: "Weak (remote, edge of town)",
+      lbl_years: "Years in operation *", ph_years: "e.g. 5", help_years: "How many years the business has been running",
+      lbl_customers: "Active customers / subscribers", ph_customers: "e.g. 800", help_customers: "Active monthly customers or subscribers",
+
+      s2_h2: "2. Financials (last 12 months)",
+      s2_sub: "Accurate numbers matter for a credible valuation. All figures are annual in AZN.",
+      lbl_revenue: "Annual revenue / turnover (AZN) *", ph_revenue: "e.g. 240000", help_revenue: "Total sales revenue over the last 12 months",
+      lbl_profit: "Annual net profit (AZN) *", ph_profit: "e.g. 60000", help_profit: "Profit after all costs and taxes",
+      lbl_owner_salary: "Owner's annual salary (AZN)", ph_owner_salary: "e.g. 18000", help_owner_salary: "Added back to SDE — what the owner pays themselves",
+      lbl_addbacks: "One-time / non-recurring expenses (AZN)", ph_addbacks: "e.g. 5000", help_addbacks: "One-off repairs, legal fees, relocation costs",
+      lbl_growth: "Revenue growth (last year, %) *", ph_growth: "e.g. 12", help_growth: "This year vs. the previous year, as a percentage",
+      lbl_recurring: "Recurring revenue (%)", ph_recurring: "e.g. 30", help_recurring: "Share of revenue from subscriptions or long-term contracts",
+
+      s3_h2: "3. Assets and lease",
+      s3_sub: "Tangible assets define the price floor.",
+      lbl_equipment: "Equipment value (AZN)", ph_equipment: "e.g. 40000", help_equipment: "Current market value (depreciation accounted for)",
+      lbl_inventory: "Inventory value (AZN)", ph_inventory: "e.g. 15000", help_inventory: "Current stock on hand for the shop/restaurant",
+      lbl_real_estate: "Real estate situation *",
+      re_rent: "Rented", re_own: "Owned (not in the price)", re_own_inc: "Owned (included in the price)",
+      lbl_rent: "Monthly rent (AZN)", ph_rent: "e.g. 2500", help_rent: "Fill in only if renting",
+      lbl_lease_years: "Years left on the lease", ph_lease_years: "e.g. 3", help_lease_years: "Include the full term if renewal is guaranteed",
+      lbl_property_value: "Included real-estate value (AZN)", ph_property_value: "e.g. 0", help_property_value: 'Fill in only if "included in the price" is selected',
+      lbl_staff: "Staff count *", ph_staff: "e.g. 8",
+      lbl_license: "License / permit status",
+      lic_full: "All licenses in place", lic_partial: "Partially complete", lic_none: "No license", lic_nr: "Not required",
+
+      s4_h2: "4. Quality and risk factors",
+      s4_sub: "These factors push the multiple up or down (capped at ±50% total).",
+      lbl_concentration: "Customer concentration",
+      con_low_t: "Low (good)", con_low_d: "Top 1 customer <20% of revenue",
+      con_med_t: "Medium", con_med_d: "Top 1 customer 20–40%",
+      con_high_t: "High (risk)", con_high_d: "Top 1 customer >40%",
+      lbl_owner_dep: "Owner dependence (key-person risk)",
+      od_low_t: "Low", od_low_d: "Runs without the owner",
+      od_med_t: "Medium", od_med_d: "Owner is partly involved",
+      od_high_t: "High", od_high_d: "Owner is needed daily",
+      lbl_docs: "Quality of financial records",
+      dc_audit_t: "Audited", dc_audit_d: "Independent audit report",
+      dc_acc_t: "Accounting", dc_acc_d: "An accountant maintains them",
+      dc_basic_t: "Basic notes", dc_basic_d: "Internal notes only",
+      dc_none_t: "None", dc_none_d: "No documents kept",
+      lbl_brand: "Brand and online reputation",
+      br_strong_t: "Strong", br_strong_d: "Recognized brand, 4.5+ rating",
+      br_mod_t: "Moderate", br_mod_d: "Good reputation, 4.0+",
+      br_weak_t: "Weak", br_weak_d: "Little recognition, thin online footprint",
+      lbl_staff_stab: "Staff stability",
+      ss_high_t: "High", ss_high_d: "Core team staying 2+ years",
+      ss_med_t: "Medium", ss_med_d: "Some turnover",
+      ss_low_t: "Low", ss_low_d: "Frequent turnover",
+
+      res_eyebrow: "Recommended market price",
+      res_mid_lbl: "Mid price:", res_range_lbl: "Range ±15%",
+      m1_lbl: "📐 Method 1 — SDE Multiple", m1_default: "SDE × adjusted multiple",
+      m2_lbl: "📈 Method 2 — Revenue Multiple", m2_default: "Annual revenue × industry norm",
+      m3_lbl: "🏗️ Method 3 — Asset Floor", m3_formula: "Equipment + inventory + property",
+      breakdown_h3: "📐 Calculation details and adjustments",
+      strengths_h4: "✅ Strengths", risks_h4: "⚠️ Risk factors",
+      cta_h3: "Need a certified professional valuation?",
+      cta_p: "This calculator gives a ballpark. For a bank loan, sale negotiation or legal document, order a formal report signed by a licensed appraiser.",
+      cta_a: "Professional valuation →",
+      disclaimer: "⚠️ Note: This is an automated model and should be treated only as a reference. Actual market price will vary based on negotiations, local conditions and the specifics of the business.",
+
+      adj_op_years: (y) => `Years in operation (${y} yrs)`,
+      adj_growth: (g) => `Revenue growth (${g}%)`,
+      adj_recurring: (r) => `Recurring revenue (${r}%)`,
+      adj_concentration: "Customer concentration",
+      adj_owner_dep: "Owner dependence",
+      adj_docs: "Documentation quality",
+      adj_brand: "Brand and reputation",
+      adj_staff: "Staff stability",
+      adj_location: "Location quality",
+      adj_lease: (y) => `Lease term (${y} yrs left)`,
+      adj_license: "License status",
+      adj_margin: (m, i) => `Profit margin (${m}% vs industry ${i}%)`,
+      sde_row: "SDE (Seller's Discretionary Earnings) = profit + salary + one-offs",
+      industry_base: (cat) => `Industry base multiple (${cat})`,
+      adj_factors_title: "Adjustment factors",
+      total_adj: "Total adjustment",
+      adjusted_mult: "Adjusted SDE multiple",
+      weighted_rec: "Weighted recommendation (65% SDE + 25% Revenue + 10% Asset)",
+      v_cat: "Please pick a category", v_profit: "Enter annual net profit",
+      v_revenue: "Enter annual revenue", v_margin: "Profit can't exceed revenue",
+      str_years: (y) => `${y} years in operation — stable history`,
+      rsk_new: "Young business (under 2 years) — limits the price you can ask",
+      str_growth: (g) => `Strong revenue growth (+${g}%) pushes price up`,
+      rsk_growth: (g) => `Negative growth (${g}%) drags the price down`,
+      str_margin: (m) => `Profit margin (${m}%) above industry average`,
+      rsk_margin: (m) => `Low profit margin (${m}%) — operational inefficiency`,
+      str_recurring: (r) => `High recurring revenue (${r}%) — stability`,
+      str_conc_low: "Customer base is diversified",
+      rsk_conc_high: "High customer concentration — losing a few customers creates a crisis",
+      str_owner_low: "Runs without the owner — suits a passive owner",
+      rsk_owner_high: "High owner dependence — the buyer must engage operationally",
+      str_docs_audit: "Audited reports — strong investor trust",
+      rsk_docs_none: "No financial documentation — buyer can barely verify anything",
+      str_brand_strong: "Strong brand recognition",
+      rsk_brand_weak: "Weak brand — marketing investment will be needed",
+      str_loc_prime: "Premium location — steady customer flow",
+      rsk_loc_poor: "Weak location — limited buyer pool",
+      rsk_lease_short: "Lease has under 2 years left — renegotiation risk",
+      str_re_inc: "Real estate included in the price",
+      rsk_staff_low: "High staff turnover — knowledge-loss risk",
+      str_staff_high: "Stable team — operational continuity",
+      rsk_license_none: "No license — cost of legalizing operations",
+      str_assets_high: "High tangible assets — solid price foundation",
+      str_empty: "No specific strengths identified",
+      rsk_empty: "No significant risk factors found"
+    },
+    ru: {
+      doc_title: "Профессиональная оценка бизнеса — BizBazar.az",
+      eyebrow: "📊 Профессиональная модель оценки",
+      h1: "Рассчитайте реальную рыночную стоимость бизнеса",
+      lead: "Профессиональный калькулятор, объединяющий три метода международной практики M&A. Автоматически учитывает 15+ качественных факторов и даёт цену в диапазоне ±30%.",
+      tag_sde: "Метод SDE Multiple", tag_rev: "Метод Revenue Multiple", tag_asset: "Оценка по активам",
+      prog_1: "Бизнес", prog_2: "Финансы", prog_3: "Активы", prog_4: "Качество",
+      next: "Далее →", back: "← Назад", calculate: "📊 Рассчитать",
+      s1_h2: "1. Основные данные о бизнесе",
+      s1_sub: "Эти данные используются для отраслевых бенчмарков и поправок по локации.",
+      lbl_cat: "Категория бизнеса *", opt_pick: "Выберите...",
+      lbl_loc: "Качество локации *",
+      loc_prime: "Премиум (центр Баку, магистраль)",
+      loc_good: "Хорошая (хорошее место в районе)",
+      loc_avg: "Средняя (жилой массив)",
+      loc_poor: "Слабая (удалённое место)",
+      lbl_years: "Срок работы (лет) *", ph_years: "напр. 5", help_years: "Сколько лет бизнес работает",
+      lbl_customers: "Активные клиенты / подписчики", ph_customers: "напр. 800", help_customers: "Месячные активные клиенты или подписчики",
+
+      s2_h2: "2. Финансовые показатели (за 12 мес.)",
+      s2_sub: "Точные цифры важны для корректной оценки. Все суммы — годовые, в AZN.",
+      lbl_revenue: "Годовая выручка / оборот (AZN) *", ph_revenue: "напр. 240000", help_revenue: "Общая выручка от продаж за 12 месяцев",
+      lbl_profit: "Годовая чистая прибыль (AZN) *", ph_profit: "напр. 60000", help_profit: "Прибыль после всех расходов и налогов",
+      lbl_owner_salary: "Годовая зарплата владельца (AZN)", ph_owner_salary: "напр. 18000", help_owner_salary: "Добавляется обратно к SDE — то, что владелец платит себе",
+      lbl_addbacks: "Разовые / нерегулярные расходы (AZN)", ph_addbacks: "напр. 5000", help_addbacks: "Разовый ремонт, суды, переезд",
+      lbl_growth: "Рост выручки (за год, %) *", ph_growth: "напр. 12", help_growth: "Процент роста/снижения по сравнению с прошлым годом",
+      lbl_recurring: "Повторяющаяся выручка (%)", ph_recurring: "напр. 30", help_recurring: "Доля от подписок / долгосрочных контрактов",
+
+      s3_h2: "3. Активы и аренда",
+      s3_sub: "Материальные активы задают минимальный порог цены (asset floor).",
+      lbl_equipment: "Стоимость оборудования (AZN)", ph_equipment: "напр. 40000", help_equipment: "Текущая рыночная стоимость (с учётом износа)",
+      lbl_inventory: "Стоимость товарных запасов (AZN)", ph_inventory: "напр. 15000", help_inventory: "Текущий запас в магазине/ресторане",
+      lbl_real_estate: "Недвижимость *",
+      re_rent: "Аренда", re_own: "Собственность (не входит в цену)", re_own_inc: "Собственность (входит в цену)",
+      lbl_rent: "Месячная аренда (AZN)", ph_rent: "напр. 2500", help_rent: "Заполняйте только при аренде",
+      lbl_lease_years: "Лет до конца договора аренды", ph_lease_years: "напр. 3", help_lease_years: "Если продление гарантировано — укажите полный срок",
+      lbl_property_value: "Стоимость включаемой недвижимости (AZN)", ph_property_value: "напр. 0", help_property_value: 'Заполняйте, только если выбрано "входит в цену"',
+      lbl_staff: "Количество сотрудников *", ph_staff: "напр. 8",
+      lbl_license: "Статус лицензии / разрешений",
+      lic_full: "Все лицензии есть", lic_partial: "Частично оформлено", lic_none: "Лицензии нет", lic_nr: "Не требуется",
+
+      s4_h2: "4. Качество и факторы риска",
+      s4_sub: "Эти факторы повышают или понижают мультипликатор (суммарно до ±50%).",
+      lbl_concentration: "Концентрация клиентов",
+      con_low_t: "Низкая (хорошо)", con_low_d: "Топ-1 клиент <20% выручки",
+      con_med_t: "Средняя", con_med_d: "Топ-1 клиент 20–40%",
+      con_high_t: "Высокая (риск)", con_high_d: "Топ-1 клиент >40%",
+      lbl_owner_dep: "Зависимость от владельца (key-person risk)",
+      od_low_t: "Низкая", od_low_d: "Работает без владельца",
+      od_med_t: "Средняя", od_med_d: "Владелец частично вовлечён",
+      od_high_t: "Высокая", od_high_d: "Владелец нужен ежедневно",
+      lbl_docs: "Качество фин. документов",
+      dc_audit_t: "Аудитированы", dc_audit_d: "Независимый аудит",
+      dc_acc_t: "Бухгалтерия", dc_acc_d: "Ведёт бухгалтер",
+      dc_basic_t: "Простые записи", dc_basic_d: "Внутренние записи",
+      dc_none_t: "Нет", dc_none_d: "Документы не ведутся",
+      lbl_brand: "Бренд и онлайн-репутация",
+      br_strong_t: "Сильный", br_strong_d: "Узнаваемый бренд, рейтинг 4.5+",
+      br_mod_t: "Средний", br_mod_d: "Хорошая репутация, 4.0+",
+      br_weak_t: "Слабый", br_weak_d: "Слабая узнаваемость, мало присутствия онлайн",
+      lbl_staff_stab: "Стабильность персонала",
+      ss_high_t: "Высокая", ss_high_d: "Ключевые сотрудники 2+ лет",
+      ss_med_t: "Средняя", ss_med_d: "Есть текучка",
+      ss_low_t: "Низкая", ss_low_d: "Частая смена",
+
+      res_eyebrow: "Рекомендуемая рыночная цена",
+      res_mid_lbl: "Средняя цена:", res_range_lbl: "Диапазон ±15%",
+      m1_lbl: "📐 Метод 1 — SDE Multiple", m1_default: "SDE × скорректированный мультипликатор",
+      m2_lbl: "📈 Метод 2 — Revenue Multiple", m2_default: "Годовая выручка × отраслевая норма",
+      m3_lbl: "🏗️ Метод 3 — Asset Floor", m3_formula: "Оборудование + запасы + недвижимость",
+      breakdown_h3: "📐 Детали расчёта и поправки",
+      strengths_h4: "✅ Сильные стороны", risks_h4: "⚠️ Факторы риска",
+      cta_h3: "Нужна сертифицированная профессиональная оценка?",
+      cta_p: "Этот калькулятор даёт ориентир. Для банка, сделки купли-продажи или юр. документа закажите официальный отчёт, подписанный сертифицированным оценщиком.",
+      cta_a: "Профессиональная оценка →",
+      disclaimer: "⚠️ Внимание: это автоматическая модель, результат — только ориентир. Фактическая цена зависит от переговоров, локальных условий и специфики бизнеса.",
+
+      adj_op_years: (y) => `Срок работы (${y} лет)`,
+      adj_growth: (g) => `Рост выручки (${g}%)`,
+      adj_recurring: (r) => `Повторяющаяся выручка (${r}%)`,
+      adj_concentration: "Концентрация клиентов",
+      adj_owner_dep: "Зависимость от владельца",
+      adj_docs: "Качество документов",
+      adj_brand: "Бренд и репутация",
+      adj_staff: "Стабильность персонала",
+      adj_location: "Качество локации",
+      adj_lease: (y) => `Срок аренды (${y} лет осталось)`,
+      adj_license: "Статус лицензии",
+      adj_margin: (m, i) => `Маржа прибыли (${m}% против отрасли ${i}%)`,
+      sde_row: "SDE (Seller's Discretionary Earnings) = прибыль + зарплата + разовые",
+      industry_base: (cat) => `Отраслевой базовый мультипликатор (${cat})`,
+      adj_factors_title: "Факторы поправки",
+      total_adj: "Суммарная поправка",
+      adjusted_mult: "Скорректированный SDE-мультипликатор",
+      weighted_rec: "Взвешенная рекомендация (65% SDE + 25% Доход + 10% Активы)",
+      v_cat: "Выберите категорию", v_profit: "Введите годовую чистую прибыль",
+      v_revenue: "Введите годовую выручку", v_margin: "Прибыль не может быть больше выручки",
+      str_years: (y) => `Работает ${y} лет — стабильная история`,
+      rsk_new: "Молодой бизнес (меньше 2 лет) — ограничивает запрос по цене",
+      str_growth: (g) => `Сильный рост выручки (+${g}%) поднимает цену`,
+      rsk_growth: (g) => `Отрицательный рост (${g}%) снижает цену`,
+      str_margin: (m) => `Маржа прибыли (${m}%) выше отраслевой средней`,
+      rsk_margin: (m) => `Низкая маржа (${m}%) — операционная неэффективность`,
+      str_recurring: (r) => `Высокая повторяющаяся выручка (${r}%) — стабильность`,
+      str_conc_low: "База клиентов диверсифицирована",
+      rsk_conc_high: "Высокая концентрация клиентов — потеря нескольких клиентов = кризис",
+      str_owner_low: "Работает без владельца — подходит для пассивного владения",
+      rsk_owner_high: "Высокая зависимость от владельца — покупатель должен включиться в операционку",
+      str_docs_audit: "Аудитированная отчётность — высокий уровень доверия инвесторов",
+      rsk_docs_none: "Нет финансовых документов — покупатель почти ничего не проверит",
+      str_brand_strong: "Сильная узнаваемость бренда",
+      rsk_brand_weak: "Слабый бренд — потребуются маркетинговые инвестиции",
+      str_loc_prime: "Премиум-локация — стабильный поток клиентов",
+      rsk_loc_poor: "Слабая локация — ограниченный круг покупателей",
+      rsk_lease_short: "До конца аренды меньше 2 лет — риск пересмотра",
+      str_re_inc: "Недвижимость включена в цену",
+      rsk_staff_low: "Высокая текучка — риск потери знаний",
+      str_staff_high: "Стабильная команда — преемственность операций",
+      rsk_license_none: "Нет лицензии — расходы на легализацию",
+      str_assets_high: "Высокие материальные активы — крепкая база цены",
+      str_empty: "Сильные стороны не выявлены",
+      rsk_empty: "Существенных рисков не обнаружено"
+    }
+  };
+  const tx = () => VAL_COPY[getLang()] || VAL_COPY.az;
+
+  function applyValCopy() {
+    const c = tx();
+    document.title = c.doc_title;
+    document.getElementById("vp-eyebrow").textContent = c.eyebrow;
+    document.getElementById("vp-h1").textContent = c.h1;
+    document.getElementById("vp-lead").textContent = c.lead;
+    document.getElementById("vp-tag-sde").textContent = c.tag_sde;
+    document.getElementById("vp-tag-rev").textContent = c.tag_rev;
+    document.getElementById("vp-tag-asset").textContent = c.tag_asset;
+    document.getElementById("vp-prog-1").textContent = c.prog_1;
+    document.getElementById("vp-prog-2").textContent = c.prog_2;
+    document.getElementById("vp-prog-3").textContent = c.prog_3;
+    document.getElementById("vp-prog-4").textContent = c.prog_4;
+    document.querySelectorAll(".vp-next-btn").forEach(b => b.textContent = c.next);
+    document.querySelectorAll(".vp-back-btn").forEach(b => b.textContent = c.back);
+    document.getElementById("val-calculate").textContent = c.calculate;
+    // step 1
+    document.getElementById("vp-s1-h2").textContent = c.s1_h2;
+    document.getElementById("vp-s1-sub").textContent = c.s1_sub;
+    document.getElementById("vp-lbl-cat").textContent = c.lbl_cat;
+    document.getElementById("vp-opt-pick").textContent = c.opt_pick;
+    document.getElementById("vp-lbl-loc").textContent = c.lbl_loc;
+    document.getElementById("vp-loc-prime").textContent = c.loc_prime;
+    document.getElementById("vp-loc-good").textContent = c.loc_good;
+    document.getElementById("vp-loc-avg").textContent = c.loc_avg;
+    document.getElementById("vp-loc-poor").textContent = c.loc_poor;
+    document.getElementById("vp-lbl-years").textContent = c.lbl_years;
+    document.getElementById("i-years").placeholder = c.ph_years;
+    document.getElementById("vp-help-years").textContent = c.help_years;
+    document.getElementById("vp-lbl-customers").textContent = c.lbl_customers;
+    document.getElementById("i-customers").placeholder = c.ph_customers;
+    document.getElementById("vp-help-customers").textContent = c.help_customers;
+    // step 2
+    document.getElementById("vp-s2-h2").textContent = c.s2_h2;
+    document.getElementById("vp-s2-sub").textContent = c.s2_sub;
+    document.getElementById("vp-lbl-revenue").textContent = c.lbl_revenue;
+    document.getElementById("i-revenue").placeholder = c.ph_revenue;
+    document.getElementById("vp-help-revenue").textContent = c.help_revenue;
+    document.getElementById("vp-lbl-profit").textContent = c.lbl_profit;
+    document.getElementById("i-profit").placeholder = c.ph_profit;
+    document.getElementById("vp-help-profit").textContent = c.help_profit;
+    document.getElementById("vp-lbl-owner-salary").textContent = c.lbl_owner_salary;
+    document.getElementById("i-owner-salary").placeholder = c.ph_owner_salary;
+    document.getElementById("vp-help-owner-salary").textContent = c.help_owner_salary;
+    document.getElementById("vp-lbl-addbacks").textContent = c.lbl_addbacks;
+    document.getElementById("i-addbacks").placeholder = c.ph_addbacks;
+    document.getElementById("vp-help-addbacks").textContent = c.help_addbacks;
+    document.getElementById("vp-lbl-growth").textContent = c.lbl_growth;
+    document.getElementById("i-growth").placeholder = c.ph_growth;
+    document.getElementById("vp-help-growth").textContent = c.help_growth;
+    document.getElementById("vp-lbl-recurring").textContent = c.lbl_recurring;
+    document.getElementById("i-recurring").placeholder = c.ph_recurring;
+    document.getElementById("vp-help-recurring").textContent = c.help_recurring;
+    // step 3
+    document.getElementById("vp-s3-h2").textContent = c.s3_h2;
+    document.getElementById("vp-s3-sub").textContent = c.s3_sub;
+    document.getElementById("vp-lbl-equipment").textContent = c.lbl_equipment;
+    document.getElementById("i-equipment").placeholder = c.ph_equipment;
+    document.getElementById("vp-help-equipment").textContent = c.help_equipment;
+    document.getElementById("vp-lbl-inventory").textContent = c.lbl_inventory;
+    document.getElementById("i-inventory").placeholder = c.ph_inventory;
+    document.getElementById("vp-help-inventory").textContent = c.help_inventory;
+    document.getElementById("vp-lbl-real-estate").textContent = c.lbl_real_estate;
+    document.getElementById("vp-re-rent").textContent = c.re_rent;
+    document.getElementById("vp-re-own").textContent = c.re_own;
+    document.getElementById("vp-re-own-inc").textContent = c.re_own_inc;
+    document.getElementById("vp-lbl-rent").textContent = c.lbl_rent;
+    document.getElementById("i-rent").placeholder = c.ph_rent;
+    document.getElementById("vp-help-rent").textContent = c.help_rent;
+    document.getElementById("vp-lbl-lease-years").textContent = c.lbl_lease_years;
+    document.getElementById("i-lease-years").placeholder = c.ph_lease_years;
+    document.getElementById("vp-help-lease-years").textContent = c.help_lease_years;
+    document.getElementById("vp-lbl-property-value").textContent = c.lbl_property_value;
+    document.getElementById("i-property-value").placeholder = c.ph_property_value;
+    document.getElementById("vp-help-property-value").textContent = c.help_property_value;
+    document.getElementById("vp-lbl-staff").textContent = c.lbl_staff;
+    document.getElementById("i-staff").placeholder = c.ph_staff;
+    document.getElementById("vp-lbl-license").textContent = c.lbl_license;
+    document.getElementById("vp-lic-full").textContent = c.lic_full;
+    document.getElementById("vp-lic-partial").textContent = c.lic_partial;
+    document.getElementById("vp-lic-none").textContent = c.lic_none;
+    document.getElementById("vp-lic-nr").textContent = c.lic_nr;
+    // step 4
+    document.getElementById("vp-s4-h2").textContent = c.s4_h2;
+    document.getElementById("vp-s4-sub").textContent = c.s4_sub;
+    document.getElementById("vp-lbl-concentration").textContent = c.lbl_concentration;
+    document.getElementById("vp-con-low-t").textContent = c.con_low_t;
+    document.getElementById("vp-con-low-d").textContent = c.con_low_d;
+    document.getElementById("vp-con-med-t").textContent = c.con_med_t;
+    document.getElementById("vp-con-med-d").textContent = c.con_med_d;
+    document.getElementById("vp-con-high-t").textContent = c.con_high_t;
+    document.getElementById("vp-con-high-d").textContent = c.con_high_d;
+    document.getElementById("vp-lbl-owner-dep").textContent = c.lbl_owner_dep;
+    document.getElementById("vp-od-low-t").textContent = c.od_low_t;
+    document.getElementById("vp-od-low-d").textContent = c.od_low_d;
+    document.getElementById("vp-od-med-t").textContent = c.od_med_t;
+    document.getElementById("vp-od-med-d").textContent = c.od_med_d;
+    document.getElementById("vp-od-high-t").textContent = c.od_high_t;
+    document.getElementById("vp-od-high-d").textContent = c.od_high_d;
+    document.getElementById("vp-lbl-docs").textContent = c.lbl_docs;
+    document.getElementById("vp-dc-audit-t").textContent = c.dc_audit_t;
+    document.getElementById("vp-dc-audit-d").textContent = c.dc_audit_d;
+    document.getElementById("vp-dc-acc-t").textContent = c.dc_acc_t;
+    document.getElementById("vp-dc-acc-d").textContent = c.dc_acc_d;
+    document.getElementById("vp-dc-basic-t").textContent = c.dc_basic_t;
+    document.getElementById("vp-dc-basic-d").textContent = c.dc_basic_d;
+    document.getElementById("vp-dc-none-t").textContent = c.dc_none_t;
+    document.getElementById("vp-dc-none-d").textContent = c.dc_none_d;
+    document.getElementById("vp-lbl-brand").textContent = c.lbl_brand;
+    document.getElementById("vp-br-strong-t").textContent = c.br_strong_t;
+    document.getElementById("vp-br-strong-d").textContent = c.br_strong_d;
+    document.getElementById("vp-br-mod-t").textContent = c.br_mod_t;
+    document.getElementById("vp-br-mod-d").textContent = c.br_mod_d;
+    document.getElementById("vp-br-weak-t").textContent = c.br_weak_t;
+    document.getElementById("vp-br-weak-d").textContent = c.br_weak_d;
+    document.getElementById("vp-lbl-staff-stab").textContent = c.lbl_staff_stab;
+    document.getElementById("vp-ss-high-t").textContent = c.ss_high_t;
+    document.getElementById("vp-ss-high-d").textContent = c.ss_high_d;
+    document.getElementById("vp-ss-med-t").textContent = c.ss_med_t;
+    document.getElementById("vp-ss-med-d").textContent = c.ss_med_d;
+    document.getElementById("vp-ss-low-t").textContent = c.ss_low_t;
+    document.getElementById("vp-ss-low-d").textContent = c.ss_low_d;
+    // result
+    document.getElementById("vp-res-eyebrow").textContent = c.res_eyebrow;
+    document.getElementById("vp-res-mid-lbl").textContent = c.res_mid_lbl;
+    document.getElementById("vp-res-range-lbl").textContent = c.res_range_lbl;
+    document.getElementById("vp-m1-lbl").textContent = c.m1_lbl;
+    document.getElementById("vp-m2-lbl").textContent = c.m2_lbl;
+    document.getElementById("vp-m3-lbl").textContent = c.m3_lbl;
+    document.getElementById("vp-m3-formula").textContent = c.m3_formula;
+    // defaults for method detail spans (overwritten on calc)
+    const sdeDet = document.getElementById("r-sde-detail");
+    if (sdeDet && !sdeDet.dataset.computed) sdeDet.textContent = c.m1_default;
+    const revDet = document.getElementById("r-rev-detail");
+    if (revDet && !revDet.dataset.computed) revDet.textContent = c.m2_default;
+    document.getElementById("vp-breakdown-h3").textContent = c.breakdown_h3;
+    document.getElementById("vp-strengths-h4").textContent = c.strengths_h4;
+    document.getElementById("vp-risks-h4").textContent = c.risks_h4;
+    document.getElementById("vp-cta-h3").textContent = c.cta_h3;
+    document.getElementById("vp-cta-p").textContent = c.cta_p;
+    document.getElementById("vp-cta-a").textContent = c.cta_a;
+    document.getElementById("vp-disclaimer").textContent = c.disclaimer;
+  }
+  applyValCopy();
 
   const [categories, benchmarksData] = await Promise.all([
     loadCategories(),
@@ -689,14 +1208,16 @@ if ('serviceWorker' in navigator) {
   }
 
   function validateInputs(d) {
-    if (!d.category) { alert("Kateqoriya seçin"); goStep(1); return false; }
-    if (d.profit <= 0) { alert("İllik xalis mənfəəti daxil edin"); goStep(2); return false; }
-    if (d.revenue <= 0) { alert("İllik gəliri daxil edin"); goStep(2); return false; }
-    if (d.profit > d.revenue) { alert("Mənfəət gəlirdən böyük ola bilməz"); goStep(2); return false; }
+    const c = tx();
+    if (!d.category) { alert(c.v_cat); goStep(1); return false; }
+    if (d.profit <= 0) { alert(c.v_profit); goStep(2); return false; }
+    if (d.revenue <= 0) { alert(c.v_revenue); goStep(2); return false; }
+    if (d.profit > d.revenue) { alert(c.v_margin); goStep(2); return false; }
     return true;
   }
 
   function computeValuation(d) {
+    const c = tx();
     const bench = benchmarkByCategory[d.category];
     // Benchmark avg_multiple is monthly profit multiple (price / monthly_profit).
     // Convert to annual SDE multiple.
@@ -714,7 +1235,7 @@ if ('serviceWorker' in navigator) {
     else if (d.years < 5) v = 0;
     else if (d.years < 10) v = 0.10;
     else v = 0.15;
-    adj.push({ label: `Fəaliyyət müddəti (${Math.round(d.years)} il)`, value: v });
+    adj.push({ label: c.adj_op_years(Math.round(d.years)), value: v });
 
     // 2) Growth
     if (d.growth < -10) v = -0.25;
@@ -723,50 +1244,50 @@ if ('serviceWorker' in navigator) {
     else if (d.growth < 15) v = 0.10;
     else if (d.growth < 30) v = 0.20;
     else v = 0.30;
-    adj.push({ label: `Gəlir artımı (${Math.round(d.growth)}%)`, value: v });
+    adj.push({ label: c.adj_growth(Math.round(d.growth)), value: v });
 
     // 3) Recurring revenue
     if (d.recurring >= 50) v = 0.15;
     else if (d.recurring >= 30) v = 0.10;
     else if (d.recurring >= 15) v = 0.05;
     else v = 0;
-    adj.push({ label: `Təkrarlanan gəlir (${Math.round(d.recurring)}%)`, value: v });
+    adj.push({ label: c.adj_recurring(Math.round(d.recurring)), value: v });
 
     // 4) Customer concentration
     const concMap = { low: 0, medium: -0.05, high: -0.15 };
-    adj.push({ label: "Müştəri konsentrasiyası", value: concMap[d.concentration] || 0 });
+    adj.push({ label: c.adj_concentration, value: concMap[d.concentration] || 0 });
 
     // 5) Owner dependence
     const ownerMap = { low: 0.10, medium: 0, high: -0.15 };
-    adj.push({ label: "Sahibə bağlılıq", value: ownerMap[d.ownerDep] || 0 });
+    adj.push({ label: c.adj_owner_dep, value: ownerMap[d.ownerDep] || 0 });
 
     // 6) Documentation
     const docsMap = { audit: 0.10, accounting: 0, basic: -0.10, none: -0.20 };
-    adj.push({ label: "Sənəd keyfiyyəti", value: docsMap[d.docs] || 0 });
+    adj.push({ label: c.adj_docs, value: docsMap[d.docs] || 0 });
 
     // 7) Brand & online presence
     const brandMap = { strong: 0.10, moderate: 0, weak: -0.10 };
-    adj.push({ label: "Brend və reputasiya", value: brandMap[d.brand] || 0 });
+    adj.push({ label: c.adj_brand, value: brandMap[d.brand] || 0 });
 
     // 8) Staff stability
     const staffMap = { high: 0.05, medium: 0, low: -0.10 };
-    adj.push({ label: "Heyətin sabitliyi", value: staffMap[d.staffStability] || 0 });
+    adj.push({ label: c.adj_staff, value: staffMap[d.staffStability] || 0 });
 
     // 9) Location
     const locMap = { prime: 0.10, good: 0, average: -0.05, poor: -0.15 };
-    adj.push({ label: "Lokasiya keyfiyyəti", value: locMap[d.location] || 0 });
+    adj.push({ label: c.adj_location, value: locMap[d.location] || 0 });
 
     // 10) Lease (only if renting)
     let leaseAdj = 0;
     if (d.realEstate === "rent") {
       if (d.leaseYears < 2) leaseAdj = -0.10;
       else if (d.leaseYears >= 5) leaseAdj = 0.05;
-      adj.push({ label: `İcarə müddəti (${Math.round(d.leaseYears)} il qalıb)`, value: leaseAdj });
+      adj.push({ label: c.adj_lease(Math.round(d.leaseYears)), value: leaseAdj });
     }
 
     // 11) License status
     const licMap = { full: 0, "not-required": 0, partial: -0.05, none: -0.15 };
-    adj.push({ label: "Lisenziya durumu", value: licMap[d.license] || 0 });
+    adj.push({ label: c.adj_license, value: licMap[d.license] || 0 });
 
     // 12) Profit margin vs industry
     const myMargin = d.profit / d.revenue;
@@ -775,7 +1296,7 @@ if ('serviceWorker' in navigator) {
     if (myMargin > industryMargin * 1.3) marginAdj = 0.10;
     else if (myMargin > industryMargin * 1.1) marginAdj = 0.05;
     else if (myMargin < industryMargin * 0.7) marginAdj = -0.10;
-    adj.push({ label: `Mənfəət marjası (${(myMargin*100).toFixed(1)}% vs sənaye ${(industryMargin*100).toFixed(0)}%)`, value: marginAdj });
+    adj.push({ label: c.adj_margin((myMargin*100).toFixed(1), (industryMargin*100).toFixed(0)), value: marginAdj });
 
     // Cap total adjustment to ±50%
     let totalAdj = adj.reduce((s, a) => s + a.value, 0);
@@ -817,30 +1338,37 @@ if ('serviceWorker' in navigator) {
     };
   }
 
+  // Hold last-computed values so we can re-render result block on language switch
+  let lastData = null, lastResult = null;
+
   function renderResult(d, r) {
+    lastData = d; lastResult = r;
+    const c = tx();
     document.getElementById("r-range").textContent = fmtAZN(r.low) + " – " + fmtAZN(r.high);
     document.getElementById("r-mid").textContent = fmtAZN(r.mid);
     document.getElementById("r-method-sde").textContent = fmtAZN(r.sdeValuation);
-    document.getElementById("r-sde-detail").textContent =
-      `${fmtAZN(r.sde)} SDE × ${r.adjustedMultiple.toFixed(2)}`;
+    const sdeDet = document.getElementById("r-sde-detail");
+    sdeDet.textContent = `${fmtAZN(r.sde)} SDE × ${r.adjustedMultiple.toFixed(2)}`;
+    sdeDet.dataset.computed = "1";
     document.getElementById("r-method-rev").textContent = fmtAZN(r.revValuation);
-    document.getElementById("r-rev-detail").textContent =
-      `${fmtAZN(d.revenue)} × ${r.revMultiple.toFixed(2)}`;
+    const revDet = document.getElementById("r-rev-detail");
+    revDet.textContent = `${fmtAZN(d.revenue)} × ${r.revMultiple.toFixed(2)}`;
+    revDet.dataset.computed = "1";
     document.getElementById("r-method-asset").textContent = fmtAZN(r.assetFloor);
 
     // Breakdown
     const bd = document.getElementById("r-breakdown");
     let html = `
       <div class="val-adj-row">
-        <span class="val-adj-label">SDE (Sahibə Sərbəst Gəlir) = mənfəət + maaş + birdəfəlik</span>
+        <span class="val-adj-label">${c.sde_row}</span>
         <span class="val-adj-value">${fmtAZN(r.sde)}</span>
       </div>
       <div class="val-adj-row">
-        <span class="val-adj-label">Sənaye baza çoxşaylısı (${d.category})</span>
+        <span class="val-adj-label">${c.industry_base(d.category)}</span>
         <span class="val-adj-value">${r.baseMultipleAnnual.toFixed(2)}× SDE</span>
       </div>
       <div class="val-adj-row" style="background:#f8fafc;margin:8px -10px;padding:8px 10px;border-radius:6px;border:none">
-        <span class="val-adj-label" style="font-weight:700;color:var(--text);font-size:13px">Düzəliş faktorları</span>
+        <span class="val-adj-label" style="font-weight:700;color:var(--text);font-size:13px">${c.adj_factors_title}</span>
         <span></span>
       </div>
     `;
@@ -856,62 +1384,62 @@ if ('serviceWorker' in navigator) {
     const totalCls = r.totalAdj > 0 ? "pos" : r.totalAdj < 0 ? "neg" : "neutral";
     const totalSign = r.totalAdj > 0 ? "+" : "";
     html += `<div class="val-adj-row" style="border-top:2px solid var(--border);padding-top:14px;margin-top:8px">
-      <span class="val-adj-label" style="font-weight:700;color:var(--text)">Ümumi düzəliş</span>
+      <span class="val-adj-label" style="font-weight:700;color:var(--text)">${c.total_adj}</span>
       <span class="val-adj-value ${totalCls}">${totalSign}${(r.totalAdj*100).toFixed(0)}%</span>
     </div>
     <div class="val-adj-row">
-      <span class="val-adj-label" style="font-weight:700;color:var(--text)">Düzəlişli SDE çoxşaylı</span>
+      <span class="val-adj-label" style="font-weight:700;color:var(--text)">${c.adjusted_mult}</span>
       <span class="val-adj-value">${r.adjustedMultiple.toFixed(2)}× SDE</span>
     </div>
     <div class="val-adj-row" style="background:#ede9fe;margin:8px -10px;padding:12px 10px;border-radius:6px;border:none">
-      <span class="val-adj-label" style="font-weight:700;color:#4f46e5;font-size:14px">Çəkili tövsiyə (65% SDE + 25% Gəlir + 10% Aktiv)</span>
+      <span class="val-adj-label" style="font-weight:700;color:#4f46e5;font-size:14px">${c.weighted_rec}</span>
       <span class="val-adj-value" style="color:#4f46e5;font-size:15px">${fmtAZN(r.mid)}</span>
     </div>`;
     bd.innerHTML = html;
 
     // Strengths & risks
     const strengths = [], risks = [];
-    if (d.years >= 5) strengths.push(`${Math.round(d.years)} ildir fəaliyyətdə — sabit tarixçə`);
-    else if (d.years < 2) risks.push("Yeni biznes (2 ildən az) — qiymət iddiası məhduddur");
+    if (d.years >= 5) strengths.push(c.str_years(Math.round(d.years)));
+    else if (d.years < 2) risks.push(c.rsk_new);
 
-    if (d.growth >= 15) strengths.push(`Güclü gəlir artımı (+${Math.round(d.growth)}%) qiyməti yuxarı çəkir`);
-    else if (d.growth < 0) risks.push(`Mənfi artım (${Math.round(d.growth)}%) — qiyməti azaldır`);
+    if (d.growth >= 15) strengths.push(c.str_growth(Math.round(d.growth)));
+    else if (d.growth < 0) risks.push(c.rsk_growth(Math.round(d.growth)));
 
     const myMargin = d.profit / d.revenue;
-    if (myMargin > r.industryMargin * 1.2) strengths.push(`Sənaye ortasından yuxarı mənfəət marjası (${(myMargin*100).toFixed(0)}%)`);
-    else if (myMargin < r.industryMargin * 0.7) risks.push(`Aşağı mənfəət marjası (${(myMargin*100).toFixed(0)}%) — operativ səmərəsizlik`);
+    if (myMargin > r.industryMargin * 1.2) strengths.push(c.str_margin((myMargin*100).toFixed(0)));
+    else if (myMargin < r.industryMargin * 0.7) risks.push(c.rsk_margin((myMargin*100).toFixed(0)));
 
-    if (d.recurring >= 30) strengths.push(`Yüksək təkrarlanan gəlir (${Math.round(d.recurring)}%) — sabitlik`);
+    if (d.recurring >= 30) strengths.push(c.str_recurring(Math.round(d.recurring)));
 
-    if (d.concentration === "low") strengths.push("Müştəri bazası diversifikasiyalı");
-    else if (d.concentration === "high") risks.push("Yüksək müştəri konsentrasiyası — bir neçə müştəri itkisi böhran yaradır");
+    if (d.concentration === "low") strengths.push(c.str_conc_low);
+    else if (d.concentration === "high") risks.push(c.rsk_conc_high);
 
-    if (d.ownerDep === "low") strengths.push("Sahibsiz işləyən struktur — passiv mülkiyyət üçün uyğun");
-    else if (d.ownerDep === "high") risks.push("Sahibə yüksək bağlılıq — alıcının operativ qoşulması tələb olunur");
+    if (d.ownerDep === "low") strengths.push(c.str_owner_low);
+    else if (d.ownerDep === "high") risks.push(c.rsk_owner_high);
 
-    if (d.docs === "audit") strengths.push("Audit edilmiş hesabatlar — investor etibarı yüksək");
-    else if (d.docs === "none") risks.push("Maliyyə sənədləri yoxdur — alıcının yoxlama imkanı zəifdir");
+    if (d.docs === "audit") strengths.push(c.str_docs_audit);
+    else if (d.docs === "none") risks.push(c.rsk_docs_none);
 
-    if (d.brand === "strong") strengths.push("Güclü brend tanınması");
-    else if (d.brand === "weak") risks.push("Zəif brend — marketinq investisiyası tələb olunacaq");
+    if (d.brand === "strong") strengths.push(c.str_brand_strong);
+    else if (d.brand === "weak") risks.push(c.rsk_brand_weak);
 
-    if (d.location === "prime") strengths.push("Premium lokasiya — sabit müştəri axını");
-    else if (d.location === "poor") risks.push("Zəif lokasiya — alıcı sayı məhduddur");
+    if (d.location === "prime") strengths.push(c.str_loc_prime);
+    else if (d.location === "poor") risks.push(c.rsk_loc_poor);
 
-    if (d.realEstate === "rent" && d.leaseYears < 2) risks.push("İcarə müqaviləsi 2 ildən az qalıb — yenidən danışıq riski");
-    if (d.realEstate === "own-included") strengths.push("Daşınmaz əmlak qiymətə daxildir");
+    if (d.realEstate === "rent" && d.leaseYears < 2) risks.push(c.rsk_lease_short);
+    if (d.realEstate === "own-included") strengths.push(c.str_re_inc);
 
-    if (d.staffStability === "low") risks.push("İşçi axıcılığı yüksəkdir — bilik itkisi riski");
-    else if (d.staffStability === "high") strengths.push("Sabit heyət — əməliyyatların davamlılığı");
+    if (d.staffStability === "low") risks.push(c.rsk_staff_low);
+    else if (d.staffStability === "high") strengths.push(c.str_staff_high);
 
-    if (d.license === "none") risks.push("Lisenziya yoxdur — fəaliyyətin legallaşdırılması xərcləri");
+    if (d.license === "none") risks.push(c.rsk_license_none);
 
     if (r.assetFloor > r.sdeValuation * 1.5) {
-      strengths.push("Yüksək maddi aktivlər — qiymətin əsası möhkəmdir");
+      strengths.push(c.str_assets_high);
     }
 
-    if (strengths.length === 0) strengths.push("Müəyyən edilmiş güclü tərəflər yoxdur");
-    if (risks.length === 0) risks.push("Əhəmiyyətli risk amilləri tapılmadı");
+    if (strengths.length === 0) strengths.push(c.str_empty);
+    if (risks.length === 0) risks.push(c.rsk_empty);
 
     document.getElementById("r-strengths").innerHTML = strengths.map(s => `<li>${s}</li>`).join("");
     document.getElementById("r-risks").innerHTML = risks.map(s => `<li>${s}</li>`).join("");
@@ -921,7 +1449,20 @@ if ('serviceWorker' in navigator) {
   }
 
   applyI18n();
-  window.addEventListener("langchange", () => location.reload());
+  window.addEventListener("langchange", () => {
+    applyValCopy();
+    // Re-translate category dropdown (uses catLabel which depends on lang)
+    [...catSelect.options].forEach((opt, i) => {
+      if (i === 0) return;
+      const cat = categories.find(c => c.id === opt.value);
+      if (cat) opt.textContent = catLabel(cat);
+    });
+    // If we have a previously computed result, re-render it in the new language
+    if (lastData && lastResult) {
+      const fresh = computeValuation(lastData);
+      renderResult(lastData, fresh);
+    }
+  });
 })();
 </script>
 </body>
