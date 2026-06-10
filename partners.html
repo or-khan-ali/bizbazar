@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Şərik axtar — BizBazar.az</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="description" content="Fəaliyyətdə olan bizneslər üçün şərik axtarışı — General Partner və Limited Partner elanları.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bizbazar.az/partners.html">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>(function(){if(localStorage.getItem('bb_darkmode')==='1')document.documentElement.setAttribute('data-theme','dark')})()</script>
+  <style>
+    .partner-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 28px 0 8px; }
+    .partner-tab { border: 1.5px solid var(--border); background: white; border-radius: 999px; padding: 8px 18px; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; font-family: inherit; transition: all .15s; }
+    .partner-tab.active { background: var(--primary); border-color: var(--primary); color: white; }
+    .partner-tab:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+    .gp-lp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 28px 0 8px; }
+    .gp-lp-card { background: var(--bg-soft); border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 24px; }
+    .gp-lp-card h3 { margin: 0 0 8px; font-size: 16px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+    .gp-lp-card p { margin: 0; font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+    .partner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; margin: 28px 0 60px; }
+    .partner-card { background: white; border: 1.5px solid var(--border); border-radius: var(--radius-xl); padding: 26px; display: flex; flex-direction: column; gap: 12px; transition: all .18s; }
+    .partner-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .ptype-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 999px; letter-spacing: .05em; text-transform: uppercase; align-self: flex-start; }
+    .ptype-badge.gp { background: var(--accent-soft); color: var(--accent-dark); border: 1px solid rgba(201,162,39,.35); }
+    .ptype-badge.lp { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+    .partner-card h3 { margin: 0; font-size: 17px; font-weight: 800; color: var(--primary); line-height: 1.4; }
+    .partner-loc { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    .partner-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin: 0; flex: 1; }
+    .partner-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 14px; }
+    .pstat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+    .pstat-value { font-size: 16px; font-weight: 800; color: var(--primary); margin-top: 2px; }
+    .partner-cta { margin-top: 4px; }
+    html[data-theme="dark"] .partner-card { background: var(--bg-soft); }
+    html[data-theme="dark"] .partner-tab { background: var(--bg-soft); }
+    html[data-theme="dark"] .ptype-badge.lp { background: #1e2447; color: #a5b4fc; border-color: #3730a3; }
+    @media (max-width: 760px) { .gp-lp-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div id="header-mount"></div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 id="ph-title"></h1>
+    <p id="ph-sub"></p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="gp-lp-grid">
+    <div class="gp-lp-card">
+      <h3>🤝 General Partner (GP)</h3>
+      <p id="gp-desc"></p>
+    </div>
+    <div class="gp-lp-card">
+      <h3>💼 Limited Partner (LP)</h3>
+      <p id="lp-desc"></p>
+    </div>
+  </div>
+
+  <div class="partner-tabs" id="partner-tabs"></div>
+  <div class="partner-grid" id="partner-grid"></div>
+</div>
+
+<div id="footer-mount"></div>
+
+<script src="js/app.js"></script>
+<script>
+(async function(){
+  mountLayout("partners");
+
+  const STR = {
+    az: {
+      title: "Şərik axtar",
+      sub: "Fəaliyyətdə olan bizneslər üçün ortaqlıq elanları — aktiv (GP) və passiv (LP) tərəfdaşlıq",
+      gp: "Biznesin gündəlik idarəetməsində aktiv iştirak edir, qərarların qəbulunda səs hüququ var və əməliyyat məsuliyyətini bölüşür. Təcrübə və kapitalı birlikdə qoyur.",
+      lp: "Yalnız kapital qoyur və mənfəətdən payını alır. İdarəetmədə iştirak etmir, məsuliyyəti qoyduğu kapitalla məhdudlaşır. Passiv investor üçün ideal formatdır.",
+      all: "Hamısı", gpTab: "General Partner", lpTab: "Limited Partner",
+      invest: "İnvestisiya", equity: "Təklif olunan pay", profit: "Aylıq mənfəət",
+      years: "il fəaliyyət", contact: "Əlaqə saxla", verified: "Yoxlanmış"
+    },
+    en: {
+      title: "Find a partner",
+      sub: "Partnership listings for operating businesses — active (GP) and passive (LP) partnership",
+      gp: "Actively participates in day-to-day management, has voting rights in decisions and shares operational responsibility. Contributes both expertise and capital.",
+      lp: "Contributes capital only and receives a share of profits. No involvement in management; liability is limited to the invested capital. Ideal for passive investors.",
+      all: "All", gpTab: "General Partner", lpTab: "Limited Partner",
+      invest: "Investment", equity: "Equity offered", profit: "Monthly profit",
+      years: "yrs operating", contact: "Contact", verified: "Verified"
+    },
+    ru: {
+      title: "Поиск партнёра",
+      sub: "Объявления о партнёрстве для действующих бизнесов — активное (GP) и пассивное (LP) участие",
+      gp: "Активно участвует в ежедневном управлении, имеет право голоса и разделяет операционную ответственность. Вкладывает и опыт, и капитал.",
+      lp: "Вкладывает только капитал и получает долю прибыли. Не участвует в управлении; ответственность ограничена вложенным капиталом. Идеально для пассивного инвестора.",
+      all: "Все", gpTab: "General Partner", lpTab: "Limited Partner",
+      invest: "Инвестиция", equity: "Предлагаемая доля", profit: "Прибыль/мес",
+      years: "лет работы", contact: "Связаться", verified: "Проверено"
+    }
+  };
+  const s = STR[getLang()] || STR.az;
+
+  document.getElementById("ph-title").textContent = s.title;
+  document.getElementById("ph-sub").textContent = s.sub;
+  document.getElementById("gp-desc").textContent = s.gp;
+  document.getElementById("lp-desc").textContent = s.lp;
+  document.title = s.title + " — BizBazar.az";
+
+  const [partners, categories] = await Promise.all([loadJSON("data/partners.json"), loadCategories()]);
+  const catById = {}; categories.forEach(c => catById[c.id] = c);
+
+  let filter = "all";
+  const tabs = [["all", s.all], ["general", s.gpTab], ["limited", s.lpTab]];
+  const tabsEl = document.getElementById("partner-tabs");
+  tabsEl.innerHTML = tabs.map(([k, label]) =>
+    `<button class="partner-tab${k === "all" ? " active" : ""}" data-f="${k}">${label}</button>`).join("");
+  tabsEl.addEventListener("click", e => {
+    const b = e.target.closest(".partner-tab"); if (!b) return;
+    filter = b.dataset.f;
+    tabsEl.querySelectorAll(".partner-tab").forEach(x => x.classList.toggle("active", x === b));
+    render();
+  });
+
+  function cardHTML(p) {
+    const isGP = p.partner_type === "general";
+    const title = locField(p, "title");
+    const desc = locField(p, "description");
+    const cat = catById[p.category];
+    return `
+    <div class="partner-card">
+      <span class="ptype-badge ${isGP ? "gp" : "lp"}">${isGP ? "🤝 General Partner" : "💼 Limited Partner"}</span>
+      ${p.verified ? `<span class="verified-badge">✓ ${s.verified}</span>` : ""}
+      <h3>${title}</h3>
+      <div class="partner-loc">📍 ${locDistrict(p.district)}, ${locCity(p.city)} · ${cat ? catLabel(cat) : ""} · ${p.operating_years} ${s.years}</div>
+      <p class="partner-desc">${desc}</p>
+      <div class="partner-stats">
+        <div><div class="pstat-label">${s.invest}</div><div class="pstat-value">${fmtAZN(p.investment_azn)}</div></div>
+        <div><div class="pstat-label">${s.equity}</div><div class="pstat-value">${p.equity_percent}%</div></div>
+        <div><div class="pstat-label">${s.profit}</div><div class="pstat-value">${fmtAZN(p.monthly_profit_azn)}</div></div>
+      </div>
+      <a class="btn btn-primary partner-cta" href="contact.html">${s.contact}</a>
+    </div>`;
+  }
+
+  function render() {
+    const list = partners.filter(p => filter === "all" || p.partner_type === filter);
+    document.getElementById("partner-grid").innerHTML = list.map(cardHTML).join("");
+  }
+  render();
+
+  window.addEventListener("langchange", () => location.reload());
+})();
+</script>
+</body>
+</html>
