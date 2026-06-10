@@ -502,10 +502,79 @@
           </div>
         </div>
         <div class="br-cta-actions">
-          <a href="contact.html" class="btn btn-lg" id="brs-cta-join"></a>
+          <a href="#broker-register" class="btn btn-lg" id="brs-cta-join"></a>
           <a href="https://wa.me/994502009088" target="_blank" rel="noopener" class="btn btn-lg btn-secondary" id="brs-cta-wa"></a>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Broker registration -->
+<section id="broker-register" style="padding: 20px 0 80px;">
+  <div class="container form-wrap">
+    <div class="form-card">
+      <h2 style="margin:0 0 8px" id="breg-title"></h2>
+      <div class="form-note" id="breg-note"></div>
+      <form id="broker-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="94f56139-7096-46d8-adc2-e068b637d79f">
+        <input type="hidden" name="subject" value="New broker registration — BizBazar.az">
+        <input type="hidden" name="form_type" value="broker_registration">
+        <div class="form-row">
+          <div class="form-field">
+            <label id="breg-l-name"></label>
+            <input type="text" name="full_name" required>
+          </div>
+          <div class="form-field">
+            <label id="breg-l-company"></label>
+            <input type="text" name="company">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label id="breg-l-type"></label>
+            <select name="broker_type" id="breg-type"></select>
+          </div>
+          <div class="form-field">
+            <label id="breg-l-city"></label>
+            <input type="text" name="city" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label id="breg-l-exp"></label>
+            <input type="number" name="experience_years" min="0" required>
+          </div>
+          <div class="form-field">
+            <label id="breg-l-license"></label>
+            <input type="text" name="license_number">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label id="breg-l-spec"></label>
+            <input type="text" name="specialization" id="breg-spec-input">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label id="breg-l-bio"></label>
+            <textarea name="about" required></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label id="breg-l-email"></label>
+            <input type="email" name="email" required>
+          </div>
+          <div class="form-field">
+            <label id="breg-l-phone"></label>
+            <input type="tel" name="phone" required>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" type="submit" style="width:100%" id="breg-submit"></button>
+      </form>
+      <div id="breg-success" style="display:none; margin-top: 14px; padding: 14px; background: #ecfdf5; color: #065f46; border-radius: 8px; font-size: 14px;"></div>
     </div>
   </div>
 </section>
@@ -843,6 +912,89 @@ if ('serviceWorker' in navigator) {
   render();
   applyI18n();
   window.addEventListener("langchange", () => { applyBrsCopy(); render(); });
+})();
+</script>
+<script>
+(function(){
+  // ── Broker registration form ──
+  const REG = {
+    az: {
+      title: "Broker kimi qeydiyyatdan keç",
+      note: "Müraciətiniz 48 saat ərzində yoxlanılır. Lisenziya və təcrübə təsdiqlənəndən sonra profiliniz broker kataloqunda yayımlanır və komandamız sizinlə əlaqə saxlayır.",
+      name: "Ad və soyad", company: "Şirkət / Agentlik (varsa)", type: "Fəaliyyət növü",
+      type_ind: "Fərdi broker", type_ag: "Agentlik",
+      city: "Şəhər", exp: "Təcrübə (il)", license: "Lisenziya nömrəsi (varsa)",
+      spec: "İxtisas sahələri", spec_ph: "məs.: restoran, pərakəndə, istehsalat",
+      bio: "Özünüz haqqında qısa məlumat", email: "E-poçt", phone: "Telefon",
+      submit: "Müraciət göndər",
+      sent: "Təşəkkürlər! Müraciətiniz qəbul edildi. Yoxlamadan sonra komandamız sizinlə əlaqə saxlayacaq.",
+      err: "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
+    },
+    en: {
+      title: "Register as a broker",
+      note: "Your application is reviewed within 48 hours. Once your license and experience are verified, your profile is published in the broker directory and our team contacts you.",
+      name: "Full name", company: "Company / Agency (if any)", type: "Type",
+      type_ind: "Individual broker", type_ag: "Agency",
+      city: "City", exp: "Experience (years)", license: "License number (if any)",
+      spec: "Specializations", spec_ph: "e.g. restaurants, retail, manufacturing",
+      bio: "Short bio", email: "Email", phone: "Phone",
+      submit: "Submit application",
+      sent: "Thank you! Your application was received. Our team will contact you after review.",
+      err: "An error occurred. Please try again."
+    },
+    ru: {
+      title: "Зарегистрироваться как брокер",
+      note: "Заявка рассматривается в течение 48 часов. После проверки лицензии и опыта ваш профиль публикуется в каталоге брокеров, и наша команда свяжется с вами.",
+      name: "Имя и фамилия", company: "Компания / Агентство (если есть)", type: "Тип деятельности",
+      type_ind: "Частный брокер", type_ag: "Агентство",
+      city: "Город", exp: "Опыт (лет)", license: "Номер лицензии (если есть)",
+      spec: "Специализации", spec_ph: "напр.: рестораны, розница, производство",
+      bio: "Кратко о себе", email: "Email", phone: "Телефон",
+      submit: "Отправить заявку",
+      sent: "Спасибо! Ваша заявка получена. После проверки наша команда свяжется с вами.",
+      err: "Произошла ошибка. Пожалуйста, попробуйте снова."
+    }
+  };
+
+  function applyReg() {
+    const r = REG[(typeof getLang === "function" ? getLang() : "az")] || REG.az;
+    document.getElementById("breg-title").textContent = r.title;
+    document.getElementById("breg-note").textContent = r.note;
+    document.getElementById("breg-l-name").textContent = r.name;
+    document.getElementById("breg-l-company").textContent = r.company;
+    document.getElementById("breg-l-type").textContent = r.type;
+    document.getElementById("breg-l-city").textContent = r.city;
+    document.getElementById("breg-l-exp").textContent = r.exp;
+    document.getElementById("breg-l-license").textContent = r.license;
+    document.getElementById("breg-l-spec").textContent = r.spec;
+    document.getElementById("breg-spec-input").placeholder = r.spec_ph;
+    document.getElementById("breg-l-bio").textContent = r.bio;
+    document.getElementById("breg-l-email").textContent = r.email;
+    document.getElementById("breg-l-phone").textContent = r.phone;
+    document.getElementById("breg-submit").textContent = r.submit;
+    const sel = document.getElementById("breg-type");
+    sel.innerHTML = `<option value="individual">${r.type_ind}</option><option value="agency">${r.type_ag}</option>`;
+    return r;
+  }
+  let reg = applyReg();
+  window.addEventListener("langchange", () => { reg = applyReg(); });
+
+  const form = document.getElementById("broker-form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("breg-submit");
+    btn.disabled = true;
+    try {
+      const resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
+      const json = await resp.json();
+      if (json.success) {
+        form.style.display = "none";
+        const ok = document.getElementById("breg-success");
+        ok.textContent = reg.sent;
+        ok.style.display = "block";
+      } else { btn.disabled = false; alert(reg.err); }
+    } catch (err) { btn.disabled = false; alert(reg.err); }
+  });
 })();
 </script>
 </body>
