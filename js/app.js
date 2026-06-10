@@ -199,6 +199,7 @@ const STRINGS = {
     benchmarks_link: "Bençmarklar",
     map_link: "Xəritə",
     nav_investors: "İnvestorlar",
+    nav_partners: "Şərik axtar",
     inv_hero_eyebrow: "Yoxlanmış investor bazası",
     inv_hero_title_1: "Bizneslərə investisiya etmək istəyən",
     inv_hero_title_2: "investorlarla tanış olun",
@@ -454,6 +455,7 @@ const STRINGS = {
     profit_margin: "Profit margin",
     payback_period: "Payback period",
     nav_investors: "Investors",
+    nav_partners: "Find a partner",
     inv_hero_eyebrow: "Verified investor network",
     inv_hero_title_1: "Connect with investors",
     inv_hero_title_2: "ready to back your business",
@@ -699,6 +701,7 @@ const STRINGS = {
     profit_margin: "Маржа прибыли",
     payback_period: "Срок окупаемости",
     nav_investors: "Инвесторы",
+    nav_partners: "Поиск партнёра",
     inv_hero_eyebrow: "Проверенная база инвесторов",
     inv_hero_title_1: "Познакомьтесь с инвесторами,",
     inv_hero_title_2: "готовыми вложить в бизнес",
@@ -933,6 +936,7 @@ function renderHeader(activePage) {
         <a href="listings.html" class="${activePage === 'listings' ? 'active' : ''}" data-i18n="nav_browse"></a>
         <a href="franchises.html" class="${activePage === 'franchises' ? 'active' : ''}" data-i18n="nav_franchises"></a>
         <a href="investors.html" class="${activePage === 'investors' ? 'active' : ''}" data-i18n="nav_investors"></a>
+        <a href="partners.html" class="${activePage === 'partners' ? 'active' : ''}" data-i18n="nav_partners"></a>
         <a href="brokers.html" class="${activePage === 'brokers' ? 'active' : ''}">Brokerlər</a>
         <a href="services.html" class="${activePage === 'services' ? 'active' : ''}" data-i18n="nav_services"></a>
         <a href="sell.html" class="${activePage === 'sell' ? 'active' : ''}" data-i18n="nav_sell"></a>
@@ -992,6 +996,7 @@ function renderHeader(activePage) {
       <a href="listings.html" class="${activePage === 'listings' ? 'active' : ''}" data-i18n="nav_browse"></a>
       <a href="franchises.html" class="${activePage === 'franchises' ? 'active' : ''}" data-i18n="nav_franchises"></a>
       <a href="investors.html" class="${activePage === 'investors' ? 'active' : ''}" data-i18n="nav_investors"></a>
+      <a href="partners.html" class="${activePage === 'partners' ? 'active' : ''}" data-i18n="nav_partners"></a>
       <a href="brokers.html" class="${activePage === 'brokers' ? 'active' : ''}">Brokerlər</a>
       <a href="services.html" class="${activePage === 'services' ? 'active' : ''}" data-i18n="nav_services"></a>
       <a href="sell.html" class="${activePage === 'sell' ? 'active' : ''}" data-i18n="nav_sell"></a>
@@ -1040,6 +1045,7 @@ function renderFooter() {
           <a href="listings.html" data-i18n="nav_browse"></a>
           <a href="franchises.html" data-i18n="nav_franchises"></a>
           <a href="investors.html" data-i18n="nav_investors"></a>
+          <a href="partners.html" data-i18n="nav_partners"></a>
           <a href="brokers.html">Brokerlər</a>
           <a href="services.html" data-i18n="nav_services"></a>
           <a href="sell.html" data-i18n="nav_sell"></a>
