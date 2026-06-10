@@ -8,7 +8,7 @@ const STRINGS = {
   az: {
     brand: "BizBazar",
     nav_home: "Ana səhifə",
-    nav_browse: "Satışda olan bizneslər",
+    nav_browse: "Bizneslər",
     nav_services: "Xidmətlər",
     nav_sell: "Biznes sat",
     nav_about: "Haqqımızda",
