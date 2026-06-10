@@ -137,6 +137,15 @@
           </div>
         </div>
         <div class="form-row">
+          <div class="form-field full">
+            <label data-i18n="form_photos"></label>
+            <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" multiple style="display:none">
+            <button type="button" id="photo-btn" class="btn btn-outline" style="align-self:flex-start" data-i18n="form_photos_btn"></button>
+            <div style="font-size:12px;color:var(--text-muted)" data-i18n="form_photos_hint"></div>
+            <div id="photo-previews" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px"></div>
+          </div>
+        </div>
+        <div class="form-row">
           <div class="form-field">
             <label data-i18n="form_email"></label>
             <input type="email" name="email" required>
@@ -196,6 +205,41 @@
 
   applyI18n();
 
+  // Photo upload (max 5, each <= 5 MB)
+  const photoInput = document.getElementById("photo-input");
+  const photoBtn = document.getElementById("photo-btn");
+  const photoPreviews = document.getElementById("photo-previews");
+  let selectedPhotos = [];
+
+  photoBtn.addEventListener("click", () => photoInput.click());
+  photoInput.addEventListener("change", () => {
+    for (const file of photoInput.files) {
+      if (selectedPhotos.length >= 5) { alert(t("form_photos_max")); break; }
+      if (file.size > 5 * 1024 * 1024) { alert(t("form_photos_size") + " " + file.name); continue; }
+      selectedPhotos.push(file);
+    }
+    photoInput.value = "";
+    renderPreviews();
+  });
+
+  function renderPreviews() {
+    photoPreviews.innerHTML = "";
+    selectedPhotos.forEach((file, i) => {
+      const wrap = document.createElement("div");
+      wrap.style.cssText = "position:relative;width:92px;height:92px;border-radius:10px;overflow:hidden;border:1.5px solid var(--border)";
+      const img = document.createElement("img");
+      img.src = URL.createObjectURL(file);
+      img.style.cssText = "width:100%;height:100%;object-fit:cover";
+      const del = document.createElement("button");
+      del.type = "button";
+      del.textContent = "✕";
+      del.style.cssText = "position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:white;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center";
+      del.onclick = () => { selectedPhotos.splice(i, 1); renderPreviews(); };
+      wrap.appendChild(img); wrap.appendChild(del);
+      photoPreviews.appendChild(wrap);
+    });
+  }
+
   // B) Form submit via fetch
   const form = document.getElementById("sell-form");
   form.addEventListener("submit", async (e) => {
@@ -203,12 +247,23 @@
     const submitBtn = form.querySelector('[type="submit"]');
     submitBtn.disabled = true;
     try {
-      const data = new FormData(form);
-      const resp = await fetch("https://api.web3forms.com/submit", {
+      const buildData = (withPhotos) => {
+        const d = new FormData(form);
+        d.append("photos_selected", String(selectedPhotos.length));
+        if (withPhotos) selectedPhotos.forEach((f, i) => d.append("photo_" + (i + 1), f, f.name));
+        else if (selectedPhotos.length) d.append("photos_note", "Satıcı " + selectedPhotos.length + " şəkil seçib — şəkillər plana daxil olmadığı üçün əlavə olunmadı, əlaqə vasitəsilə istəyə bilərsiniz.");
+        return d;
+      };
+      let resp = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: data
+        body: buildData(selectedPhotos.length > 0)
       });
-      const json = await resp.json();
+      let json = await resp.json();
+      // If attachments were rejected (e.g. free plan), retry without photos so the listing still arrives
+      if (!json.success && selectedPhotos.length > 0) {
+        resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: buildData(false) });
+        json = await resp.json();
+      }
       if (json.success) {
         form.style.display = "none";
         const successEl = document.getElementById("form-success");
