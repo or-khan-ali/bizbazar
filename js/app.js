@@ -1227,7 +1227,7 @@ function getListingPhotos(listing) {
   // returns array of at least 3 photo URLs (placeholder images keyed by category)
   const CAT_IMGS = {
     cafe_restaurant: ["https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800","https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400","https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=400"],
-    beauty_salon:    ["https://images.unsplash.com/photo-1560066984-138daaa4b0f5?w=800","https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400","https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400"],
+    beauty_salon:    ["https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=800","https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400","https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400"],
     auto_service:    ["https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=800","https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=400","https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=400"],
     retail_shop:     ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800","https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?w=400","https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400"],
     fitness_sport:   ["https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800","https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=400","https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=400"],
@@ -1243,7 +1243,13 @@ function getListingPhotos(listing) {
   return (listing && CAT_IMGS[listing.category]) || fallback;
 }
 function getListingThumb(listing) {
-  return getListingPhotos(listing)[0];
+  // Deterministic per-listing photo: same listing always shows the same image,
+  // but listings within one category rotate through the category's photo pool.
+  const photos = getListingPhotos(listing);
+  const digits = String((listing && listing.id) || "0").replace(/\D/g, "");
+  const seed = parseInt(digits.slice(-3) || "0", 10);
+  const url = photos[seed % photos.length];
+  return url.replace("w=400", "w=800");
 }
 
 /* ============ Skeleton card ============ */
@@ -1294,6 +1300,7 @@ function listingCardHTML(l, categoriesById) {
         <span>👥 ${l.staff_count}</span>
         <span>📅 ${l.operating_years} ${t("listing_meta_years")}</span>
       </div>
+      ${l.monthly_profit_azn ? `<div style="display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;font-size:12px;font-weight:700;padding:4px 10px;border-radius:7px;align-self:flex-start;">💰 ${t("detail_profit")}: ${fmtAZN(l.monthly_profit_azn)}</div>` : ""}
       <div style="font-size:20px;font-weight:800;color:#0f172a;margin-top:auto;padding-top:10px;border-top:1px solid #f1f5f9;">${fmtAZN(l.price_azn)}<span style="font-size:12px;font-weight:500;color:#64748b;margin-left:4px;">${fmtUSD(l.price_azn)}</span></div>
       ${waBtn}
     </div>
