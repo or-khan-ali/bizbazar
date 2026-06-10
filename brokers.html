@@ -572,6 +572,18 @@
             <input type="tel" name="phone" required>
           </div>
         </div>
+        <div class="form-row">
+          <div class="form-field full">
+            <label id="breg-l-cv"></label>
+            <input type="file" id="breg-cv-input" accept=".pdf,.doc,.docx" style="display:none">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <button type="button" id="breg-cv-btn" class="btn btn-outline" style="align-self:flex-start"></button>
+              <span id="breg-cv-name" style="font-size:13px;color:var(--text-muted)"></span>
+              <button type="button" id="breg-cv-remove" style="display:none;border:none;background:none;color:#ef4444;cursor:pointer;font-size:13px;font-weight:600">✕</button>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted)" id="breg-cv-hint"></div>
+          </div>
+        </div>
         <button class="btn btn-primary btn-lg" type="submit" style="width:100%" id="breg-submit"></button>
       </form>
       <div id="breg-success" style="display:none; margin-top: 14px; padding: 14px; background: #ecfdf5; color: #065f46; border-radius: 8px; font-size: 14px;"></div>
@@ -926,6 +938,8 @@ if ('serviceWorker' in navigator) {
       city: "Şəhər", exp: "Təcrübə (il)", license: "Lisenziya nömrəsi (varsa)",
       spec: "İxtisas sahələri", spec_ph: "məs.: restoran, pərakəndə, istehsalat",
       bio: "Özünüz haqqında qısa məlumat", email: "E-poçt", phone: "Telefon",
+      cv: "CV əlavə et (əgər varsa)", cv_btn: "📎 CV seç", cv_hint: "PDF və ya Word, maksimum 5 MB",
+      cv_size: "Fayl 5 MB-dan böyükdür.",
       submit: "Müraciət göndər",
       sent: "Təşəkkürlər! Müraciətiniz qəbul edildi. Yoxlamadan sonra komandamız sizinlə əlaqə saxlayacaq.",
       err: "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
@@ -938,6 +952,8 @@ if ('serviceWorker' in navigator) {
       city: "City", exp: "Experience (years)", license: "License number (if any)",
       spec: "Specializations", spec_ph: "e.g. restaurants, retail, manufacturing",
       bio: "Short bio", email: "Email", phone: "Phone",
+      cv: "Attach CV (optional)", cv_btn: "📎 Choose CV", cv_hint: "PDF or Word, max 5 MB",
+      cv_size: "File exceeds 5 MB.",
       submit: "Submit application",
       sent: "Thank you! Your application was received. Our team will contact you after review.",
       err: "An error occurred. Please try again."
@@ -950,6 +966,8 @@ if ('serviceWorker' in navigator) {
       city: "Город", exp: "Опыт (лет)", license: "Номер лицензии (если есть)",
       spec: "Специализации", spec_ph: "напр.: рестораны, розница, производство",
       bio: "Кратко о себе", email: "Email", phone: "Телефон",
+      cv: "Прикрепить CV (если есть)", cv_btn: "📎 Выбрать CV", cv_hint: "PDF или Word, макс. 5 МБ",
+      cv_size: "Файл больше 5 МБ.",
       submit: "Отправить заявку",
       sent: "Спасибо! Ваша заявка получена. После проверки наша команда свяжется с вами.",
       err: "Произошла ошибка. Пожалуйста, попробуйте снова."
@@ -971,6 +989,9 @@ if ('serviceWorker' in navigator) {
     document.getElementById("breg-l-bio").textContent = r.bio;
     document.getElementById("breg-l-email").textContent = r.email;
     document.getElementById("breg-l-phone").textContent = r.phone;
+    document.getElementById("breg-l-cv").textContent = r.cv;
+    document.getElementById("breg-cv-btn").textContent = r.cv_btn;
+    document.getElementById("breg-cv-hint").textContent = r.cv_hint;
     document.getElementById("breg-submit").textContent = r.submit;
     const sel = document.getElementById("breg-type");
     sel.innerHTML = `<option value="individual">${r.type_ind}</option><option value="agency">${r.type_ag}</option>`;
@@ -979,14 +1000,46 @@ if ('serviceWorker' in navigator) {
   let reg = applyReg();
   window.addEventListener("langchange", () => { reg = applyReg(); });
 
+  // CV attachment (optional, <= 5 MB)
+  let cvFile = null;
+  const cvInput = document.getElementById("breg-cv-input");
+  const cvName = document.getElementById("breg-cv-name");
+  const cvRemove = document.getElementById("breg-cv-remove");
+  document.getElementById("breg-cv-btn").addEventListener("click", () => cvInput.click());
+  cvInput.addEventListener("change", () => {
+    const f = cvInput.files[0];
+    cvInput.value = "";
+    if (!f) return;
+    if (f.size > 5 * 1024 * 1024) { alert(reg.cv_size); return; }
+    cvFile = f;
+    cvName.textContent = f.name + " (" + Math.round(f.size / 1024) + " KB)";
+    cvRemove.style.display = "inline";
+  });
+  cvRemove.addEventListener("click", () => {
+    cvFile = null; cvName.textContent = ""; cvRemove.style.display = "none";
+  });
+
   const form = document.getElementById("broker-form");
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const btn = document.getElementById("breg-submit");
     btn.disabled = true;
     try {
-      const resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: new FormData(form) });
-      const json = await resp.json();
+      const buildData = (withCv) => {
+        const d = new FormData(form);
+        if (cvFile) {
+          if (withCv) d.append("attachment", cvFile, cvFile.name);
+          else d.append("cv_note", "Namizəd CV seçib (" + cvFile.name + ") — fayl plana daxil olmadığı üçün əlavə olunmadı, əlaqə vasitəsilə istəyə bilərsiniz.");
+        }
+        return d;
+      };
+      let resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: buildData(!!cvFile) });
+      let json = await resp.json();
+      // If the attachment was rejected (e.g. free plan), retry without it so the application still arrives
+      if (!json.success && cvFile) {
+        resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: buildData(false) });
+        json = await resp.json();
+      }
       if (json.success) {
         form.style.display = "none";
         const ok = document.getElementById("breg-success");
