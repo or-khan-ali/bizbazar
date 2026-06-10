@@ -81,9 +81,12 @@
       <h2 style="margin:0 0 18px" data-i18n="form_title"></h2>
       <div class="form-note" data-i18n="form_note"></div>
       <!-- B) Form updated: web3forms action, hidden fields, JS fetch on submit -->
-      <form id="sell-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="94f56139-7096-46d8-adc2-e068b637d79f">
-        <input type="hidden" name="subject" value="New BizBazar.az listing submission">
+      <form id="sell-form" action="https://formsubmit.co/orkhan@bizbazar.az" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_subject" value="New BizBazar.az listing submission">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://bizbazar.az/sell.html?sent=1">
+        <input type="hidden" name="photos_selected" value="0" id="photos-selected">
         <div class="form-row">
           <div class="form-field full">
             <label data-i18n="form_name"></label>
@@ -139,7 +142,7 @@
         <div class="form-row">
           <div class="form-field full">
             <label data-i18n="form_photos"></label>
-            <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" multiple style="display:none">
+            <input type="file" id="photo-input" name="attachment" accept="image/jpeg,image/png,image/webp" multiple style="display:none">
             <button type="button" id="photo-btn" class="btn btn-outline" style="align-self:flex-start" data-i18n="form_photos_btn"></button>
             <div style="font-size:12px;color:var(--text-muted)" data-i18n="form_photos_hint"></div>
             <div id="photo-previews" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px"></div>
@@ -215,7 +218,7 @@
   photoInput.addEventListener("change", () => {
     for (const file of photoInput.files) {
       if (selectedPhotos.length >= 5) { alert(t("form_photos_max")); break; }
-      if (file.size > 5 * 1024 * 1024) { alert(t("form_photos_size") + " " + file.name); continue; }
+      if (file.size > 1.9 * 1024 * 1024) { alert(t("form_photos_size") + " " + file.name); continue; }
       selectedPhotos.push(file);
     }
     photoInput.value = "";
@@ -240,48 +243,25 @@
     });
   }
 
-  // B) Form submit via fetch
+  // B) Form submit — native POST to FormSubmit (supports file attachments),
+  // redirects back to this page with ?sent=1 via _next
   const form = document.getElementById("sell-form");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const submitBtn = form.querySelector('[type="submit"]');
-    submitBtn.disabled = true;
-    try {
-      const buildData = (withPhotos) => {
-        const d = new FormData(form);
-        d.append("photos_selected", String(selectedPhotos.length));
-        if (withPhotos) selectedPhotos.forEach((f, i) => d.append("photo_" + (i + 1), f, f.name));
-        else if (selectedPhotos.length) d.append("photos_note", "Satıcı " + selectedPhotos.length + " şəkil seçib — şəkillər plana daxil olmadığı üçün əlavə olunmadı, əlaqə vasitəsilə istəyə bilərsiniz.");
-        return d;
-      };
-      let resp = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: buildData(selectedPhotos.length > 0)
-      });
-      let json = await resp.json();
-      // If attachments were rejected (e.g. free plan), retry without photos so the listing still arrives
-      if (!json.success && selectedPhotos.length > 0) {
-        resp = await fetch("https://api.web3forms.com/submit", { method: "POST", body: buildData(false) });
-        json = await resp.json();
-      }
-      if (json.success) {
-        form.style.display = "none";
-        const successEl = document.getElementById("form-success");
-        successEl.style.display = "block";
-        window.scrollTo({ top: successEl.offsetTop - 100, behavior: "smooth" });
-      } else {
-        submitBtn.disabled = false;
-        alert(getLang() === "az"
-          ? "Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin."
-          : "An error occurred. Please try again.");
-      }
-    } catch(err) {
-      submitBtn.disabled = false;
-      alert(getLang() === "az"
-        ? "Şəbəkə xətası. Zəhmət olmasa yenidən cəhd edin."
-        : "Network error. Please try again.");
-    }
+  form.addEventListener("submit", () => {
+    // place collected photos into the real file input for multipart submit
+    const dt = new DataTransfer();
+    selectedPhotos.forEach(f => dt.items.add(f));
+    photoInput.files = dt.files;
+    document.getElementById("photos-selected").value = String(selectedPhotos.length);
+    form.querySelector('[type="submit"]').disabled = true;
   });
+
+  // Show success message after FormSubmit redirects back
+  if (new URLSearchParams(location.search).get("sent") === "1") {
+    form.style.display = "none";
+    const successEl = document.getElementById("form-success");
+    successEl.style.display = "block";
+    setTimeout(() => successEl.scrollIntoView({ behavior: "smooth", block: "center" }), 300);
+  }
 
   // Scroll to form when a plan CTA is clicked
   document.querySelectorAll(".plan-cta").forEach(btn => {
