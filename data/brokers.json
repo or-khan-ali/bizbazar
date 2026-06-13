@@ -274,5 +274,30 @@
     "specialties": ["construction", "insaat", "clinic", "agriculture"],
     "city": "Bakı, Sumqayıt, Quba",
     "active": true
+  },
+  {
+    "id": "b012",
+    "name": "Rashad Mammadov",
+    "name_ru": "Рашад Мамедов",
+    "type": "broker",
+    "license_no": "",
+    "verified": true,
+    "featured": true,
+    "rating": 0,
+    "reviews": 0,
+    "deals_closed": 0,
+    "total_volume_azn": 0,
+    "member_since": "2026-06",
+    "response_time_hours": "1-2",
+    "languages": ["AZ", "TR", "EN"],
+    "avatar": "img/brokers/rashad-mammadov.jpg",
+    "phone": "+994 99 710 11 51",
+    "email": "rmammadov7890@ada.edu.az",
+    "bio_az": "Müstəqil biznes broker. Biznes və daşınmaz əmlak qiymətləndirməsi, maliyyə analizi üzrə güclü təcrübə. Otel, hostel, biznes mərkəzi və istirahət obyektləri üzrə ixtisaslaşıb. FMVA® sertifikatı, King's College London-da Finance Analytics üzrə magistr.",
+    "bio_en": "Independent business broker with strong expertise in business and real estate valuation and financial analysis. Specializes in hotels, hostels, business centers and leisure properties. FMVA® certified, Master's in Finance Analytics (King's College London).",
+    "bio_ru": "Независимый бизнес-брокер с сильным опытом в оценке бизнеса и недвижимости и финансовом анализе. Специализируется на отелях, хостелах, бизнес-центрах и объектах отдыха. Сертификат FMVA®, магистратура по Finance Analytics (King's College London).",
+    "specialties": ["real_estate", "hotel", "business_center", "hostel", "leisure_center"],
+    "city": "Bakı",
+    "active": true
   }
 ]
