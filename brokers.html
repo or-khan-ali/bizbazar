@@ -807,9 +807,18 @@ if ('serviceWorker' in navigator) {
     const newLabel = lang === "en" ? "New" : lang === "ru" ? "Новый" : "Yeni";
     const stars = hasRating ? "★".repeat(Math.floor(b.rating)) + "☆".repeat(5 - Math.floor(b.rating)) : "";
 
+    const BROKER_EXTRA_SPECS = {
+      construction: { az: "Tikinti", en: "Construction", ru: "Строительство", icon: "🏗️" },
+      insaat:       { az: "İnşaat", en: "Building", ru: "Стройка", icon: "🧱" },
+      clinic:       { az: "Klinika", en: "Clinic", ru: "Клиника", icon: "🏥" },
+      agriculture:  { az: "Kənd təsərrüfatı", en: "Agriculture", ru: "Сельское хозяйство", icon: "🌾" }
+    };
     const specialtyPills = b.specialties.slice(0, 4).map(sid => {
       const cat = catById[sid];
-      return cat ? `<span class="br-specialty-pill">${CATEGORY_ICONS[sid] || "🏢"} ${catLabel(cat)}</span>` : "";
+      if (cat) return `<span class="br-specialty-pill">${CATEGORY_ICONS[sid] || "🏢"} ${catLabel(cat)}</span>`;
+      const ex = BROKER_EXTRA_SPECS[sid];
+      if (ex) return `<span class="br-specialty-pill">${ex.icon} ${ex[lang] || ex.az}</span>`;
+      return "";
     }).join("");
 
     const langTags = b.languages.map(l => `<span class="br-lang-tag">${l}</span>`).join("");

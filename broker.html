@@ -376,10 +376,18 @@ if ('serviceWorker' in navigator) {
     const aboutHeading = broker.type === "agency" ? c.about_agency : c.about_broker;
     const listingsHeading = broker.type === "agency" ? c.listings_agency : c.listings_broker;
 
+    const BROKER_EXTRA_SPECS = {
+      construction: { az: "Tikinti", en: "Construction", ru: "Строительство", icon: "🏗️" },
+      insaat:       { az: "İnşaat", en: "Building", ru: "Стройка", icon: "🧱" },
+      clinic:       { az: "Klinika", en: "Clinic", ru: "Клиника", icon: "🏥" },
+      agriculture:  { az: "Kənd təsərrüfatı", en: "Agriculture", ru: "Сельское хозяйство", icon: "🌾" }
+    };
     const specialtiesHTML = broker.specialties.map(s => {
       const cat = catById[s];
-      const icon = CATEGORY_ICONS[s] || "🏢";
-      return `<span class="bp-specialty-pill">${icon} ${catLabel(cat)}</span>`;
+      if (cat) return `<span class="bp-specialty-pill">${CATEGORY_ICONS[s] || "🏢"} ${catLabel(cat)}</span>`;
+      const ex = BROKER_EXTRA_SPECS[s];
+      if (ex) return `<span class="bp-specialty-pill">${ex.icon} ${ex[lang] || ex.az}</span>`;
+      return "";
     }).join("");
 
     const langsHTML = broker.languages.map(l => `<span class="bp-lang">${l}</span>`).join("");
